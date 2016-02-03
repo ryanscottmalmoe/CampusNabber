@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CampusNabber")]
+[assembly: AssemblyTitle("CampusNabber.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CampusNabber")]
+[assembly: AssemblyProduct("CampusNabber.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e0894f30-d78a-49eb-a01d-433caf83cae2")]
+[assembly: Guid("de5b2aa1-1205-4730-9bed-e81020172d78")]
 
 // Version information for an assembly consists of the following four values:
 //
