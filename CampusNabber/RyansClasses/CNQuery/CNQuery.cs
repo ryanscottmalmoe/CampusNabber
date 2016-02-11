@@ -7,7 +7,7 @@ using DatabaseCode.CNObjectFolder;
 using System.Linq.Dynamic;
 using DatabaseCode.FactoryFiles;
 using System.Data.Entity.Core;
-
+using CampusNabber.Models;
 
 namespace DatabaseCode.CNQueryFolder
 {
@@ -102,7 +102,7 @@ namespace DatabaseCode.CNQueryFolder
                 throw new ArgumentNullException("No class name provided");
             List<dynamic> resultsList = null;
             ContextFactory cf = new ContextFactory();
-            using (var context = new SchoolEntities())
+            using (var context = new CampusNabberEntities())
             {
                 IQueryable<dynamic> test = cf.getDbSet(context, queryClassName);
                 if (queryWhereConditions.Count == 0)

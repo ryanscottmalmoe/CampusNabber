@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CampusNabber.Models;
 
 namespace DatabaseCode.FactoryFiles
 {
@@ -11,9 +12,9 @@ namespace DatabaseCode.FactoryFiles
     /// Used to dynamically determine which DbSet to choose from
     /// when dynamically building LINQ queries.
     /// </summary>
-    class ContextFactory : SchoolEntities
+    class ContextFactory : CampusNabberEntities
     {    
-        public IQueryable<dynamic> getDbSet(SchoolEntities entities, string contextName)
+        public IQueryable<dynamic> getDbSet(CampusNabberEntities entities, string contextName)
         {
             if(contextName.Equals("User"))
             {

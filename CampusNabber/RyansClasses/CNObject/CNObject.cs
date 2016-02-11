@@ -8,7 +8,7 @@ using DatabaseCode.FactoryFiles;
 using System.Diagnostics;
 using System.Data.Entity.Validation;
 using System.Data.Entity.Infrastructure;
-
+using CampusNabber.Models;
 namespace DatabaseCode.CNObjectFolder
 {
 
@@ -62,7 +62,7 @@ namespace DatabaseCode.CNObjectFolder
 
             //Creates new context and saves local variable to server
             ContextFactory cf = new ContextFactory();
-            using (var context = new SchoolEntities())
+            using (var context = new CampusNabberEntities())
             {
                 IQueryable<dynamic> test = cf.getDbSet(context, tableName);
                 context.Users.Add(entityObject);
