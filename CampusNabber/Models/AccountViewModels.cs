@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System;
+using System.Web.Mvc;
 
 namespace CampusNabber.Models
 {
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
@@ -64,6 +67,8 @@ namespace CampusNabber.Models
 
     public class RegisterViewModel
     {
+        public SelectList selectSchools { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -77,8 +82,12 @@ namespace CampusNabber.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "School Name")]
+        public string school_name { get; set; }
     }
 
     public class ResetPasswordViewModel
@@ -96,7 +105,7 @@ namespace CampusNabber.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

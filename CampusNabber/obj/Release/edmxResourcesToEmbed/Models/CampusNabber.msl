@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CampusNabberModelStoreContainer" CdmEntityContainer="CampusNabberEntities">
+    <EntitySetMapping Name="PostItems">
+      <EntityTypeMapping TypeName="CampusNabberModel.PostItem">
+        <MappingFragment StoreEntitySet="PostItems">
+          <ScalarProperty Name="object_id" ColumnName="object_id" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="school_name" ColumnName="school_name" />
+          <ScalarProperty Name="post_date" ColumnName="post_date" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="photo_path" ColumnName="photo_path" />
+          <ScalarProperty Name="category" ColumnName="category" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Schools">
+      <EntityTypeMapping TypeName="CampusNabberModel.School">
+        <MappingFragment StoreEntitySet="Schools">
+          <ScalarProperty Name="object_id" ColumnName="object_id" />
+          <ScalarProperty Name="school_name" ColumnName="school_name" />
+          <ScalarProperty Name="address" ColumnName="address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="CampusNabberModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="object_id" ColumnName="object_id" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="encrypted_password" ColumnName="encrypted_password" />
+          <ScalarProperty Name="student_email" ColumnName="student_email" />
+          <ScalarProperty Name="school_name" ColumnName="school_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
