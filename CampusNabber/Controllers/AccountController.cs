@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CampusNabber.Models;
 
+
 namespace CampusNabber.Controllers
 {
     [Authorize]
@@ -151,6 +152,11 @@ namespace CampusNabber.Controllers
         {
             if (ModelState.IsValid)
             {
+                //var pwUtil = new PassWordUtil();
+            //    var user = new User{ object_id = System.Guid.NewGuid(), school_name = "EWU", student_email = model.Email, username = model.Email,
+          //          encrypted_password = pwUtil.getHash(model.Password) };
+
+              //  user.createEntity();
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -163,7 +169,7 @@ namespace CampusNabber.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("MainMarketView", "MarketPlace");
                 }
                 AddErrors(result);
             }
@@ -449,7 +455,7 @@ namespace CampusNabber.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("MainMarketView", "MarketPlace");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

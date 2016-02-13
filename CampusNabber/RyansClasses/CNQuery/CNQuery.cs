@@ -77,8 +77,6 @@ namespace DatabaseCode.CNQueryFolder
 
         public string buildWhereString()
         {
-            if (queryWhereConditions.Count == 0)
-                throw new ArgumentNullException("No key or value specified");
             List<string> updateStrings = new List<string>();
             int i = 0;
             foreach (KeyValuePair<string, dynamic> entry in queryWhereConditions)
@@ -91,8 +89,6 @@ namespace DatabaseCode.CNQueryFolder
 
         public string buildValueString()
         {
-            if (queryWhereConditions.Count == 0)
-                throw new ArgumentNullException("No key or value specified");
             List<dynamic> updateStrings = new List<dynamic>();
             foreach (KeyValuePair<string, dynamic> entry in queryWhereConditions)
             {
