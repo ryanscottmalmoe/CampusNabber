@@ -9,13 +9,17 @@ using System.Diagnostics;
 using System.Data.Entity.Validation;
 using System.Data.Entity.Infrastructure;
 using CampusNabber.Models;
+using System.Data.Entity;
+using DatabaseCode.CNQueryFolder;
+
 namespace DatabaseCode.CNObjectFolder
 {
 
     /// <summary>
     /// CNObject item = new CNObject("User");
+    /// <para />item.setKeyWithValue ("object_id", Guid.NewGuid());
     /// <para />item.setKeyWithValue ("username", "testUsername");
-    ///	<para />item.setKeyWithValue ("pasword", "tempPassword");
+    ///	<para />item.setKeyWithValue ("pasword", Utiltiy.encryptPassword("testPassword"));
     /// <para />item.setKeyWithValue ("student_email", "testEmail@ewu.edu");
     /// <para />item.setKeyWithvalue ("school_name", "testName");
     ///	<para />item.createObject ();
@@ -59,13 +63,13 @@ namespace DatabaseCode.CNObjectFolder
             EntityFactory entityFactory = new EntityFactory(); //creates entity factory 
             var entityObject = entityFactory.getEntityObject(tableName); //returns entity object
             entityObject.setAttributes(this); //sets entity object values with cnobject
-
+           
             //Creates new context and saves local variable to server
             ContextFactory cf = new ContextFactory();
             using (var context = new CampusNabberEntities())
             {
-                IQueryable<dynamic> test = cf.getDbSet(context, tableName);
-                context.Users.Add(entityObject);
+                DbSet set = cf.getDbSet(context, tableName);
+                set.Add(entityObject);
                 try
                 {
                     context.SaveChanges();
@@ -98,11 +102,43 @@ namespace DatabaseCode.CNObjectFolder
         {
             if (tableName == null || tableName.Equals("") || queryObjects == null || queryObjects.Count == 0)
                 throw new ArgumentNullException("No table or object to specified.");
-            //db.Users.Attach(updatedUser);
-            //db.saveChanges();
 
+            EntityFactory entityFactory = new EntityFactory(); //creates entity factory 
+            var entityObject = entityFactory.getEntityObject(tableName); //returns entity object
+            entityObject.setAttributes(this); //sets entity object values with cnobject
+
+            ContextFactory cf = new ContextFactory();
+            using (var context = new CampusNabberEntities())
+            { 
+                var item = cf.getEntity(context, tableName, queryObjects["object_id"]);
+                item.setAttributes(this);
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                                    validationError.PropertyName,
+                                                    validationError.ErrorMessage);
+                        }
+                    }
+                }
+                catch (DbUpdateException dbEx)
+                {
+                    Console.WriteLine(dbEx.Message);
+                    foreach (var entries in dbEx.Entries)
+                    {
+                        Console.WriteLine(entries.Entity);
+                        Console.WriteLine(dbEx.InnerException);
+                    }
+                }
+            }
         }
-
         public void deleteObject()
         {
             if (tableName == null || tableName.Equals("") || queryObjects == null || queryObjects.Count == 0)

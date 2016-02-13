@@ -50,8 +50,6 @@ namespace CampusNabber.Models
     {
         [Required]
         [Display(Name = "Email")]
-        //This code enables .edu validation on login, which isn't necessary as it is checked at registeration 
-        //[RegularExpression(@"^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.[Ee][Dd][Uu]$", ErrorMessage = "Email is not an .edu account.")]
         [EmailAddress]
         public string Email { get; set; }
 
@@ -67,8 +65,8 @@ namespace CampusNabber.Models
     public class RegisterViewModel
     {
         [Required]
+        [EmailAddress]
         [Display(Name = "Email")]
-        [RegularExpression(@"^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.[Ee][Dd][Uu]$", ErrorMessage = "Email is not an .edu account.")]
         public string Email { get; set; }
 
         [Required]

@@ -15,7 +15,6 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\CampusNabber.
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\CampusNabber.Tests.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\CampusNabber.Tests.pdb
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\CampusNabber.dll
-C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\Microsoft.Web.Infrastructure.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\Newtonsoft.Json.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\System.Linq.Dynamic.dll

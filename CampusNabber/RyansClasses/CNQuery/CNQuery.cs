@@ -8,6 +8,7 @@ using System.Linq.Dynamic;
 using DatabaseCode.FactoryFiles;
 using System.Data.Entity.Core;
 using CampusNabber.Models;
+using System.Data.Entity;
 
 namespace DatabaseCode.CNQueryFolder
 {
@@ -76,6 +77,8 @@ namespace DatabaseCode.CNQueryFolder
 
         public string buildWhereString()
         {
+            if (queryWhereConditions.Count == 0)
+                throw new ArgumentNullException("No key or value specified");
             List<string> updateStrings = new List<string>();
             int i = 0;
             foreach (KeyValuePair<string, dynamic> entry in queryWhereConditions)
@@ -88,6 +91,8 @@ namespace DatabaseCode.CNQueryFolder
 
         public string buildValueString()
         {
+            if (queryWhereConditions.Count == 0)
+                throw new ArgumentNullException("No key or value specified");
             List<dynamic> updateStrings = new List<dynamic>();
             foreach (KeyValuePair<string, dynamic> entry in queryWhereConditions)
             {
@@ -95,6 +100,18 @@ namespace DatabaseCode.CNQueryFolder
             }
             return string.Join(", ", updateStrings);
         }
+
+        public dynamic selectObjectById()
+        {
+            if (queryClassName == null || queryClassName.Equals(""))
+                throw new ArgumentNullException("No class name provided");
+            ContextFactory cf = new ContextFactory();
+            using (var context = new CampusNabberEntities())
+            {
+                return cf.getEntity(context, queryClassName, queryWhereConditions["object_id="]);
+            }
+        }
+
 
         public List<dynamic> select()
         {
@@ -104,7 +121,8 @@ namespace DatabaseCode.CNQueryFolder
             ContextFactory cf = new ContextFactory();
             using (var context = new CampusNabberEntities())
             {
-                IQueryable<dynamic> test = cf.getDbSet(context, queryClassName);
+                IQueryable<dynamic> test = cf.getIQueryableSet(context, queryClassName);
+
                 if (queryWhereConditions.Count == 0)
                 {
                     resultsList = test.ToList<dynamic>();
@@ -139,6 +157,7 @@ namespace DatabaseCode.CNQueryFolder
             this.queryClassName = queryClassName;
         }
 
+        public Dictionary<string, dynamic> getQueryCondition() { return this.queryWhereConditions; }
         public string getClassName() { return this.queryClassName; }
     }
 }

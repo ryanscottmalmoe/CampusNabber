@@ -207,6 +207,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602130604415_InitialMigrations.cs" />
+    <Compile Include="Migrations\201602130604415_InitialMigrations.Designer.cs">
+      <DependentUpon>201602130604415_InitialMigrations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CampusNabber.Context.cs">
       <AutoGen>True</AutoGen>
@@ -235,8 +240,8 @@
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RyansClasses\CNObject\CNObject.cs" />
-    <Compile Include="RyansClasses\CNObject\CNObjectInterface.cs" />
+    <Compile Include="RyansClasses\CNObject%28Depricated%29\CNObject.cs" />
+    <Compile Include="RyansClasses\CNObject%28Depricated%29\CNObjectInterface.cs" />
     <Compile Include="RyansClasses\CNQuery\CNQuery.cs" />
     <Compile Include="RyansClasses\CNQuery\CNQueryInterface.cs" />
     <Compile Include="RyansClasses\FactoryFiles\ContextFactory.cs" />
@@ -335,6 +340,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201602130604415_InitialMigrations.resx">
+      <DependentUpon>201602130604415_InitialMigrations.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -8,23 +8,62 @@ using CampusNabber.Models;
 
 namespace DatabaseCode.FactoryFiles
 {
-    /// <summary>
-    /// Used to dynamically determine which DbSet to choose from
-    /// when dynamically building LINQ queries.
-    /// </summary>
+
     class ContextFactory : CampusNabberEntities
-    {    
-        public IQueryable<dynamic> getDbSet(CampusNabberEntities entities, string contextName)
+    {
+        public dynamic getEntity(CampusNabberEntities context, string contextName, Guid guid)
         {
-            if(contextName.Equals("User"))
+            if (contextName.Equals("User"))
             {
-                return entities.Users;
-            } else if(contextName.Equals("PostItem"))
+               return (from o in context.Users
+                 where o.object_id.Equals(guid)
+                 select o).First();
+            }
+            else if (contextName.Equals("PostItem"))
             {
-                return entities.PostItems;
-            } else if(contextName.Equals("School"))
+                return (from o in context.PostItems
+                        where o.object_id.Equals(guid)
+                        select o).First();
+            }
+            else if (contextName.Equals("School"))
             {
-                return entities.Schools;
+                return (from o in context.Schools
+                        where o.object_id.Equals(guid)
+                        select o).First();
+            }
+            return null;
+        }
+
+        public dynamic getDbSet(CampusNabberEntities context, string contextName)
+        {
+                if (contextName.Equals("User"))
+                {
+                    return context.Users;
+                }
+                else if (contextName.Equals("PostItem"))
+                {
+                    return context.PostItems;
+                }
+                else if (contextName.Equals("School"))
+                {
+                    return context.Schools;
+                }
+            return null;
+        }
+
+        public IQueryable<dynamic> getIQueryableSet(CampusNabberEntities context, string contextName)
+        {
+            if (contextName.Equals("User"))
+            {
+                return context.Users;
+            }
+            else if (contextName.Equals("PostItem"))
+            {
+                return context.PostItems;
+            }
+            else if (contextName.Equals("School"))
+            {
+                return context.Schools;
             }
             return null;
         }
