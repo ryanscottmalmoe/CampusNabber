@@ -15,10 +15,8 @@ namespace CampusNabber.Models
     
         public ApplicationUser CurrentUser { get; set; }
 
-        // public virtual ICollection<Post> Posts { get; set; }
+         public virtual ICollection<PostItem> Posts { get; set; }
 
-        //public virtual ApplicationUser User { get; set; }
-
-        //public string ApplicationUserId { get; set; }
+        
     }
 }

@@ -17,6 +17,8 @@
 
     <div class="form-horizontal">
         <h4>PostItem</h4>
+        <h1>@Model.username</h1>
+       <!-- @Html.HiddenFor(model => Model.username) -->
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
       <!--<div class="form-group"> 
