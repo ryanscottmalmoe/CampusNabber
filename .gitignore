@@ -8,6 +8,10 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 .vs/
+<<<<<<< HEAD
+=======
+$.vs/
+>>>>>>> 29d4b7f5ffd9989325e24cd8280483a91788c532
 
 # Windows Installer files
 *.cab

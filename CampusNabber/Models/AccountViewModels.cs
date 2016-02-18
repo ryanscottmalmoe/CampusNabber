@@ -70,7 +70,7 @@ namespace CampusNabber.Models
         public SelectList selectSchools { get; set; }
 
         [Required]
-        [EmailAddress]
+        [RegularExpression(@"^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.[Ee][Dd][Uu]$", ErrorMessage = "Email is not a .edu email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
