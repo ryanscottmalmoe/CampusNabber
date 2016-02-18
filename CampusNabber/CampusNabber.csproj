@@ -223,6 +223,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CampusNabber.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\GMailerModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PostItem.cs">
