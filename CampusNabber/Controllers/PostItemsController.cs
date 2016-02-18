@@ -70,11 +70,16 @@ namespace CampusNabber.Controllers
             return View(user);
         }
         */
+        
         public ActionResult Create(String userId)
         {
             PostItem postItem = null;
-                //var user = UserManager.FindByName(userId);
+            //var user = UserManager.FindByName(userId);
+            if (userId == null)
+                postItem = new PostItem { username = User.Identity.GetUserName() };
+            else
                 postItem = new PostItem { username = userId };
+            ViewBag.username = userId;
             return View(postItem);
         }
 
@@ -82,14 +87,20 @@ namespace CampusNabber.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+     //   [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path,category")] PostItem postItem)
         {
             if (ModelState.IsValid)
             {
+                postItem.username = User.Identity.GetUserName();
+                postItem.school_name = "Eastern Washington University";
+                postItem.post_date = System.DateTime.Today;
                 postItem.object_id = Guid.NewGuid();
-                db.PostItems.Add(postItem);
-                db.SaveChanges();
+                postItem.photo_path = "";
+                postItem.createEntity();
+                
+                // db.PostItems.Add(postItem);
+               // db.SaveChanges();
                 return RedirectToAction("Index");
             }
 

@@ -43,9 +43,15 @@ namespace CampusNabber.Controllers
             UserManager = manager;
         }
 
-        public ActionResult MainMarketView()
+        public ActionResult MainMarketView(String UserName)
         {
-            ViewBag.userName = User.Identity.GetUserName();
+
+            
+            ViewBag.userName = UserName;
+            if(ViewBag.userName == null)
+            {
+                ViewBag.userName = User.Identity.GetUserName();
+            }
             return View();
         }
 

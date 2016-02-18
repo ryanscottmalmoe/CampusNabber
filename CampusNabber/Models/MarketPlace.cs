@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -11,10 +12,11 @@ namespace CampusNabber.Models
 
         public Guid StudentGuid { get; set; }
 
-        // public virtual ICollection<Post> Posts { get; set; }
+    
+        public ApplicationUser CurrentUser { get; set; }
 
-        //public virtual ApplicationUser User { get; set; }
+         public virtual ICollection<PostItem> Posts { get; set; }
 
-        //public string ApplicationUserId { get; set; }
+        
     }
 }
