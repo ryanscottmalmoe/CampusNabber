@@ -26,5 +26,6 @@ namespace CampusNabber.Controllers
 
             return View();
         }
+
     }
 }

@@ -38,7 +38,7 @@ namespace CampusNabber.Controllers
         // GET: PostItems
         public ActionResult Index()
         {
-            return View(db.PostItems.ToList());
+           return View(db.PostItems.ToList());
         }
 
         public PostItemsController()
@@ -92,15 +92,11 @@ namespace CampusNabber.Controllers
         {
             if (ModelState.IsValid)
             {
-                postItem.username = User.Identity.GetUserName();
-                postItem.school_name = "Eastern Washington University";
                 postItem.post_date = System.DateTime.Today;
                 postItem.object_id = Guid.NewGuid();
                 postItem.photo_path = "";
                 postItem.createEntity();
                 
-                // db.PostItems.Add(postItem);
-               // db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
