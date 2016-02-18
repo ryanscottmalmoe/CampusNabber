@@ -9,7 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CampusNabber.Models;
-
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace CampusNabber.Controllers
 {
@@ -76,8 +77,12 @@ namespace CampusNabber.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
+<<<<<<< HEAD
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             ApplicationUser userName = await SignInManager.UserManager.FindByEmailAsync(model.Email);
+=======
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
+>>>>>>> refs/remotes/origin/master
             switch (result)
             {
                 case SignInStatus.Success:
@@ -141,7 +146,15 @@ namespace CampusNabber.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var model = new RegisterViewModel();
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem { Text = "Eastern Washington University", Value = "Eastern Washington University", Selected = true });
+            list.Add(new SelectListItem { Text = "Washington State University", Value = "Washington State University"});
+            list.Add(new SelectListItem { Text = "Gonzaga", Value = "Gonzaga"});
+            list.Add(new SelectListItem { Text = "Whitworth", Value = "Whitworth" });
+
+            model.selectSchools = new SelectList(list, "Text", "Value", 1);
+            return View(model);
         }
 
         //
@@ -151,14 +164,10 @@ namespace CampusNabber.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+
             if (ModelState.IsValid)
             {
-                //var pwUtil = new PassWordUtil();
-            //    var user = new User{ object_id = System.Guid.NewGuid(), school_name = "EWU", student_email = model.Email, username = model.Email,
-          //          encrypted_password = pwUtil.getHash(model.Password) };
-
-              //  user.createEntity();
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, school_name = model.school_name };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
