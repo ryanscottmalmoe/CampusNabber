@@ -16,10 +16,15 @@ namespace CampusNabber
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            await ConfigGmailAsync(message);
+        }
+
+        public async Task ConfigGmailAsync(IdentityMessage message)
+        {
+
         }
     }
 
