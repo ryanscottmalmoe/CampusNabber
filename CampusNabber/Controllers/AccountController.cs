@@ -157,9 +157,9 @@ namespace CampusNabber.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     
-                    GMailerModel.GMailUsername = "campusnabbervalidator@gmail.com";
+                    /*GMailerModel.GMailUsername = "campusnabbervalidator@gmail.com";
                     GMailerModel.GMailPassword = "CampusNab";
 
                     GMailerModel message = new GMailerModel();
@@ -167,14 +167,14 @@ namespace CampusNabber.Controllers
                     message.ToEmail = "greataudrey@gmail.com";
                     message.Body = "This is a test email<br>How are you doing today Audrey?";
                     message.IsHtml = true;
-                    message.Send();
+                    message.Send();*/
                     
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     return RedirectToAction("Index", "Home");
                 }
