@@ -8,11 +8,10 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
+
 #Visual Studio files
 *.suo
 
-
->>>>>>> refs/remotes/origin/master
 # Windows Installer files
 *.cab
 *.msi
