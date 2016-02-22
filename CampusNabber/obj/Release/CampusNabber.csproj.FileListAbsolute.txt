@@ -167,3 +167,6 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Release\CampusNabber.cspr
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Release\CampusNabber.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Release\CampusNabber.pdb
 >>>>>>> refs/remotes/origin/master
+C:\Users\Christian\Desktop\CampusNabber\CampusNabber\obj\Release\CampusNabber.csprojResolveAssemblyReference.cache
+C:\Users\Christian\Desktop\CampusNabber\CampusNabber\obj\Release\CampusNabber.dll
+C:\Users\Christian\Desktop\CampusNabber\CampusNabber\obj\Release\CampusNabber.pdb
