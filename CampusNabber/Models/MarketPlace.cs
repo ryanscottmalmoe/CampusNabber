@@ -20,8 +20,9 @@ namespace CampusNabber.Models
             CNQuery query = new CNQuery("PostItem");
             query.setQueryWhereKeyEqualToCondition("school_name", user.school_name);
             query.setClassName("PostItem");
-            List<dynamic> list = query.select();
-            Posts = new List<PostItem>(list.Count);
+            //List<dynamic> list
+                Posts= query.select().Cast<PostItem>().ToList();
+           /* Posts = new List<PostItem>(list.Count);
             foreach(dynamic d in list)
             {
                 Posts.Add(new PostItem
@@ -37,6 +38,7 @@ namespace CampusNabber.Models
                     title = d.title
                 });
             }
+            */
         }
     }
 
