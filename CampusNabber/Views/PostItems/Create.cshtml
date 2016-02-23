@@ -19,19 +19,21 @@
         <h4>PostItem</h4>
         <h1>@Model.username</h1>
          
-        @Html.HiddenFor(model => Model.username)
-        @Html.HiddenFor(model => Model.school_name)
+        @Html.HiddenFor(model => Model.username)        
+        
+        
+        
+        
+        
+        
+       
+
+
+
+
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-      <!--<div class="form-group"> 
-            @Html.LabelFor(model => model.username, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10"> 
-                @Html.DisplayFor(model => model.username)
-                @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.username, Model.username, new { @class = "text-danger" })
-            </div>
-        </div>
-    -->
+      
  
 
 
@@ -84,10 +86,10 @@
     </div>
 }
 
-
+<!--
 @{ Model.username = ViewBag.userName;}
 
-
+    -->
 
 <div>
     @Html.ActionLink("Back to List", "Index")

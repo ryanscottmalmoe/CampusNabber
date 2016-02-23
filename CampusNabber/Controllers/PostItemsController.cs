@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using CampusNabber.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using CampusNabber.Utility;
 
 namespace CampusNabber.Controllers
 {
@@ -71,15 +72,12 @@ namespace CampusNabber.Controllers
         }
         */
         
-        public ActionResult Create(String userId)
+        public ActionResult Create()
         {
-            PostItem postItem = null;
-            //var user = UserManager.FindByName(userId);
-            if (userId == null)
-                postItem = new PostItem { username = User.Identity.GetUserName() };
-            else
-                postItem = new PostItem { username = userId };
-            ViewBag.username = userId;
+            
+               var postItem = new PostItem { username = User.Identity.GetUserName() };
+          
+
             return View(postItem);
         }
 
@@ -94,11 +92,9 @@ namespace CampusNabber.Controllers
         {
             if (ModelState.IsValid)
             {
-                postItem.post_date = System.DateTime.Today;
-                postItem.object_id = Guid.NewGuid();
-                postItem.photo_path = "";
-                postItem.createEntity();
-                
+                var service = new PostItemService();
+                service.setMissingFields(postItem, UserManager);                
+                postItem.createEntity();                
                 return RedirectToAction("Index");
             }
 

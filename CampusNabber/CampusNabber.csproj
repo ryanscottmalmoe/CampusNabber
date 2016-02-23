@@ -247,6 +247,7 @@
     <Compile Include="QueryClasses\FactoryFiles\EntityFactory.cs" />
     <Compile Include="QueryClasses\UtilityFiles\Utility.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utility\PostItemService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
