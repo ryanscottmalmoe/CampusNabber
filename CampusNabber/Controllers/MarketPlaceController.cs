@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using CampusNabber.Models;
+using DatabaseCode.CNQueryFolder;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
@@ -11,11 +13,14 @@ namespace CampusNabber.Controllers
 {
     public class MarketPlaceController : Controller
     {
-        private ApplicationUserManager _userManager; 
+        private ApplicationUserManager _userManager;
+        private CNQuery query;
 
         // GET: MarketPlace
         public ActionResult Index()
         {
+           
+            
             return View();
         }
 
@@ -46,13 +51,16 @@ namespace CampusNabber.Controllers
         public ActionResult MainMarketView(String UserName)
         {
 
-            
+            if (_userManager == null)
+                _userManager = UserManager;
             ViewBag.userName = UserName;
             if(ViewBag.userName == null)
             {
                 ViewBag.userName = User.Identity.GetUserName();
             }
-            return View();
+            var market = new MarketPlace { };
+            market.setList(_userManager.FindById(User.Identity.GetUserId()));
+            return View(market);
         }
 
         // GET: MarketPlace/Details/5

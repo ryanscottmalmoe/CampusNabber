@@ -88,6 +88,8 @@ namespace CampusNabber.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
      //   [ValidateAntiForgeryToken]
+     // Christian Change
+        //So that the system supplies the school name based off the current user & find a way to have the model do the data binding
         public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path,category")] PostItem postItem)
         {
             if (ModelState.IsValid)

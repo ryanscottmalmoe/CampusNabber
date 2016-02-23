@@ -1,5 +1,6 @@
 ﻿@model CampusNabber.Models.MarketPlace
 
+
 @{
     ViewBag.Title = "MainMarketView";
 }
@@ -9,5 +10,24 @@
 @Html.ActionLink("Create", "Create" ,  "PostItems", new { userId =ViewBag.userName }, null)
 
 
-<!--<a href="@Url.Action("Create", "PostItemsController",  new { userId = ViewBag.userName})">Create</a>-->
+
+@foreach (var element in Model.Posts)
+{
+    //changed this to annon inner class
+    <a href="@Url.Action("Details", "PostItems", new {
+            id = element.object_id
+        })">
+        <p>
+            @Html.DisplayFor(m => element.title) @Html.DisplayFor(m => element.description) $@Html.DisplayFor(m => element.price)
+        </p> 
+    </a>
+    //<p>@Html.DisplayFor(m => element.title)
+    // @Html.DisplayFor(m => element.description)
+    //$@Html.DisplayFor(m => element.price)</p>
+    //<p>@Html.DisplayFor(m => element.title)</p>
+
+}
+
+
+        <!--<a href="@Url.Action("Create", "PostItemsController",  new { userId = ViewBag.userName})">Create</a>-->
 
