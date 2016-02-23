@@ -30,8 +30,10 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     @{
                         bool val1 = (System.Web.HttpContext.Current.User != null) && System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
-                        if(val1) {
-                            <li>@Html.ActionLink("Market", "Index", "PostItems")</li>
+                        if (val1)
+                        {
+                            <li>@Html.ActionLink("Market", "MainMarketView", "MarketPlace")</li>
+                            <li>@Html.ActionLink("Profile", "ProfileView", "Profile")</li>
                         }
                     }
                     

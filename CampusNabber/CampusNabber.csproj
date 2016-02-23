@@ -206,6 +206,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MarketPlaceController.cs" />
     <Compile Include="Controllers\PostItemsController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -232,6 +233,7 @@
     <Compile Include="Models\PostItem.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Models\School.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
@@ -331,6 +333,7 @@
     <Content Include="Views\PostItems\Edit.cshtml" />
     <Content Include="Views\PostItems\Index.cshtml" />
     <Content Include="Views\MarketPlace\MainMarketView.cshtml" />
+    <Content Include="Views\Profile\ProfileView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

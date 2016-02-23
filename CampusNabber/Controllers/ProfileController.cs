@@ -6,27 +6,18 @@ using System.Web.Mvc;
 
 namespace CampusNabber.Controllers
 {
-    public class HomeController : Controller
+    public class ProfileController : Controller
     {
+        // GET: Profile
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult ProfileView()
         {
-            ViewBag.Message = "Our Mission";
-
             return View();
         }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
 
     }
 }
