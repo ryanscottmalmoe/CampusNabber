@@ -141,19 +141,15 @@ namespace CampusNabber.Controllers
             }
         }
 
+
+
         //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
             var model = new RegisterViewModel();
-            List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem { Text = "Eastern Washington University", Value = "Eastern Washington University", Selected = true });
-            list.Add(new SelectListItem { Text = "Washington State University", Value = "Washington State University"});
-            list.Add(new SelectListItem { Text = "Gonzaga", Value = "Gonzaga"});
-            list.Add(new SelectListItem { Text = "Whitworth", Value = "Whitworth" });
-
-            model.selectSchools = new SelectList(list, "Text", "Value", 1);
+            model.generateSchoolsList();
             return View(model);
         }
 
