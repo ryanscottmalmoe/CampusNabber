@@ -33,6 +33,7 @@ namespace CampusNabber
             var mail = new System.Net.Mail.MailMessage(userName, message.Destination);
             mail.Subject = message.Subject;
             mail.Body = message.Body;
+            mail.IsBodyHtml = true;
             return client.SendMailAsync(mail);
         }
 

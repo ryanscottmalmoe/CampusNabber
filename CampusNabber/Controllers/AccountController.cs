@@ -155,28 +155,19 @@ namespace CampusNabber.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //The following code signs in the new user automatically. I'm commenting it out because
+                    //we want them to confirm their email address first. 
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    
-                    /*GMailerModel.GMailUsername = "campusnabbervalidator@gmail.com";
-                    GMailerModel.GMailPassword = "CampusNab";
-
-                    GMailerModel message = new GMailerModel();
-                    message.Subject = "Test email";
-                    message.ToEmail = "greataudrey@gmail.com";
-                    message.Body = "This is a test email<br>How are you doing today Audrey?";
-                    message.IsHtml = true;
-                    message.Send();*/
-                    
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                      string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                      var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                      await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                     ViewBag.Message = "An email with your validation link has been sent to the address you provided. You must confirm you email address before logging in.";
+                    //return RedirectToAction("Index", "Home");
+                     return View("ValidationInstructions");
                 }
                 AddErrors(result);
             }
