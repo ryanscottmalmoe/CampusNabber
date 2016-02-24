@@ -19,8 +19,24 @@ namespace CampusNabber
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            var userName = "campusnabbervalidator@gmail.com";
+            var password = "CampusNab";
+            System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
+            client.Host = "smtp.gmail.com";
+            client.Port = 587;
+            client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.EnableSsl = true;
+            client.Credentials = new System.Net.NetworkCredential(userName, password);
+            
+
+            var mail = new System.Net.Mail.MailMessage(userName, message.Destination);
+            mail.Subject = message.Subject;
+            mail.Body = message.Body;
+            mail.IsBodyHtml = true;
+            return client.SendMailAsync(mail);
         }
+
     }
 
     public class SmsService : IIdentityMessageService

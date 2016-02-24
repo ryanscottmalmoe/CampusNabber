@@ -2,7 +2,7 @@
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="CampusNabberModelStoreContainer" CdmEntityContainer="CampusNabberEntities">
     <EntitySetMapping Name="PostItems">
-      <EntityTypeMapping TypeName="CampusNabberModel.PostItem">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.PostItem)">
         <MappingFragment StoreEntitySet="PostItems">
           <ScalarProperty Name="object_id" ColumnName="object_id" />
           <ScalarProperty Name="username" ColumnName="username" />
@@ -17,7 +17,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Schools">
-      <EntityTypeMapping TypeName="CampusNabberModel.School">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.School)">
         <MappingFragment StoreEntitySet="Schools">
           <ScalarProperty Name="object_id" ColumnName="object_id" />
           <ScalarProperty Name="school_name" ColumnName="school_name" />
@@ -26,7 +26,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Users">
-      <EntityTypeMapping TypeName="CampusNabberModel.User">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.User)">
         <MappingFragment StoreEntitySet="Users">
           <ScalarProperty Name="object_id" ColumnName="object_id" />
           <ScalarProperty Name="username" ColumnName="username" />

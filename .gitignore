@@ -50,10 +50,12 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.suo
-.vs/CampusNabber/v14/.suo
-.vs/config/applicationhost.config
-.vs/CampusNabber/v14/.suo
-.vs/config/applicationhost.config
-.vs/CampusNabber/v14/.suo
-CampusNabber.Tests/obj/Debug/build.force
-.vs/CampusNabber/v14/.suo
+*.dll
+*.ssdl
+*.ssdl
+*.cache
+*.dll
+*.pdb
+*.ssdl
+*.cache
+*.suo
