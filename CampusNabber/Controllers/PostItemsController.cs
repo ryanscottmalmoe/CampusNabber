@@ -97,7 +97,7 @@ namespace CampusNabber.Controllers
                 postItem.createEntity();                
                 return RedirectToAction("Index");
             }
-
+            //I added this
             return View(postItem);
         }
 
