@@ -204,9 +204,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MarketPlaceController.cs" />
+    <Compile Include="Controllers\PostItemsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CampusNabber.Context.cs">
       <AutoGen>True</AutoGen>
@@ -225,6 +228,7 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MarketPlace.cs" />
     <Compile Include="Models\PostItem.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
@@ -235,13 +239,13 @@
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RyansClasses\CNObject\CNObject.cs" />
-    <Compile Include="RyansClasses\CNObject\CNObjectInterface.cs" />
-    <Compile Include="RyansClasses\CNQuery\CNQuery.cs" />
-    <Compile Include="RyansClasses\CNQuery\CNQueryInterface.cs" />
-    <Compile Include="RyansClasses\FactoryFiles\ContextFactory.cs" />
-    <Compile Include="RyansClasses\FactoryFiles\EntityFactory.cs" />
-    <Compile Include="RyansClasses\UtilityFiles\Utility.cs" />
+    <Compile Include="QueryClasses\CNObject%28Depricated%29\CNObject.cs" />
+    <Compile Include="QueryClasses\CNObject%28Depricated%29\CNObjectInterface.cs" />
+    <Compile Include="QueryClasses\CNQuery\CNQuery.cs" />
+    <Compile Include="QueryClasses\CNQuery\CNQueryInterface.cs" />
+    <Compile Include="QueryClasses\FactoryFiles\ContextFactory.cs" />
+    <Compile Include="QueryClasses\FactoryFiles\EntityFactory.cs" />
+    <Compile Include="QueryClasses\UtilityFiles\Utility.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -324,6 +328,12 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\ValidationInstructions.cshtml" />
+    <Content Include="Views\PostItems\Create.cshtml" />
+    <Content Include="Views\PostItems\Delete.cshtml" />
+    <Content Include="Views\PostItems\Details.cshtml" />
+    <Content Include="Views\PostItems\Edit.cshtml" />
+    <Content Include="Views\PostItems\Index.cshtml" />
+    <Content Include="Views\MarketPlace\MainMarketView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

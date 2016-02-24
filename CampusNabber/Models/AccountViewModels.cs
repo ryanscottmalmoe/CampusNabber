@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System;
+using System.Web.Mvc;
 
 namespace CampusNabber.Models
 {
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
@@ -50,8 +53,6 @@ namespace CampusNabber.Models
     {
         [Required]
         [Display(Name = "Email")]
-        //This code enables .edu validation on login, which isn't necessary as it is checked at registeration 
-        //[RegularExpression(@"^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.[Ee][Dd][Uu]$", ErrorMessage = "Email is not an .edu account.")]
         [EmailAddress]
         public string Email { get; set; }
 
@@ -66,9 +67,11 @@ namespace CampusNabber.Models
 
     public class RegisterViewModel
     {
+        public SelectList selectSchools { get; set; }
+
         [Required]
+        [RegularExpression(@"^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.[Ee][Dd][Uu]$", ErrorMessage = "Email is not a .edu email")]
         [Display(Name = "Email")]
-        [RegularExpression(@"^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.[Ee][Dd][Uu]$", ErrorMessage = "Email is not an .edu account.")]
         public string Email { get; set; }
 
         [Required]
@@ -79,8 +82,23 @@ namespace CampusNabber.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "School Name")]
+        public string school_name { get; set; }
+
+        public void generateSchoolsList()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem { Text = "Eastern Washington University", Value = "Eastern Washington University", Selected = true });
+            list.Add(new SelectListItem { Text = "Washington State University", Value = "Washington State University" });
+            list.Add(new SelectListItem { Text = "Gonzaga", Value = "Gonzaga" });
+            list.Add(new SelectListItem { Text = "Whitworth", Value = "Whitworth" });
+
+            selectSchools = new SelectList(list, "Text", "Value", 1);
+        }
     }
 
     public class ResetPasswordViewModel
@@ -98,7 +116,7 @@ namespace CampusNabber.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

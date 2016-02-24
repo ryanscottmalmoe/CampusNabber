@@ -15,7 +15,7 @@ namespace CampusNabber.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Our Mission";
 
             return View();
         }
@@ -26,5 +26,6 @@ namespace CampusNabber.Controllers
 
             return View();
         }
+
     }
 }

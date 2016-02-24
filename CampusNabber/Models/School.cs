@@ -9,13 +9,128 @@
 
 namespace CampusNabber.Models
 {
+    using DatabaseCode.CNObjectFolder;
     using System;
     using System.Collections.Generic;
-    
+    using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Validation;
+    using System.Diagnostics;
+    using System.Linq;
+
     public partial class School
     {
+
         public System.Guid object_id { get; set; }
         public string school_name { get; set; }
         public string address { get; set; }
+
+        public void deleteEntity()
+        {
+            //Creates new context and deletes local variable to server
+            using (var context = new CampusNabberEntities())
+            {
+                context.Schools.Remove(this);
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                                    validationError.PropertyName,
+                                                    validationError.ErrorMessage);
+                        }
+                    }
+                }
+                catch (DbUpdateException dbEx)
+                {
+                    Console.WriteLine(dbEx.Message);
+                    foreach (var entries in dbEx.Entries)
+                    {
+                        Console.WriteLine(entries.Entity);
+                        Console.WriteLine(dbEx.InnerException);
+                    }
+                }
+            }
+        }
+
+
+        public void updateEntity()
+        {
+            //Creates new context and saves local variable to server
+            using (var context = new CampusNabberEntities())
+            {
+                School school = (from o in context.Schools
+                                 where o.object_id.Equals(object_id)
+                                 select o).First();
+
+                school.school_name = school_name;
+                school.address = address;
+
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                                    validationError.PropertyName,
+                                                    validationError.ErrorMessage);
+                        }
+                    }
+                }
+                catch (DbUpdateException dbEx)
+                {
+                    Console.WriteLine(dbEx.Message);
+                    foreach (var entries in dbEx.Entries)
+                    {
+                        Console.WriteLine(entries.Entity);
+                        Console.WriteLine(dbEx.InnerException);
+                    }
+                }
+            }
+        }
+
+        public void createEntity()
+        {
+            //Creates new context and saves local variable to server
+            using (var context = new CampusNabberEntities())
+            {
+                context.Schools.Add(this);
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                                    validationError.PropertyName,
+                                                    validationError.ErrorMessage);
+                        }
+                    }
+                }
+                catch (DbUpdateException dbEx)
+                {
+                    Console.WriteLine(dbEx.Message);
+                    foreach (var entries in dbEx.Entries)
+                    {
+                        Console.WriteLine(entries.Entity);
+                        Console.WriteLine(dbEx.InnerException);
+                    }
+                }
+            }
+        }
     }
 }
