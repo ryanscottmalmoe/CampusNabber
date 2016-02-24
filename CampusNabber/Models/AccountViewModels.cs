@@ -88,6 +88,17 @@ namespace CampusNabber.Models
         [Required]
         [Display(Name = "School Name")]
         public string school_name { get; set; }
+
+        public void generateSchoolsList()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem { Text = "Eastern Washington University", Value = "Eastern Washington University", Selected = true });
+            list.Add(new SelectListItem { Text = "Washington State University", Value = "Washington State University" });
+            list.Add(new SelectListItem { Text = "Gonzaga", Value = "Gonzaga" });
+            list.Add(new SelectListItem { Text = "Whitworth", Value = "Whitworth" });
+
+            selectSchools = new SelectList(list, "Text", "Value", 1);
+        }
     }
 
     public class ResetPasswordViewModel

@@ -49,3 +49,8 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.suo
+.vs/CampusNabber/v14/.suo
+.vs/config/applicationhost.config
+.vs/CampusNabber/v14/.suo
+.vs/config/applicationhost.config
