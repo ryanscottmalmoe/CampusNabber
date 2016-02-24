@@ -10,7 +10,13 @@
 @Html.ActionLink("Create", "Create" ,  "PostItems")
 
 
+@{ 
+    if(Model.Posts.Count >= 5)
+    {
 
+
+    }
+}
 @foreach (var element in Model.Posts)
 {
     //changed this to annon inner class
@@ -18,15 +24,15 @@
             id = element.object_id
         })">
         <p>
-            @Html.DisplayFor(m => element.title) @Html.DisplayFor(m => element.description) $@Html.DisplayFor(m => element.price)
+            @Html.DisplayFor(m => element.title) $@Html.DisplayFor(m => element.price)
         </p> 
     </a>
-    //<p>@Html.DisplayFor(m => element.title)
-    // @Html.DisplayFor(m => element.description)
-    //$@Html.DisplayFor(m => element.price)</p>
-    //<p>@Html.DisplayFor(m => element.title)</p>
+   
+
+
 
 }
+
 
 
         <!--<a href="@Url.Action("Create", "PostItemsController",  new { userId = ViewBag.userName})">Create</a>-->

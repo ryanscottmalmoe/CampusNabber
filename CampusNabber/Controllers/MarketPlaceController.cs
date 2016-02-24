@@ -48,18 +48,11 @@ namespace CampusNabber.Controllers
             UserManager = manager;
         }
 
-        public ActionResult MainMarketView(String UserName)
+        public ActionResult MainMarketView()
         {
 
-            if (_userManager == null)
-                _userManager = UserManager;
-            ViewBag.userName = UserName;
-            if(ViewBag.userName == null)
-            {
-                ViewBag.userName = User.Identity.GetUserName();
-            }
             var market = new MarketPlace { };
-            market.setList(_userManager.FindById(User.Identity.GetUserId()));
+            market.setList(UserManager.FindById(User.Identity.GetUserId()));
             return View(market);
         }
 

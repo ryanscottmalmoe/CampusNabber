@@ -84,7 +84,7 @@ namespace CampusNabber.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("MainMarketView", "MarketPlace", new { UserName = userName.UserName});
+                    return RedirectToAction("MainMarketView", "MarketPlace");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
