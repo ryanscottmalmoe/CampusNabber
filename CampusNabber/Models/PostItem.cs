@@ -71,8 +71,8 @@ namespace CampusNabber.Models
             using (var context = new CampusNabberEntities())
             {
                 PostItem postItem = (from o in context.PostItems
-                             where o.object_id.Equals(object_id)
-                             select o).First();
+                                     where o.object_id.Equals(object_id)
+                                     select o).First();
                 postItem.username = username;
                 postItem.school_name = school_name;
                 postItem.price = price;
@@ -81,7 +81,7 @@ namespace CampusNabber.Models
                 postItem.category = category;
                 postItem.photo_path = photo_path;
                 postItem.post_date = post_date;
-               
+
                 try
                 {
                     context.SaveChanges();
