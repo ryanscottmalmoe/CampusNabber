@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using CampusNabber.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using DatabaseCode.CNQueryFolder;
 
 namespace CampusNabber.Controllers
 {
@@ -94,6 +95,10 @@ namespace CampusNabber.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Sets the school_name here
+                ApplicationUser user = UserManager.FindByName(postItem.username);
+                postItem.school_name = user.school_name;
+
                 postItem.post_date = System.DateTime.Today;
                 postItem.object_id = Guid.NewGuid();
                 postItem.photo_path = "";
