@@ -1,19 +1,22 @@
 ﻿@model CampusNabber.Models.ProfileModel
 
+
 @{
-    Layout = null;
+    ViewBag.Title = "ProfileView";
 }
 
-<!DOCTYPE html>
+<h2>Profile View</h2>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-    
-    </div>
-</body>
-</html>
+
+@foreach (var element in Model.Posts)
+{
+    //changed this to annon inner class
+    <a href="@Url.Action("Details", "PostItems", new {
+            id = element.object_id
+        })">
+        <p>
+            @Html.DisplayFor(m => element.title) @Html.DisplayFor(m => element.description) $@Html.DisplayFor(m => element.price)
+        </p>
+    </a>
+
+}

@@ -262,6 +262,7 @@
       <DependentUpon>CampusNabber.edmx</DependentUpon>
       <LastGenOutput>CampusNabber.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\CampusNabber.edmx.sql" />
     <Content Include="Models\CampusNabber.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CampusNabber.edmx</DependentUpon>
