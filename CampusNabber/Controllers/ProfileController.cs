@@ -50,6 +50,7 @@ namespace CampusNabber.Controllers
       
             var profile = new ProfileModel();
             profile.getProfilePosts(_userManager.FindById(User.Identity.GetUserId()));
+            profile.user = (_userManager.FindById(User.Identity.GetUserId()));
             return View(profile);
         }
 

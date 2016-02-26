@@ -5,59 +5,97 @@
     ViewBag.Title = "ProfileView";
 }
 
+
+
 <h2>Profile View</h2>
 <br />
 <br />
 
-<div class="row">
-    <div class="col-md-2">
-        <div class="container">
-            <div class="btn-group-vertical">
-                <button type="button" id="Posts" class="btn btn-primary btn-lg">Posts</button>
-                <button type="button" id="Settings" class="btn btn-primary btn-lg">Settings</button>
+
+<script>
+   function posts() {
+       document.getElementById("postitemTable").hidden = false;
+       document.getElementById("settingsSection").style.display = "none";
+
+    }
+   function settings() {
+       document.getElementById("postitemTable").hidden = true;
+       document.getElementById("settingsSection").style.display = "inline";
+   }
+</script>
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="container">
+                <div class="btn-group-vertical">
+                    <button type="button" id="Posts" onclick="posts()" class="btn btn-primary btn-lg">Posts</button>
+                    <button type="button" id="Settings" onclick="settings()" class="btn btn-primary btn-lg">Settings</button>
+
+                </div>
             </div>
+        </div>
+
+        <div id="settingsSection" style="display: none">
+            <div class="col-md-2"></div>
+            <div class="col-md-2">
+                <h5 align="right">@Html.DisplayFor(m => Model.user.UserName)</h5><br />
+                <h5 align="right">@Html.DisplayFor(m => Model.user.Email)</h5><br />
+                <h5 align="right">@Html.DisplayFor(m => Model.user.school_name)</h5><br />
+            </div>
+            <div class="container">
+                <div class="btn-group">
+                    <div class="col-md-2">
+                        <button type="button" id="Username" onclick="username()" class="btn btn-primary btn-md">Change Username</button><br /><br />
+                        <button type="button" id="Email" onclick="email()" class="btn btn-primary btn-md">Change Email</button><br /><br />
+                        <button type="button" id="School" onclick="school()" class="btn btn-primary btn-md">Change Schools</button><br /><br />
+                        <button type="button" id="Password" onclick="password()" class="btn btn-warning btn-md">Change Password</button><br /><br />
+                        <button type="button" id="Deactivate" onclick="deactivate()" class="btn btn-danger btn-md">Deactivate Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-10">
+            <table class="table table-borderless" id="postitemTable">
+                <thead>
+                    <tr>
+                        <th>Manage</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Post Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var element in Model.Posts)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Edit", "PostItems", new {
+                             id = element.object_id
+                            })">
+                                    Edit
+                                    <a href="@Url.Action("Delete", "PostItems", new {
+                             id = element.object_id
+                            })">
+                                        Delete
+                                        <a href="@Url.Action("Details", "PostItems", new {
+                             id = element.object_id
+                            })">
+                                            View
+                            </td>
+                            <td>@Html.DisplayFor(m => element.title)</td>
+                            <td>$@Html.DisplayFor(m => element.price)</td>
+                            <td>@Html.DisplayFor(m => element.category)</td>
+                            <td>@Html.DisplayFor(m => element.post_date)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <div class="col-md-10">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Manage</th>
-                    <th>Title</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th>Post Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var element in Model.Posts)
-                {
-                    <tr>
-                        <td>
-                           <a href="@Url.Action("Edit", "PostItems", new {
-                             id = element.object_id
-                            })">
-                           Edit
-                           <a href="@Url.Action("Delete", "PostItems", new {
-                             id = element.object_id
-                            })">
-                           Delete
-                           <a href="@Url.Action("Details", "PostItems", new {
-                             id = element.object_id
-                            })">
-                           View
-                        </td>
-                        <td>@Html.DisplayFor(m => element.title)</td>
-                        <td>$@Html.DisplayFor(m => element.price)</td>
-                        <td>@Html.DisplayFor(m => element.category)</td>
-                        <td>@Html.DisplayFor(m => element.post_date)</td>
-                    </tr>
-                }
-                </tbody>
-                </table>
-            </div>
-</div>
+
 
 
 
