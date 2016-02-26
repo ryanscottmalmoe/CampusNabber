@@ -9,6 +9,7 @@ namespace CampusNabber.Models
     public class ProfileModel
     {
         public virtual List<PostItem> Posts { get; set; }
+        public virtual ApplicationUser user { get; set; }
 
         public void getProfilePosts(ApplicationUser user)
         {
