@@ -6,17 +6,63 @@
 }
 
 <h2>Profile View</h2>
+<br />
+<br />
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="container">
+            <div class="btn-group-vertical">
+                <button type="button" id="Posts" class="btn btn-primary btn-lg">Posts</button>
+                <button type="button" id="Settings" class="btn btn-primary btn-lg">Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-10">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Manage</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Post Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var element in Model.Posts)
+                {
+                    <tr>
+                        <td>
+                           <a href="@Url.Action("Edit", "PostItems", new {
+                             id = element.object_id
+                            })">
+                           Edit
+                           <a href="@Url.Action("Delete", "PostItems", new {
+                             id = element.object_id
+                            })">
+                           Delete
+                           <a href="@Url.Action("Details", "PostItems", new {
+                             id = element.object_id
+                            })">
+                           View
+                        </td>
+                        <td>@Html.DisplayFor(m => element.title)</td>
+                        <td>$@Html.DisplayFor(m => element.price)</td>
+                        <td>@Html.DisplayFor(m => element.category)</td>
+                        <td>@Html.DisplayFor(m => element.post_date)</td>
+                    </tr>
+                }
+                </tbody>
+                </table>
+            </div>
+</div>
 
 
-@foreach (var element in Model.Posts)
-{
-    //changed this to annon inner class
-    <a href="@Url.Action("Details", "PostItems", new {
-            id = element.object_id
-        })">
-        <p>
-            @Html.DisplayFor(m => element.title) @Html.DisplayFor(m => element.description) $@Html.DisplayFor(m => element.price)
-        </p>
-    </a>
 
-}
+
+
+
+
+
