@@ -95,7 +95,7 @@ namespace CampusNabber.Controllers
                 var service = new PostItemService();
                 service.setMissingFields(postItem, UserManager);                
                 postItem.createEntity();                
-                return RedirectToAction("Index");
+                return RedirectToAction("MainMarketView");
             }
             //I added this
             return View(postItem);

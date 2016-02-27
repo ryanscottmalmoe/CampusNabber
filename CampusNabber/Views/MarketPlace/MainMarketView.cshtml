@@ -7,33 +7,73 @@
 
 <h2>MainMarketView</h2>
 
-@Html.ActionLink("Create", "Create" ,  "PostItems")
+@Html.ActionLink("Create", "Create", "PostItems")
 
 
-@{ 
-    if(Model.Posts.Count >= 5)
+@{
+    for (int i = Model.rangeFrom; i < Model.rangeTo; i++)
     {
+        var element = Model.getPost(i);
 
-
+        <a href="@Url.Action("Details", "PostItems", new {
+                id = element.object_id
+            })">
+            <p>
+                @Html.DisplayFor(m => element.title) $@Html.DisplayFor(m => element.price)
+            </p>
+        </a>
     }
+    Model.incrimentRange();
+
 }
-@foreach (var element in Model.Posts)
+<!--
+@{
+
+    var test = new { Posts = Model.Posts, school_name = Model.school_name, rangeFrom = Model.rangeFrom, rangeTo = Model.rangeTo, displayRange = Model.displayRange };
+    @(Html.ActionLink("Next", "MainMarketView", "MarketPlace", test))
+
+}
+    -->
+
+
+@using (Html.BeginForm("ViewNextPosts", "MarketPlace", FormMethod.Post))
 {
-    //changed this to annon inner class
-    <a href="@Url.Action("Details", "PostItems", new {
-            id = element.object_id
-        })">
-        <p>
-            @Html.DisplayFor(m => element.title) $@Html.DisplayFor(m => element.price)
-        </p> 
-    </a>
-   
+
+                @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <br />
+
+    for (int i = 0; i < Model.Posts.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.getPost(i))
+    }
+
+
+    //@Html.HiddenFor(model => Model.Posts)
+
+    <br />
+    @Html.HiddenFor(model => Model.rangeFrom)
+    <br />
+    @Html.HiddenFor(model => Model.rangeTo)
+    <br />
+    @Html.HiddenFor(model => Model.school_name)
+
+    <br />
+    @Html.HiddenFor(model => Model.displayRange)
 
 
 
+    <br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type = "submit" value="Next" class="btn btn-default" />
+        </div>
+    </div>
 }
 
 
 
-        <!--<a href="@Url.Action("Create", "PostItemsController",  new { userId = ViewBag.userName})">Create</a>-->
+
+
 

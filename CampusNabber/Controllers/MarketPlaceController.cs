@@ -48,11 +48,24 @@ namespace CampusNabber.Controllers
             UserManager = manager;
         }
 
+        [HttpGet]
         public ActionResult MainMarketView()
         {
-
             var market = new MarketPlace { };
             market.setList(UserManager.FindById(User.Identity.GetUserId()));
+            return MainMarketView(market, market.Posts);
+        }
+        
+        [HttpPost]
+        public ActionResult ViewNextPosts(MarketPlace market)
+        {
+            return View("MainMarketView", market);
+        }
+
+        [HttpPost]
+        public ActionResult MainMarketView([Bind(Prefix ="MarketPlace")] MarketPlace market, [Bind(Prefix = "MarketPlace.Posts")] List<PostItem> Posts)
+        { 
+            
             return View(market);
         }
 
