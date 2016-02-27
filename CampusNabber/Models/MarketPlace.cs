@@ -16,6 +16,7 @@ namespace CampusNabber.Models
          public int rangeFrom { get; set; }
         public int displayRange { get; set; }
         public int rangeTo { get; set; }
+
         //Christian Change
         // this needs to filter out the current user's PostItems
         public void setList(ApplicationUser user)
