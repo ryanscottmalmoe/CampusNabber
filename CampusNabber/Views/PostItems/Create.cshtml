@@ -6,7 +6,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Create a New Post</h2>
 
 
 @using (Html.BeginForm())
@@ -16,8 +16,6 @@
 
 
     <div class="form-horizontal">
-        <h4>PostItem</h4>
-        <h1>@Model.username</h1>
          
         @Html.HiddenFor(model => Model.username)
         @Html.HiddenFor(model => Model.school_name)
@@ -36,18 +34,8 @@
 
 
 
-        
-
         <div class="form-group">
-            @Html.LabelFor(model => model.price, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Title</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
@@ -55,7 +43,17 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class = "control-label col-md-2">Price</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label class = "control-label col-md-2">Description</label>
             <div class="col-md-10">
               
                 @Html.TextAreaFor(model => model.description, new { @rows = "5", @class="form-control" })
@@ -67,7 +65,7 @@
 
         <div class="form-group">
             
-            @Html.LabelFor(model => model.category, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class = "control-label col-md-2">Category</label>
             <div class="col-md-10">
                 
                 @Html.EditorFor(model => model.category, new { htmlAttributes = new { @class = "form-control" } })
