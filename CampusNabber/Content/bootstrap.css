@@ -73,6 +73,7 @@ a:hover {
 h1 {
   margin: 0.67em 0;
   font-size: 2em;
+  text-align: center;
 }
 
 abbr[title] {
@@ -409,6 +410,9 @@ p {
   font-size: 16.099999999999998px;
   font-weight: 200;
   line-height: 1.4;
+  text-align: center;
+  font-family: "Verdana", Times, sans-serif;
+  font-variant: small-caps;
 }
 
 @media (min-width: 768px) {
@@ -2090,9 +2094,9 @@ fieldset[disabled] .btn-default.active {
 }
 
 .btn-primary {
-  color: #ffffff;
-  background-color: #428bca;
-  border-color: #357ebd;
+  color: #FFFFFF;
+  background-color: #708090;
+  border-color: #708090;
 }
 
 .btn-primary:hover,
@@ -4503,6 +4507,9 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-inverse {
   background-color: #222222;
   border-color: #080808;
+  font-family: "Verdana", Times, sans-serif;
+  font-weight: bold;
+  font-variant: small-caps;
 }
 
 .navbar-inverse .navbar-brand {
@@ -4930,20 +4937,27 @@ a.list-group-item.active > .badge,
 .jumbotron {
   padding: 30px;
   margin-bottom: 30px;
-  font-size: 21px;
+  font-size: 50px;
+  text-align: center;
   font-weight: 200;
   line-height: 2.1428571435;
   color: inherit;
-  background-color: #eeeeee;
+  background-color: #FFFFFF;
 }
 
 .jumbotron h1 {
   line-height: 1;
   color: inherit;
+  
 }
 
 .jumbotron p {
-  line-height: 1.4;
+  line-height: 2.4;
+  font-size: 40px;
+}
+
+.jumbotron b {
+  line-height: 2.4;
 }
 
 .container .jumbotron {
@@ -4960,7 +4974,11 @@ a.list-group-item.active > .badge,
     padding-left: 60px;
   }
   .jumbotron h1 {
-    font-size: 63px;
+    font-size: 75px;
+    font-family: "Verdana", Times, sans-serif;
+    font-weight: bold;
+    font-variant: small-caps;
+
   }
 }
 
@@ -6813,4 +6831,13 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    width: auto\9; /* ie8 */
+    display: block;
+    margin-left: auto;
+    margin-right: auto 
 }
