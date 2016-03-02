@@ -29,7 +29,6 @@ namespace CampusNabber.Models
             CNQuery query = new CNQuery("PostItem");
             query.setQueryWhereKeyEqualToCondition("school_name", user.school_name);
             query.setQueryWhereKeyNotEqualToCondition("username", user.UserName);
-            query.setClassName("PostItem");
             Posts = query.select().Cast<PostItem>().ToList();
         }
 
