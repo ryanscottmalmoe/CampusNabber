@@ -59,6 +59,7 @@ namespace CampusNabber.Controllers
       
         public ActionResult ViewNextPosts(MarketPlace market)
         {
+            ModelState.Clear();
             market.incrimentRange();
             return RedirectToAction("MainMarketView", "MarketPlace", new { Posts = market.Posts,
                 rangeTo = market.rangeTo, rangeFrom = market.rangeFrom, displayRange = market.displayRange });

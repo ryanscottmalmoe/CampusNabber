@@ -49,6 +49,12 @@ namespace CampusNabber.Models
             rangeTo += displayRange;
             rangeFrom += displayRange;
         }
+
+        public void decrimentRange()
+        {
+            rangeTo -= displayRange;
+            rangeFrom -= displayRange;
+        }
     }
 
     
