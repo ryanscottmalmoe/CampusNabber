@@ -10,6 +10,7 @@ using CampusNabber.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using CampusNabber.Utility;
+using DatabaseCode.CNQueryFolder;
 
 namespace CampusNabber.Controllers
 {
@@ -92,7 +93,7 @@ namespace CampusNabber.Controllers
         {
             if (ModelState.IsValid)
             {
-                var service = new PostItemService();
+				var service = new PostItemService();
                 service.setMissingFields(postItem, UserManager);                
                 postItem.createEntity();                
                 return RedirectToAction("MainMarketView");
@@ -166,5 +167,22 @@ namespace CampusNabber.Controllers
             }
             base.Dispose(disposing);
         }
+
+        // GET: /Post/Categories
+        [AllowAnonymous]
+        public PostItem Categorize(PostItem model)
+        {
+            // var model = new PostItem();
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem { Text = "Automotive", Value = "Automotive", Selected = true });
+            list.Add(new SelectListItem { Text = "Books", Value = "Books" });
+            list.Add(new SelectListItem { Text = "Housing", Value = "Housing" });
+            list.Add(new SelectListItem { Text = "Other", Value = "Other" });
+
+            model.selectCategory = new SelectList(list, "Text", "Value", 1);
+
+            return model;
+        }
+
     }
 }
