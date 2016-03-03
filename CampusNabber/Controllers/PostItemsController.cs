@@ -84,7 +84,7 @@ namespace CampusNabber.Controllers
             ViewBag.username = userId;
 
             SelectList selectCategory = generateCategoryList();
-            ViewBag.SelectList = selectCategory;
+            ViewBag.selectCategory = selectCategory;
             return View(postItem);
         }
 
