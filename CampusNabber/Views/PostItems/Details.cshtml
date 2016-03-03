@@ -65,13 +65,13 @@
 
             </dl>
         </div>
+        <!--When we start uploading images with PostItems, insert it here!!!-->
         <div class="col-md-6 text-center">
             <img src="~/Content/Images/guitar.jpg" alt="hey we couldn't find this picture" height="300" width="250" />
         </div>
     </div>
 </div>
 <p>
-    <!--@Html.ActionLink("Edit", "Edit", new { id = Model.object_id })-->
     @Html.ActionLink("Back to List", "MainMarketView", "MarketPlace")
     @if (User.Identity.Name.Equals(Model.username))
     {
