@@ -40,6 +40,7 @@
                 @Html.ValidationMessageFor(model => model.post_date, "", new { @class = "text-danger" })
             </div>
         </div>
+       
 
         <div class="form-group">
             @Html.LabelFor(model => model.price, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -65,6 +66,7 @@
             </div>
         </div>
 
+        <!--
         <div class="form-group">
             @Html.LabelFor(model => model.photo_path, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -72,11 +74,14 @@
                 @Html.ValidationMessageFor(model => model.photo_path, "", new { @class = "text-danger" })
             </div>
         </div>
+        -->
+        @{Model.photo_path = "/test/path";}
+        @Html.HiddenFor(m => m.photo_path);
 
         <div class="form-group">
-            @Html.LabelFor(m => m.category, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(model => model.category, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(n => n.category, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
+                @Html.DropDownListFor(model => model.category, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
             </div>
         </div>
 

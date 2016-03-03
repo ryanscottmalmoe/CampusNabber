@@ -244,6 +244,5 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.O
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csprojResolveAssemblyReference.cache
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.pdb
