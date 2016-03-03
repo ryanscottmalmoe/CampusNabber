@@ -30,8 +30,7 @@ namespace CampusNabber.Models
         public string title { get; set; }
         public string description { get; set; }
         public string photo_path { get; set; }
-        public SelectList selectCategory { get; set; }
-        public string category_name { get; set; }
+        public string category { get; set; }
 
         public void deleteEntity()
         {
@@ -80,7 +79,7 @@ namespace CampusNabber.Models
                 postItem.price = price;
                 postItem.title = title;
                 postItem.description = description;
-                postItem.category_name = category_name;
+                postItem.category = category;
                 postItem.photo_path = photo_path;
                 postItem.post_date = post_date;
 

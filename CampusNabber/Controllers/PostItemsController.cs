@@ -80,8 +80,23 @@ namespace CampusNabber.Controllers
                 postItem = new PostItem { username = User.Identity.GetUserName() };
             else
                 postItem = new PostItem { username = userId };
+
             ViewBag.username = userId;
+
+            SelectList selectCategory = generateCategoryList();
+            ViewBag.SelectList = selectCategory;
             return View(postItem);
+        }
+
+        public SelectList generateCategoryList()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem { Text = "Automotive", Value = "Automotive", Selected = true });
+            list.Add(new SelectListItem { Text = "Books", Value = "Books" });
+            list.Add(new SelectListItem { Text = "Housing", Value = "Housing" });
+            list.Add(new SelectListItem { Text = "Other", Value = "Other" });
+
+            return new SelectList(list, "Text", "Value", 1);
         }
 
         // POST: PostItems/Create
@@ -122,6 +137,8 @@ namespace CampusNabber.Controllers
             {
                 return HttpNotFound();
             }
+            SelectList selectCategory = generateCategoryList();
+            ViewBag.SelectList = selectCategory;
             return View(postItem);
         }
 
@@ -176,21 +193,8 @@ namespace CampusNabber.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: /Post/Categories
-        [AllowAnonymous]
-        public PostItem Categorize(PostItem model)
-        {
-            // var model = new PostItem();
-            List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem { Text = "Automotive", Value = "Automotive", Selected = true });
-            list.Add(new SelectListItem { Text = "Books", Value = "Books" });
-            list.Add(new SelectListItem { Text = "Housing", Value = "Housing" });
-            list.Add(new SelectListItem { Text = "Other", Value = "Other" });
-
-            model.selectCategory = new SelectList(list, "Text", "Value", 1);
-
-            return model;
-        }
+       
+        
 
     }
 }
