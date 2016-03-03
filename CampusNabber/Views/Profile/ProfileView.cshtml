@@ -23,6 +23,23 @@
        document.getElementById("settingsSection").style.display = "inline";
        document.getElementById("deactivateButton").style.display = "inline";
    }
+   function username() {
+
+   }
+   function email() {
+
+   }
+   function school() {
+
+   }
+   function password() {
+
+   }
+   function deactivate() {
+
+   }
+
+
 </script>
 
     <div class="row">
@@ -97,9 +114,29 @@
 <div class="row" id="deactivateButton" style="display:none">
     <div class="col-md-1">
         <br />
-        <button  type="button" id="Deactivate" onclick="deactivate()" class="btn btn-danger btn-md">Deactivate Account</button>
+        <button  type="button" id="Deactivate" class="btn btn-danger btn-md" data-toggle="modal" data-target="#myModal">Deactivate Account</button>
     </div>
 </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Deactivate Account</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to deactivate your account?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="deactivate()" data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 
