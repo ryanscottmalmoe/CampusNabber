@@ -65,11 +65,12 @@
         
         
 
+
         <div class="form-group">
             
-            @Html.LabelFor(m => m.category_name, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(m => m.category, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(n => n.category_name, Model.selectCategory, "Select Category", new { style = "height: 40px;" })
+                @Html.DropDownListFor(n => n.category, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
             </div>
         </div>
 
