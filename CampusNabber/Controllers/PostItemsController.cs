@@ -138,7 +138,7 @@ namespace CampusNabber.Controllers
                 return HttpNotFound();
             }
             SelectList selectCategory = generateCategoryList();
-            ViewBag.SelectList = selectCategory;
+            ViewBag.selectCategory = selectCategory;
             return View(postItem);
         }
 
