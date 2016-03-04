@@ -6,5 +6,8 @@
     <img src="http://www.morrell-middleton.co.uk/wp-content/uploads/logo-placeholder.jpg" alt="" height="400" width="400">
     <h1>Campus Nabber</h1>
     <p class="lead">A marketplace for students by students</p>
-    <b><a href="/Account/Register/" class="btn btn-primary btn-lg">Register Now! &raquo;</a>             <a href="/Account/Login/" class="btn btn-primary btn-lg">Login! &raquo;</a></b>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <b><a href="/Account/Register/" class="btn btn-primary btn-lg">Register Now! &raquo;</a>             <a href="/Account/Login/" class="btn btn-primary btn-lg">Login! &raquo;</a></b>
+    }
 </div>
