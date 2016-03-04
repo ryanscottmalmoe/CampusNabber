@@ -87,8 +87,15 @@ namespace CampusNabber.Models
 
                     context.PostItems.Attach(postItem);
                     var entry = context.Entry(postItem);
+                    //Here I noticed that only the price attribute is getting updated properly, so I think
+                    //It's because we're setting the IsModified to true for the price attribute. I'll try
+                    //Doing the same for all of the other attributes -ahenry
                     entry.Property(e => e.price).IsModified = true;
                     // other changed properties
+                    entry.Property(e => e.description).IsModified = true;
+                    entry.Property(e => e.title).IsModified = true;
+                    entry.Property(e => e.photo_path).IsModified = true;
+                    entry.Property(e => e.category).IsModified = true;
                     context.SaveChanges();
                 }
                 catch (DbEntityValidationException dbEx)
