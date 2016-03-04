@@ -59,3 +59,7 @@ Temporary Items
 *.ssdl
 *.cache
 *.suo
+CampusNabber/bin/CampusNabber.dll
+CampusNabber/bin/CampusNabber.pdb
+CampusNabber/obj/Debug/CampusNabber.csprojResolveAssemblyReference.cache
+CampusNabber/obj/Debug/CampusNabber.pdb

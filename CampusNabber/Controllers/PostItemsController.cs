@@ -9,8 +9,9 @@ using System.Web.Mvc;
 using CampusNabber.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using CampusNabber.Utility;
 using DatabaseCode.CNQueryFolder;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace CampusNabber.Controllers
 {
@@ -73,13 +74,31 @@ namespace CampusNabber.Controllers
         }
         */
         
-        public ActionResult Create()
+        public ActionResult Create(String userId)
         {
-            
-               var postItem = new PostItem { username = User.Identity.GetUserName() };
-          
+            PostItem postItem = null;
+            //var user = UserManager.FindByName(userId);
+            if (userId == null)
+                postItem = new PostItem { username = User.Identity.GetUserName() };
+            else
+                postItem = new PostItem { username = userId };
 
+            ViewBag.username = userId;
+
+            SelectList selectCategory = generateCategoryList();
+            ViewBag.selectCategory = selectCategory;
             return View(postItem);
+        }
+
+        public SelectList generateCategoryList()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem { Text = "Automotive", Value = "Automotive", Selected = true });
+            list.Add(new SelectListItem { Text = "Books", Value = "Books" });
+            list.Add(new SelectListItem { Text = "Housing", Value = "Housing" });
+            list.Add(new SelectListItem { Text = "Other", Value = "Other" });
+
+            return new SelectList(list, "Text", "Value", 1);
         }
 
         // POST: PostItems/Create
@@ -93,12 +112,17 @@ namespace CampusNabber.Controllers
         {
             if (ModelState.IsValid)
             {
-				var service = new PostItemService();
-                service.setMissingFields(postItem, UserManager);                
-                postItem.createEntity();                
-                return RedirectToAction("MainMarketView");
+                //Sets the school_name here
+                ApplicationUser user = UserManager.FindByName(postItem.username);
+                postItem.school_name = user.school_name;
+                postItem.post_date = System.DateTime.Today;
+                postItem.object_id = Guid.NewGuid();
+                postItem.photo_path = "";
+                postItem.createEntity();
+                
+                return RedirectToAction("Index");
             }
-            //I added this
+
             return View(postItem);
         }
 
@@ -114,6 +138,8 @@ namespace CampusNabber.Controllers
             {
                 return HttpNotFound();
             }
+            SelectList selectCategory = generateCategoryList();
+            ViewBag.selectCategory = selectCategory;
             return View(postItem);
         }
 
@@ -126,8 +152,7 @@ namespace CampusNabber.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(postItem).State = EntityState.Modified;
-                db.SaveChanges();
+                postItem.updateEntity();
                 return RedirectToAction("Index");
             }
             return View(postItem);
@@ -168,21 +193,8 @@ namespace CampusNabber.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: /Post/Categories
-        [AllowAnonymous]
-        public PostItem Categorize(PostItem model)
-        {
-            // var model = new PostItem();
-            List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem { Text = "Automotive", Value = "Automotive", Selected = true });
-            list.Add(new SelectListItem { Text = "Books", Value = "Books" });
-            list.Add(new SelectListItem { Text = "Housing", Value = "Housing" });
-            list.Add(new SelectListItem { Text = "Other", Value = "Other" });
-
-            model.selectCategory = new SelectList(list, "Text", "Value", 1);
-
-            return model;
-        }
+       
+        
 
     }
 }

@@ -5,25 +5,15 @@
     ViewBag.Title = "ProfileView";
 }
 
-
+@section JavaScript
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ProfileView.js")"></script>
+}
 
 <h2>Profile View</h2>
 <br />
 <br />
 
-
-<script>
-   function posts() {
-       document.getElementById("postitemTable").hidden = false;
-       document.getElementById("settingsSection").style.display = "none";
-       document.getElementById("deactivateButton").style.display = "none";
-    }
-   function settings() {
-       document.getElementById("postitemTable").hidden = true;
-       document.getElementById("settingsSection").style.display = "inline";
-       document.getElementById("deactivateButton").style.display = "inline";
-   }
-</script>
 
     <div class="row">
         <div class="col-md-2">
@@ -97,9 +87,28 @@
 <div class="row" id="deactivateButton" style="display:none">
     <div class="col-md-1">
         <br />
-        <button  type="button" id="Deactivate" onclick="deactivate()" class="btn btn-danger btn-md">Deactivate Account</button>
+        <button  type="button" id="Deactivate" class="btn btn-danger btn-md" data-toggle="modal" data-target="#myModal">Deactivate Account</button>
     </div>
 </div>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Deactivate Account</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to deactivate your account?</p>
+                </div>
+                <div class="modal-footer">
+                    @Html.ActionLink("Yes", "Index", "Home", null, new { @class = "btn btn-default" })
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 
