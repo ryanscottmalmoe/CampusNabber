@@ -4,79 +4,79 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@Html.DisplayFor(model => model.title)</h2>
 
-<div>
-    <h4>PostItem</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.username)
-        </dt>
+<div class="container">
+    <div class="row">
+        <hr />
 
-        <dd>
-            @Html.DisplayFor(model => model.username)
-        </dd>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.school_name)
-        </dt>
+                <dt>
+                    Posted By
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.school_name)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.username)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.post_date)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.post_date)
-        </dd>
+                <dt>
+                    School
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.price)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.school_name)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.price)
-        </dd>
+                <dt>
+                    Date Posted
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.title)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.post_date)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.title)
-        </dd>
+                <dt>
+                    Price
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.description)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.price)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.description)
-        </dd>
+                <dt>
+                    Category
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.photo_path)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.category)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.photo_path)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.category)
-        </dt>
+                <dt>
+                    Description
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.category)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.description)
+                </dd>
 
-    </dl>
+            </dl>
+        </div>
+        <!--When we start uploading images with PostItems, insert it here!!!-->
+        <div class="col-md-6 text-center">
+            <img src="~/Content/Images/guitar.jpg" alt="hey we couldn't find this picture" height="300" width="250" />
+        </div>
+    </div>
 </div>
 <p>
-    <!--@Html.ActionLink("Edit", "Edit", new { id = Model.object_id })-->
     @Html.ActionLink("Back to List", "MainMarketView", "MarketPlace")
+    @if (User.Identity.Name.Equals(Model.username))
+    {
+        <a class="btn btn-primary pull-right" href="@Url.Action("Edit", "PostItems", new { id = Model.object_id })">Edit Post</a>
+    }
+
+
 </p>

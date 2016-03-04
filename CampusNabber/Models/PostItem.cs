@@ -82,9 +82,13 @@ namespace CampusNabber.Models
                 postItem.category = category;
                 postItem.photo_path = photo_path;
                 postItem.post_date = post_date;
-
                 try
                 {
+
+                    context.PostItems.Attach(postItem);
+                    var entry = context.Entry(postItem);
+                    entry.Property(e => e.price).IsModified = true;
+                    // other changed properties
                     context.SaveChanges();
                 }
                 catch (DbEntityValidationException dbEx)
