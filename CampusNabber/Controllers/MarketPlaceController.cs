@@ -48,18 +48,27 @@ namespace CampusNabber.Controllers
             UserManager = manager;
         }
 
-        public ActionResult MainMarketView(String UserName)
+        
+        public ActionResult MainMarketView()
         {
-
-            if (_userManager == null)
-                _userManager = UserManager;
-            ViewBag.userName = UserName;
-            if(ViewBag.userName == null)
-            {
-                ViewBag.userName = User.Identity.GetUserName();
-            }
             var market = new MarketPlace { };
-            market.setList(_userManager.FindById(User.Identity.GetUserId()));
+            market.setList(UserManager.FindById(User.Identity.GetUserId()));
+            return MainMarketView(market);
+        }
+        
+      
+        public ActionResult ViewNextPosts(MarketPlace market)
+        {
+            ModelState.Clear();
+            market.incrimentRange();
+            return RedirectToAction("MainMarketView", "MarketPlace", new { Posts = market.Posts,
+                rangeTo = market.rangeTo, rangeFrom = market.rangeFrom, displayRange = market.displayRange });
+        }
+
+       [HttpPost]
+        public ActionResult MainMarketView(MarketPlace market)
+        {
+            ModelState.Clear();
             return View(market);
         }
 

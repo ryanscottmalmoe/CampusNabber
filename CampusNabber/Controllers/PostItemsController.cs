@@ -153,7 +153,8 @@ namespace CampusNabber.Controllers
             if (ModelState.IsValid)
             {
                 postItem.updateEntity();
-                return RedirectToAction("Index");
+                //Instead of taking you back to the index page, the user is now taken back to the Details page of that particular post. - ahenry
+                return RedirectToAction("Details", new { id = postItem.object_id });
             }
             return View(postItem);
         }
