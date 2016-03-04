@@ -23,6 +23,7 @@
                 @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
             </div>
         </div>
+       
 
         <div class="form-group">
             <label class = "control-label col-md-2">Price</label>
@@ -41,6 +42,7 @@
             </div>
         </div>
 
+        <!--
         <div class="form-group">
             <label class="control-label col-md-2">Photo Path</label>
             <div class="col-md-10">
@@ -48,11 +50,14 @@
                 @Html.ValidationMessageFor(model => model.photo_path, "", new { @class = "text-danger" })
             </div>
         </div>
+        -->
+        @{Model.photo_path = "/test/path";}
+        @Html.HiddenFor(m => m.photo_path);
 
         <div class="form-group">
             <label class="control-label col-md-2">Category</label>
             <div class="col-md-10">
-                @Html.DropDownListFor(n => n.category, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
+                @Html.DropDownListFor(model => model.category, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
             </div>
         </div>
 
