@@ -5,42 +5,15 @@
     ViewBag.Title = "ProfileView";
 }
 
-
+@section JavaScript
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ProfileView.js")"></script>
+}
 
 <h2>Profile View</h2>
 <br />
 <br />
 
-
-<script>
-   function posts() {
-       document.getElementById("postitemTable").hidden = false;
-       document.getElementById("settingsSection").style.display = "none";
-       document.getElementById("deactivateButton").style.display = "none";
-    }
-   function settings() {
-       document.getElementById("postitemTable").hidden = true;
-       document.getElementById("settingsSection").style.display = "inline";
-       document.getElementById("deactivateButton").style.display = "inline";
-   }
-   function username() {
-
-   }
-   function email() {
-
-   }
-   function school() {
-
-   }
-   function password() {
-
-   }
-   function deactivate() {
-
-   }
-
-
-</script>
 
     <div class="row">
         <div class="col-md-2">
@@ -118,7 +91,6 @@
     </div>
 </div>
 
-    <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -130,7 +102,7 @@
                     <p>Are you sure you want to deactivate your account?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="deactivate()" data-dismiss="modal">Yes</button>
+                    @Html.ActionLink("Yes", "Index", "Home", null, new { @class = "btn btn-default" })
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
