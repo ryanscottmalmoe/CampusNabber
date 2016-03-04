@@ -10,6 +10,8 @@ using CampusNabber.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using DatabaseCode.CNQueryFolder;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace CampusNabber.Controllers
 {
@@ -150,8 +152,7 @@ namespace CampusNabber.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(postItem).State = EntityState.Modified;
-                db.SaveChanges();
+                postItem.updateEntity();
                 return RedirectToAction("Index");
             }
             return View(postItem);
