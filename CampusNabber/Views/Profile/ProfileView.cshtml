@@ -10,104 +10,135 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProfileView.js")"></script>
 }
 
+
 <h2>Profile View</h2>
 <br />
 <br />
 
+@*Making sure all the values don't return as null*@
+@Html.HiddenFor(model => model.user.UserName)
+@Html.HiddenFor(model => model.user.Email)
+@Html.HiddenFor(model => model.user.school_name)
 
     <div class="row">
-        <div class="col-md-2">
-            <div class="container">
-                <div class="btn-group-vertical">
-                    <button type="button" id="Posts" onclick="posts()" class="btn btn-primary btn-lg">Posts</button>
-                    <button type="button" id="Settings" onclick="settings()" class="btn btn-primary btn-lg">Settings</button>
+    <div class="col-md-2">
+        <div class="container">
+            <div class="btn-group-vertical">
+                <button type="button" id="Posts" onclick="posts()" class="btn btn-primary btn-lg">Posts</button>
+                <button type="button" id="Settings" onclick="settings()" class="btn btn-primary btn-lg">Settings</button>
+            </div>
+        </div>
+    </div>
+        @*Each of the forms for editing user information*@
+        <div class="col-md-3">
+            @using (Html.BeginForm("UpdateUser", "Profile", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <section class="form-field">
+                    <div id="editUsername" style="display: none">
+                        <label class="control-label">Username</label>
+                        @Html.EditorFor(model => model.user.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.user.UserName, "", new { @class = "text-danger" })
+                    </div>
+                    <div id="editEmail" style="display: none">
+                        <label class="control-label">Email</label>
+                        @Html.EditorFor(model => model.user.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.user.Email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group" id="editSchoolName" style="display: none">
+                        <label class="control-label">Category</label>
+                            @Html.DropDownListFor(model => model.user.school_name, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
+                    </div>
+                      <input type="submit" value="Save" id="saveButton" style="display: none" class="submit btn blue-btn special-submit" />
 
+                 </section>
+            }
+            </div>
+            @*Settings section that can edit users information*@
+            <div id="settingsSection" style="display: none">
+                <div class="col-md-2">
+                    <h5 align="right">@Html.DisplayFor(m => Model.user.UserName)</h5><br />
+                    <h5 align="right">@Html.DisplayFor(m => Model.user.Email)</h5><br />
+                    <h5 align="right">@Html.DisplayFor(m => Model.user.school_name)</h5><br />
                 </div>
+                <div class="container">
+                    <div class="col-md-2">
+                        <div class="span2">
+                            <button type="button" id="Username" onclick="username()" class="btn btn-primary btn-block">Change Username</button><br />
+                            <button type="button" id="Email" onclick="email()" class="btn btn-primary btn-block">Change Email</button><br />
+                            <button type="button" id="School" onclick="school()" class="btn btn-primary btn-block">Change Schools</button><br />
+                            <button type="button" id="Password" onclick="password()" class="btn btn-warning btn-block">Change Password</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        @*Post items table*@
+            <div class="col-md-10">
+                <table class="table table-borderless" id="postItemTable">
+                    <thead>
+                        <tr>
+                            <th>Manage</th>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Post Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var element in Model.Posts)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Edit", "PostItems", new { id = element.object_id })">
+                                       Edit
+                                    <a href="@Url.Action("Delete", "PostItems", new { id = element.object_id})">
+                                        Delete
+                                    <a href="@Url.Action("Details", "PostItems", new { id = element.object_id})">
+                                        View
+                                 </td>
+                                <td>@Html.DisplayFor(m => element.title)</td>
+                                <td>$@Html.DisplayFor(m => element.price)</td>
+                                <td>@Html.DisplayFor(m => element.category)</td>
+                                <td>@Html.DisplayFor(m => element.post_date)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div id="settingsSection" style="display: none">
-            <div class="col-md-3">
-                <h5 align="right">@Html.DisplayFor(m => Model.user.UserName)</h5><br />
-                <h5 align="right">@Html.DisplayFor(m => Model.user.Email)</h5><br />
-                <h5 align="right">@Html.DisplayFor(m => Model.user.school_name)</h5><br />
+
+
+            @*Deactivate account button*@
+        <div class="row" id="deactivateButton" style="display:none">
+            <div class="col-md-1">
+                <br />
+                <button type="button" id="Deactivate" class="btn btn-danger btn-md" data-toggle="modal" data-target="#myModal">Deactivate Account</button>
             </div>
-            <div class="container">
-                <div class="btn-group">
-                    <div class="col-md-2">
-                        <button type="button" id="Username" onclick="username()" class="btn btn-primary btn-md">Change Username</button><br /><br />
-                        <button type="button" id="Email" onclick="email()" class="btn btn-primary btn-md">Change Email</button><br /><br />
-                        <button type="button" id="School" onclick="school()" class="btn btn-primary btn-md">Change Schools</button><br /><br />
-                        <button type="button" id="Password" onclick="password()" class="btn btn-warning btn-md">Change Password</button>
+        </div>
+
+
+
+        @*Deactivate popup view*@
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Deactivate Account</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to deactivate your account?</p>
+                    </div>
+                    <div class="modal-footer">
+                        @Html.ActionLink("Yes", "Index", "Home", null, new { @class = "btn btn-default" })
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-10">
-            <table class="table table-borderless" id="postitemTable">
-                <thead>
-                    <tr>
-                        <th>Manage</th>
-                        <th>Title</th>
-                        <th>Price</th>
-                        <th>Category</th>
-                        <th>Post Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var element in Model.Posts)
-                    {
-                        <tr>
-                            <td>
-                                <a href="@Url.Action("Edit", "PostItems", new {
-                             id = element.object_id
-                            })">
-                                    Edit
-                                    <a href="@Url.Action("Delete", "PostItems", new {
-                             id = element.object_id
-                            })">
-                                        Delete
-                                        <a href="@Url.Action("Details", "PostItems", new {
-                             id = element.object_id
-                            })">
-                                            View
-                            </td>
-                            <td>@Html.DisplayFor(m => element.title)</td>
-                            <td>$@Html.DisplayFor(m => element.price)</td>
-                            <td>@Html.DisplayFor(m => element.category)</td>
-                            <td>@Html.DisplayFor(m => element.post_date)</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-<div class="row" id="deactivateButton" style="display:none">
-    <div class="col-md-1">
-        <br />
-        <button  type="button" id="Deactivate" class="btn btn-danger btn-md" data-toggle="modal" data-target="#myModal">Deactivate Account</button>
-    </div>
-</div>
-
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Deactivate Account</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to deactivate your account?</p>
-                </div>
-                <div class="modal-footer">
-                    @Html.ActionLink("Yes", "Index", "Home", null, new { @class = "btn btn-default" })
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 

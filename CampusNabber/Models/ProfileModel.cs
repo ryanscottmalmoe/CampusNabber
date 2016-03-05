@@ -18,5 +18,7 @@ namespace CampusNabber.Models
             Posts = query.select().Cast<PostItem>().ToList();
         }
 
+
+
     }
 }
