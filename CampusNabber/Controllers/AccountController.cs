@@ -85,7 +85,7 @@ namespace CampusNabber.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("MainMarketView", "MarketPlace", new { UserName = userName.UserName});
+                    return RedirectToAction("MainMarketView", "MarketPlace");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -184,7 +184,7 @@ namespace CampusNabber.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("MainMarketView", "MarketPlace");
+                   // return RedirectToAction("MainMarketView", "MarketPlace");
                 }
                 else //user account already created
                 {
