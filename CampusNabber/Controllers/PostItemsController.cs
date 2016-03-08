@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.Owin;
 using DatabaseCode.CNQueryFolder;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using CampusNabber.Utility;
 
 namespace CampusNabber.Controllers
 {
@@ -85,20 +86,9 @@ namespace CampusNabber.Controllers
 
             ViewBag.username = userId;
 
-            SelectList selectCategory = generateCategoryList();
+            SelectList selectCategory = PostItemService.generateCategoryList();
             ViewBag.selectCategory = selectCategory;
             return View(postItem);
-        }
-
-        public SelectList generateCategoryList()
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem { Text = "Automotive", Value = "Automotive", Selected = true });
-            list.Add(new SelectListItem { Text = "Books", Value = "Books" });
-            list.Add(new SelectListItem { Text = "Housing", Value = "Housing" });
-            list.Add(new SelectListItem { Text = "Other", Value = "Other" });
-
-            return new SelectList(list, "Text", "Value", 1);
         }
 
         // POST: PostItems/Create
@@ -138,7 +128,7 @@ namespace CampusNabber.Controllers
             {
                 return HttpNotFound();
             }
-            SelectList selectCategory = generateCategoryList();
+            SelectList selectCategory = PostItemService.generateCategoryList();
             ViewBag.selectCategory = selectCategory;
             return View(postItem);
         }

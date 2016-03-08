@@ -33,7 +33,7 @@
                         if (val1)
                         {
                             <li>@Html.ActionLink("Market", "MainMarketView", "MarketPlace")</li>
-                            <li>@Html.ActionLink("Profile", "ProfileView", "Profile")</li>
+                            <li>@Html.ActionLink("Profile", "ProfileView", "Profile", new { failedPost = "false" }, null)</li>
                         }
                     }
                     

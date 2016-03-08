@@ -25,6 +25,7 @@ namespace CampusNabber.Models
         public byte[] encrypted_password { get; set; }
         public string student_email { get; set; }
         public string school_name { get; set; }
+        public static object Identity { get; internal set; }
 
         public void deleteEntity()
         {
