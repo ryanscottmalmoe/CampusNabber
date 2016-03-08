@@ -44,7 +44,7 @@ namespace CampusNabber.Controllers
             UserManager = manager;
         }
 
-        public ActionResult ProfileView()
+        public ActionResult ProfileView(string failedPost)
         {
 
             if (_userManager == null)
@@ -59,9 +59,10 @@ namespace CampusNabber.Controllers
             //Creates school drop down menu
             SelectList selectCategory = PostItemService.generateSchoolsList();
             ViewBag.selectCategory = selectCategory;
-
+            TempData["FailedPost"] = failedPost;
             return View(profile);
         }
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -75,10 +76,16 @@ namespace CampusNabber.Controllers
                 Model.UserName = profileModel.user.UserName;
                 Model.school_name = profileModel.user.school_name;
                 IdentityResult result = await UserManager.UpdateAsync(Model);
-                PostItemService.updateAllPostItemsInfo(Model, oldUserName);   
-            }
-            return RedirectToAction("LogOffWithoutPost", "Account");
-
+                if(result.Succeeded)
+                {
+                    if (!oldUserName.Equals(profileModel.user.UserName))
+                    {
+                        PostItemService.updateAllPostItemsInfo(Model, oldUserName);
+                    }
+                    return RedirectToAction("LogOffWithoutPost", "Account");
+                }
+            } 
+            return RedirectToAction("ProfileView", "Profile", new { failedPost = "true" });
         }
 
     }

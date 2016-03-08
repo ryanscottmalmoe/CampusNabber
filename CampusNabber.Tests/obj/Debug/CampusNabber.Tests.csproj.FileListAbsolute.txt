@@ -125,7 +125,6 @@ C:\Users\Christian\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\Microsoft.O
 C:\Users\Christian\Desktop\CampusNabber\CampusNabber.Tests\obj\Debug\CampusNabber.Tests.csprojResolveAssemblyReference.cache
 C:\Users\Christian\Desktop\CampusNabber\CampusNabber.Tests\obj\Debug\CampusNabber.Tests.dll
 C:\Users\Christian\Desktop\CampusNabber\CampusNabber.Tests\obj\Debug\CampusNabber.Tests.pdb
-C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\obj\Debug\CampusNabber.Tests.csprojResolveAssemblyReference.cache
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\ApplicationInsights.config
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\roslyn\csc.exe
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\roslyn\csc.exe.config
@@ -194,5 +193,6 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\Microsoft.Owi
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\Microsoft.Owin.Security.Cookies.xml
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\obj\Debug\CampusNabber.Tests.csprojResolveAssemblyReference.cache
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\obj\Debug\CampusNabber.Tests.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber.Tests\obj\Debug\CampusNabber.Tests.pdb

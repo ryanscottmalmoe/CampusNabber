@@ -3,22 +3,42 @@
 
 @{
     ViewBag.Title = "ProfileView";
+
 }
+
 
 @section JavaScript
 {
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProfileView.js")"></script>
+
+    <script>
+        var failed = '@TempData["FailedPost"]';
+        if (failed == "true")
+        {
+            $(document).ready(function () {
+                    $("#accountExists").modal();
+            });
+        }
+    </script>
 }
+
 
 
 <h2>Profile View</h2>
 <br />
 <br />
 
+
 @*Making sure all the values don't return as null*@
 @Html.HiddenFor(model => model.user.UserName)
 @Html.HiddenFor(model => model.user.Email)
 @Html.HiddenFor(model => model.user.school_name)
+@Html.HiddenFor(model => model.Posts)
+
+
+
+
+
 
     <div class="row">
     <div class="col-md-2">
@@ -33,7 +53,10 @@
         <div class="col-md-3">
             @using (Html.BeginForm("UpdateUser", "Profile", FormMethod.Post))
             {
+
+
                 @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
                 <section class="form-field">
                     <div id="editUsername" style="display: none">
                         <label class="control-label">Username</label>
@@ -54,6 +77,9 @@
                  </section>
             }
             </div>
+
+
+
             @*Settings section that can edit users information*@
             <div id="settingsSection" style="display: none">
                 <div class="col-md-2">
@@ -120,6 +146,25 @@
         </div>
 
 
+        @*Username or Email Already Exists popup view
+            Possibly make this alert dynamic by sending
+        email or username as a string from the save button*@
+        <div class="modal fade" id="accountExists" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Error</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Username or Email already exists. Please try again</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         @*Deactivate popup view*@
         <div class="modal fade" id="myModal" role="dialog">
@@ -143,7 +188,9 @@
 
 
 
-
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
 
 
 
