@@ -62,7 +62,41 @@ namespace CampusNabber.Controllers
             TempData["FailedPost"] = failedPost;
             return View(profile);
         }
-        
+
+        //Deactivates user and deletes references in all tables.
+        public async Task<ActionResult> Deactivate()
+        {
+
+            if (_userManager == null)
+                _userManager = UserManager;
+            ViewBag.userName = User.Identity.GetUserName();
+            var id = User.Identity.GetUserId();
+            ApplicationUser user = (_userManager.FindById(User.Identity.GetUserId()));
+            var logins = user.Logins;
+
+            foreach (var login in logins.ToList())
+            {
+                await _userManager.RemoveLoginAsync(login.UserId, new UserLoginInfo(login.LoginProvider, login.ProviderKey));
+            }
+
+            var rolesForUser = await _userManager.GetRolesAsync(id);
+
+            if (rolesForUser.Count() > 0)
+            {
+                foreach (var item in rolesForUser.ToList())
+                {
+                    // item should be the name of the role
+                    var result = await _userManager.RemoveFromRoleAsync(user.Id, item);
+                }
+            }
+
+            //Delete all postings from user.
+            PostItemService.deleteALlPostsByUsername(user.UserName);
+
+            await _userManager.DeleteAsync(user);
+            return RedirectToAction("LogOffWithoutPost", "Account");
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -81,8 +115,9 @@ namespace CampusNabber.Controllers
                     if (!oldUserName.Equals(profileModel.user.UserName))
                     {
                         PostItemService.updateAllPostItemsInfo(Model, oldUserName);
+                        return RedirectToAction("LogOffWithoutPost", "Account");
                     }
-                    return RedirectToAction("LogOffWithoutPost", "Account");
+                    return RedirectToAction("ProfileView", "Profile", new { failedPost = "false" });
                 }
             } 
             return RedirectToAction("ProfileView", "Profile", new { failedPost = "true" });

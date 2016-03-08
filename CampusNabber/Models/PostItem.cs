@@ -32,6 +32,7 @@ namespace CampusNabber.Models
         public string photo_path { get; set; }
         public string category { get; set; }
 
+
         public void deleteEntity()
         {
             //Creates new context and deletes local variable to server

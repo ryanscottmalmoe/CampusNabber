@@ -16,6 +16,52 @@ namespace CampusNabber.Utility
     abstract class PostItemService
     {
 
+        public static void deleteALlPostsByUsername(string username)
+        {
+            //Creates new context and deletes local variable to server
+            using (var context = new CampusNabberEntities())
+            {
+                var postItems = (from o in context.PostItems
+                                 where o.username.Equals(username)
+                                 select o);
+                foreach (var item in postItems)
+                    context.PostItems.Remove(item);
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                                    validationError.PropertyName,
+                                                    validationError.ErrorMessage);
+                        }
+                    }
+                }
+                catch (DbUpdateException dbEx)
+                {
+                    Console.WriteLine(dbEx.Message);
+                    foreach (var entries in dbEx.Entries)
+                    {
+                        Console.WriteLine(entries.Entity);
+                        Console.WriteLine(dbEx.InnerException);
+                    }
+                }
+            }
+
+        }
+
+        public static List<PostItem> getProfilePosts(ApplicationUser user)
+        {
+            CNQuery query = new CNQuery("PostItem");
+            query.setQueryWhereKeyEqualToCondition("username", user.UserName);
+            return query.select().Cast<PostItem>().ToList();
+        }
+
         public static SelectList generateSchoolsList()
         {
             List<SelectListItem> list = new List<SelectListItem>();
