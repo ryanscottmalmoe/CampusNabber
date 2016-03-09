@@ -13,6 +13,7 @@ using DatabaseCode.CNQueryFolder;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using CampusNabber.Utility;
+using CampusNabber.Helpers.SchoolClasses;
 
 namespace CampusNabber.Controllers
 {
@@ -63,6 +64,9 @@ namespace CampusNabber.Controllers
             {
                 return HttpNotFound();
             }
+            //ViewBag.school = 
+            //School school = SchoolFactory.BuildSchool(postItem.school_name);
+        
             return View(postItem);
         }
 

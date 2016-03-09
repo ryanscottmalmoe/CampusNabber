@@ -1,4 +1,5 @@
-﻿using CampusNabber.Models;
+﻿using CampusNabber.Helpers.SchoolClasses;
+using CampusNabber.Models;
 using CampusNabber.Utility;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;

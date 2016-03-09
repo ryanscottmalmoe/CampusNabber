@@ -21,6 +21,8 @@
     <Property Name="object_id" Type="Guid" Nullable="false" />
     <Property Name="school_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="address" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="main_hex_color" Type="String" Nullable="false" />
+    <Property Name="secondary_hex_color" Type="String" Nullable="false" />
   </EntityType>
   <EntityType Name="User">
     <Key>
