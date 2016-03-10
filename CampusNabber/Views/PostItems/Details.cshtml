@@ -70,26 +70,30 @@
             <img src="~/Content/Images/guitar.jpg" alt="hey we couldn't find this picture" height="300" width="250" />
         </div>
     </div>
+    <div class="row">
+        <p>
+            @Html.ActionLink("Back to List", "MainMarketView", "MarketPlace")
+            @if (User.Identity.Name.Equals(Model.username))
+            {
+                <a class="btn btn-primary pull-right" href=@Url.Action("Edit", "PostItems", new { id = Model.object_id })>Edit Post</a>
+            }
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="btn btn-danger pull-right" href="@Url.Action("Delete", "PostItems", new {id = Model.object_id})">Take Down Post</a>
+            }
+        </p>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Back to List", "MainMarketView", "MarketPlace")
-    @if (User.Identity.Name.Equals(Model.username))
-    {
-        <a class="btn btn-primary pull-right" href="@Url.Action("Edit", "PostItems", new { id = Model.object_id })">Edit Post</a>
-    }
 
 
-</p>
+    @section Scripts {
+        <link rel="stylesheet" href="~/Content/School.css" type="text/css" />
 
-
-@section Scripts {
-    <link rel="stylesheet" href="~/Content/School.css" type="text/css" />
-
-    <script type="text/javascript">
+        <script type="text/javascript">
             var mainColor = '@(ViewBag.main_color)';
             var secondaryColor = '@(ViewBag.secondary_color)';
 
-    </script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
+        </script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
 
-}
+    }

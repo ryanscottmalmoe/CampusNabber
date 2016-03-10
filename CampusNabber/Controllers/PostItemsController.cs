@@ -123,7 +123,7 @@ namespace CampusNabber.Controllers
                 postItem.photo_path = "";
                 postItem.createEntity();
                 
-                return RedirectToAction("Index");
+                return View("Details", postItem);
             }
 
             return View(postItem);

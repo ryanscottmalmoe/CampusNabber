@@ -7,7 +7,7 @@
     <h1>Campus Nabber</h1>
     <p class="lead">A marketplace for students by students</p>
     <!--Added a conditional statement so that users that are already logged in aren't prompted to register or log in. - ahenry -->
-    @if (System.Web.HttpContext.Current.User == null)
+    @if (User.Identity.Name == "")
     {
         <b><a href="/Account/Register/" class="btn btn-primary btn-lg">Register Now! &raquo;</a>             <a href="/Account/Login/" class="btn btn-primary btn-lg">Login! &raquo;</a></b>
     }
