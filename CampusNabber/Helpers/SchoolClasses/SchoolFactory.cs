@@ -17,7 +17,7 @@ namespace CampusNabber.Helpers.SchoolClasses
         */
         public static School BuildSchool(string school_name)
         {
-            CNQuery schoolQuery = new CNQuery("Schools");
+            CNQuery schoolQuery = new CNQuery("School");
             schoolQuery.setQueryWhereKeyEqualToCondition("school_name", school_name);
             return schoolQuery.select().Cast<School>().First();
         }

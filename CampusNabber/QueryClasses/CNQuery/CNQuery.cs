@@ -134,6 +134,10 @@ namespace DatabaseCode.CNQueryFolder
                         resultsList = test
                                     .Where(buildWhereString(), queryValues.ToArray()).ToList<dynamic>();
                     }
+                    catch(ArgumentNullException exNull)
+                    {
+                        Console.WriteLine(exNull.Message);
+                    }
                     catch (ParseException ex)
                     {
                         Console.WriteLine(ex.Message);

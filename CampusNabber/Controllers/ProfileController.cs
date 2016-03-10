@@ -107,6 +107,7 @@ namespace CampusNabber.Controllers
             {
                 ApplicationUser Model = UserManager.FindById(User.Identity.GetUserId());
                 string oldUserName = Model.UserName;
+                string oldSchool = Model.school_name;
                 Model.Email = profileModel.user.Email;
                 Model.UserName = profileModel.user.UserName;
                 Model.school_name = profileModel.user.school_name;
@@ -117,6 +118,11 @@ namespace CampusNabber.Controllers
                     {
                         PostItemService.updateAllPostItemsInfo(Model, oldUserName);
                         return RedirectToAction("LogOffWithoutPost", "Account");
+                    }
+                    else if (!oldSchool.Equals(profileModel.user.school_name))
+                    {
+                        PostItemService.updateAllPostItemsInfo(Model, oldUserName);
+
                     }
                     return RedirectToAction("ProfileView", "Profile", new { failedPost = "false" });
                 }
