@@ -87,34 +87,35 @@
 
     var rangeTo = data.rangeTo;
     var rangeFrom = data.rangeFrom;
+    
     $(document).ready(displayNext(0));
     function displayNext(inp) {
-      
-        
-        if (inp == 0) {
-            
-            var i = 1;
-           
-            for (var j = rangeFrom; j < rangeTo; j++) {
-                var element = data.Posts[j];
+        alert(data.numPosts);
+        if (data.numPosts > 0) {
+            if (inp == 0) {
 
-                var tar = $('#' + i);
-                var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
-                $(tar).attr("href", url);
-                $(tar).text(element.title + " $" + element.price);
-                i++;
+                var i = 1;
+
+                for (var j = rangeFrom; j < rangeTo; j++) {
+                    var element = data.Posts[j];
+
+                    var tar = $('#' + i);
+                    var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
+                    $(tar).attr("href", url);
+                    $(tar).text(element.title + " $" + element.price);
+                    i++;
+                }
             }
-        }
-        if (inp == 1) {
-          
-            if ((rangeTo + 1) < data.Posts.length) {
-                rangeTo = rangeTo + data.displayRange;
-                rangeFrom = rangeFrom + data.displayRange;
-            }
-       
-            var i = 1;
-         
-             
+            if (inp == 1) {
+
+                if ((rangeTo + 1) < data.numPosts) {
+                    rangeTo = rangeTo + data.displayRange;
+                    rangeFrom = rangeFrom + data.displayRange;
+                }
+
+                var i = 1;
+
+
                 for (var j = rangeFrom; j < rangeTo; j++) {
                     var element = data.Posts[j];
                     var tar = $('#' + i);
@@ -123,24 +124,25 @@
                     $(tar).text(element.title + " $" + element.price);
                     i++;
                 }
-            
-        }
-        if (inp == -1) {
-            if ((rangeFrom - 1) >= 0) {
-                rangeTo = rangeTo - data.displayRange;
-                rangeFrom = rangeFrom - data.displayRange;
+
             }
-            var i = 1;
-            if (rangeTo <= data.Posts.length) {
-                for (var j = rangeFrom; j < rangeTo; j++) {
-                    var element = data.Posts[j];
-                    var tar = $('#' + i);
-                    var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
-                    $(tar).attr("href", url);
-                    $(tar).text(element.title + " $" + element.price);
-                    i++;
+            if (inp == -1) {
+                if ((rangeFrom - 1) >= 0) {
+                    rangeTo = rangeTo - data.displayRange;
+                    rangeFrom = rangeFrom - data.displayRange;
+                }
+                var i = 1;
+                if (rangeTo <= data.Posts.length) {
+                    for (var j = rangeFrom; j < rangeTo; j++) {
+                        var element = data.Posts[j];
+                        var tar = $('#' + i);
+                        var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
+                        $(tar).attr("href", url);
+                        $(tar).text(element.title + " $" + element.price);
+                        i++;
+                    }
                 }
             }
         }
-    }
+        }
 </script>
