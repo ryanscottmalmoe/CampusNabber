@@ -131,9 +131,12 @@ namespace DatabaseCode.CNQueryFolder
                 {
                     try
                     {
-                        //test.Whe
                         resultsList = test
                                     .Where(buildWhereString(), queryValues.ToArray()).ToList<dynamic>();
+                    }
+                    catch(ArgumentNullException exNull)
+                    {
+                        Console.WriteLine(exNull.Message);
                     }
                     catch (ParseException ex)
                     {

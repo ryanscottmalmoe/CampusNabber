@@ -12,6 +12,8 @@ using Microsoft.AspNet.Identity.Owin;
 using DatabaseCode.CNQueryFolder;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using CampusNabber.Utility;
+using CampusNabber.Helpers.SchoolClasses;
 
 namespace CampusNabber.Controllers
 {
@@ -62,6 +64,11 @@ namespace CampusNabber.Controllers
             {
                 return HttpNotFound();
             }
+            //Builds the school class for create page.
+            School school = SchoolFactory.BuildSchool(postItem.school_name);
+            ViewBag.main_color = school.main_hex_color;
+            ViewBag.secondary_color = school.secondary_hex_color;
+
             return View(postItem);
         }
 
@@ -85,20 +92,16 @@ namespace CampusNabber.Controllers
 
             ViewBag.username = userId;
 
-            SelectList selectCategory = generateCategoryList();
+            SelectList selectCategory = PostItemService.generateCategoryList();
             ViewBag.selectCategory = selectCategory;
+
+            //Builds the school class for create page.
+            ApplicationUser user = UserManager.FindByName(postItem.username);
+            School school = SchoolFactory.BuildSchool(user.school_name);
+            ViewBag.main_color = school.main_hex_color;
+            ViewBag.secondary_color = school.secondary_hex_color;
+
             return View(postItem);
-        }
-
-        public SelectList generateCategoryList()
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem { Text = "Automotive", Value = "Automotive", Selected = true });
-            list.Add(new SelectListItem { Text = "Books", Value = "Books" });
-            list.Add(new SelectListItem { Text = "Housing", Value = "Housing" });
-            list.Add(new SelectListItem { Text = "Other", Value = "Other" });
-
-            return new SelectList(list, "Text", "Value", 1);
         }
 
         // POST: PostItems/Create
@@ -138,8 +141,14 @@ namespace CampusNabber.Controllers
             {
                 return HttpNotFound();
             }
-            SelectList selectCategory = generateCategoryList();
+            SelectList selectCategory = PostItemService.generateCategoryList();
             ViewBag.selectCategory = selectCategory;
+
+            //Builds the school class for edit page.
+            School school = SchoolFactory.BuildSchool(postItem.school_name);
+            ViewBag.main_color = school.main_hex_color;
+            ViewBag.secondary_color = school.secondary_hex_color;
+
             return View(postItem);
         }
 

@@ -22,6 +22,8 @@
           <ScalarProperty Name="object_id" ColumnName="object_id" />
           <ScalarProperty Name="school_name" ColumnName="school_name" />
           <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="main_hex_color" ColumnName="main_hex_color" />
+          <ScalarProperty Name="secondary_hex_color" ColumnName="secondary_hex_color" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

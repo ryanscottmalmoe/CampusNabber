@@ -19,7 +19,6 @@ namespace CampusNabber.Models
 
     public partial class User
     {
-
         public System.Guid object_id { get; set; }
         public string username { get; set; }
         public byte[] encrypted_password { get; set; }
