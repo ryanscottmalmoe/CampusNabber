@@ -92,6 +92,14 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    
+
+    <link rel="stylesheet" href="~/Content/School.css" type="text/css" />
+
+    <script type="text/javascript">
+            var mainColor = '@(ViewBag.main_color)';
+            var secondaryColor = '@(ViewBag.secondary_color)';
+
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
 
 }

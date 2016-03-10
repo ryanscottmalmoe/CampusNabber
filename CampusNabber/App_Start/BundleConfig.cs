@@ -32,8 +32,8 @@ namespace CampusNabber
             bundles.Add(new ScriptBundle("~/Scripts/ProfileView").Include(
                        "~/Scripts/ProfileView.js"));
 
-            bundles.Add(new ScriptBundle("~/Scripts/EditView").Include(
-                       "~/Scripts/EditView.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SchoolColor").Include(
+                       "~/Scripts/SchoolColor.js"));
         }
     }
 }
