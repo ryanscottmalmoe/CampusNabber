@@ -19,19 +19,20 @@
             @{
                 int j = 1;
                 for (int i = Model.rangeFrom; i < Model.rangeTo; i++)
-            {
-
-                var element = Model.getPost(i);
-                <tr>
-                    <td>
-                        <a href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@j">
+                {
+                    if (Model.numPosts > 0)
+                    { var element = Model.getPost(i);
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@j">
                            
-                        </a>
-                    </td>
-                </tr>
-                    j++;
-                }
-          
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        j++;
+                    }
+
                 }
         </tbody>
     </table>
@@ -90,7 +91,7 @@
     
     $(document).ready(displayNext(0));
     function displayNext(inp) {
-        alert(data.numPosts);
+       
         if (data.numPosts > 0) {
             if (inp == 0) {
 
