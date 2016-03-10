@@ -31,6 +31,8 @@
     <Property Name="object_id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="school_name" Type="nvarchar" Nullable="false" MaxLength="100" />
     <Property Name="address" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="main_hex_color" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="secondary_hex_color" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
@@ -67,6 +69,8 @@
           <Property Name="object_id" Type="Guid" Nullable="false" />
           <Property Name="school_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="address" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="main_hex_color" Type="String" Nullable="false" />
+          <Property Name="secondary_hex_color" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -110,6 +114,8 @@
           <ScalarProperty Name="object_id" ColumnName="object_id" />
           <ScalarProperty Name="school_name" ColumnName="school_name" />
           <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="main_hex_color" ColumnName="main_hex_color" />
+          <ScalarProperty Name="secondary_hex_color" ColumnName="secondary_hex_color" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

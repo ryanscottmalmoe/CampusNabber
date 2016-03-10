@@ -20,8 +20,6 @@ namespace CampusNabber.Models
 
     public partial class PostItem
     {
-
-
         public System.Guid object_id { get; set; }
         public string username { get; set; }
         public string school_name { get; set; }
@@ -31,7 +29,6 @@ namespace CampusNabber.Models
         public string description { get; set; }
         public string photo_path { get; set; }
         public string category { get; set; }
-
 
         public void deleteEntity()
         {

@@ -13,6 +13,7 @@ using DatabaseCode.CNQueryFolder;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using CampusNabber.Utility;
+using CampusNabber.Helpers.SchoolClasses;
 
 namespace CampusNabber.Controllers
 {
@@ -63,6 +64,9 @@ namespace CampusNabber.Controllers
             {
                 return HttpNotFound();
             }
+            //ViewBag.school = 
+            //School school = SchoolFactory.BuildSchool(postItem.school_name);
+        
             return View(postItem);
         }
 
@@ -130,6 +134,11 @@ namespace CampusNabber.Controllers
             }
             SelectList selectCategory = PostItemService.generateCategoryList();
             ViewBag.selectCategory = selectCategory;
+
+            School school = SchoolFactory.BuildSchool(postItem.school_name);
+            ViewBag.main_color = school.main_hex_color;
+            ViewBag.secondary_color = school.secondary_hex_color;
+
             return View(postItem);
         }
 

@@ -19,13 +19,11 @@ namespace CampusNabber.Models
 
     public partial class User
     {
-
         public System.Guid object_id { get; set; }
         public string username { get; set; }
         public byte[] encrypted_password { get; set; }
         public string student_email { get; set; }
         public string school_name { get; set; }
-        public static object Identity { get; internal set; }
 
         public void deleteEntity()
         {
