@@ -64,9 +64,11 @@ namespace CampusNabber.Controllers
             {
                 return HttpNotFound();
             }
-            //ViewBag.school = 
-            //School school = SchoolFactory.BuildSchool(postItem.school_name);
-        
+            //Builds the school class for create page.
+            School school = SchoolFactory.BuildSchool(postItem.school_name);
+            ViewBag.main_color = school.main_hex_color;
+            ViewBag.secondary_color = school.secondary_hex_color;
+
             return View(postItem);
         }
 
@@ -92,6 +94,13 @@ namespace CampusNabber.Controllers
 
             SelectList selectCategory = PostItemService.generateCategoryList();
             ViewBag.selectCategory = selectCategory;
+
+            //Builds the school class for create page.
+            ApplicationUser user = UserManager.FindByName(postItem.username);
+            School school = SchoolFactory.BuildSchool(user.school_name);
+            ViewBag.main_color = school.main_hex_color;
+            ViewBag.secondary_color = school.secondary_hex_color;
+
             return View(postItem);
         }
 
@@ -135,6 +144,7 @@ namespace CampusNabber.Controllers
             SelectList selectCategory = PostItemService.generateCategoryList();
             ViewBag.selectCategory = selectCategory;
 
+            //Builds the school class for edit page.
             School school = SchoolFactory.BuildSchool(postItem.school_name);
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
