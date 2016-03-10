@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/24/2016 20:11:15
+-- Date Created: 03/09/2016 08:08:59
 -- Generated from EDMX file: C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\Models\CampusNabber.edmx
 -- --------------------------------------------------
 
@@ -54,7 +54,9 @@ GO
 CREATE TABLE [dbo].[Schools] (
     [object_id] uniqueidentifier  NOT NULL,
     [school_name] nvarchar(100)  NOT NULL,
-    [address] nvarchar(80)  NOT NULL
+    [address] nvarchar(80)  NOT NULL,
+    [main_hex_color] nvarchar(max)  NOT NULL,
+    [secondary_hex_color] nvarchar(max)  NOT NULL
 );
 GO
 

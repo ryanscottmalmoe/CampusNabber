@@ -15,8 +15,8 @@ namespace CampusNabber.Models
          public List<PostItem> Posts { get; set; }
          public string school_name { get; set; }
          public int rangeFrom { get; set; }
-        public int displayRange { get; set; }
-        public int rangeTo { get; set; }
+         public int displayRange { get; set; }
+         public int rangeTo { get; set; }
 
         //Christian Change
         // this needs to filter out the current user's PostItems

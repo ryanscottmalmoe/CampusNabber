@@ -19,10 +19,25 @@ namespace CampusNabber.Models
 
     public partial class School
     {
-
         public System.Guid object_id { get; set; }
         public string school_name { get; set; }
         public string address { get; set; }
+        public string main_hex_color { get; set; }
+        public string secondary_hex_color { get; set; }
+
+        public School()
+        {
+
+        }
+
+        public School(string school_name, string main_hex_color, string secondary_hex_color)
+        {
+            object_id = Guid.NewGuid();
+            address = "TempAddress";
+            this.school_name = school_name;
+            this.main_hex_color = main_hex_color;
+            this.secondary_hex_color = secondary_hex_color;
+        }
 
         public void deleteEntity()
         {
