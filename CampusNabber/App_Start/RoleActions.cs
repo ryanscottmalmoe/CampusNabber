@@ -32,14 +32,16 @@ namespace CampusNabber.App_Start
             //NOTE: will need to create a new admin email/login
             var appUser = new ApplicationUser
             {
-                Email = "iamaudrey@eagles.ewu.edu",
-                UserName = "iamaudrey@eagles.ewu.edu"
+                Email = "campusnabber@gmail.com",
+                UserName = "campusnabber@gmail.com",
+                EmailConfirmed = true,
+                school_name = "Eastern Washington University"
             };
             userResult = userManager.Create(appUser, "Pa$$w0rd");
 
-            if(!userManager.IsInRole(userManager.FindByEmail("iamaudrey@eagles.ewu.edu").Id, "Admin"))
+            if(!userManager.IsInRole(userManager.FindByEmail("campusnabber@gmail.com").Id, "Admin"))
             {
-                userResult = userManager.AddToRole(userManager.FindByEmail("iamaudrey@eagles.ewu.edu").Id, "Admin");
+                userResult = userManager.AddToRole(userManager.FindByEmail("campusnabber@gmail.com").Id, "Admin");
             }
         }
     }

@@ -191,7 +191,7 @@ namespace CampusNabber.Controllers
             PostItem postItem = db.PostItems.Find(id);
             db.PostItems.Remove(postItem);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("MainMarketView", "MarketPlace");
         }
 
         protected override void Dispose(bool disposing)

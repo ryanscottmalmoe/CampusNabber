@@ -11,40 +11,9 @@
     <h4>PostItem</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.username)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.username)
-        </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.school_name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.school_name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.post_date)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.post_date)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.title)
+            Title
         </dt>
 
         <dd>
@@ -52,23 +21,34 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.description)
+            Date Posted
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.post_date)
+        </dd>
+
+        <dt>
+            Price
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.price)
+        </dd>
+
+
+
+        <dt>
+            Description
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.description)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.photo_path)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.photo_path)
-        </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.category)
+            Category
         </dt>
 
         <dd>
@@ -82,7 +62,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to List", "MainMarketView", "MarketPlace")
         </div>
     }
 </div>
