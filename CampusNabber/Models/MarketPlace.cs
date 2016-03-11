@@ -22,7 +22,7 @@ namespace CampusNabber.Models
         // this needs to filter out the current user's PostItems
         public void setList(ApplicationUser user)
         {
-            displayRange = 1;
+            displayRange = 5;
             rangeFrom = 0;
             rangeTo = displayRange;
             //might want to change this to a school object in the future //Christian
