@@ -11,7 +11,7 @@ namespace CampusNabber.Models
     public class MarketPlace
     {
         //public ApplicationUser CurrentUser { get; set; }
-
+         public int numPosts;
          public List<PostItem> Posts { get; set; }
          public string school_name { get; set; }
          public int rangeFrom { get; set; }
@@ -31,6 +31,7 @@ namespace CampusNabber.Models
             query.setQueryWhereKeyEqualToCondition("school_name", user.school_name);
             query.setQueryWhereKeyNotEqualToCondition("username", user.UserName);
             Posts = query.select().Cast<PostItem>().ToList();
+            numPosts = Posts.Count;
         }
 
         //increment the values by a higher factor to display more records per page
