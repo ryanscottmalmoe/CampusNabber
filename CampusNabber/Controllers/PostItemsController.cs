@@ -105,7 +105,7 @@ namespace CampusNabber.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(PostItem postItem, HttpPostedFileBase[] images)
+        public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItem postItem, HttpPostedFileBase[] images)
         {
 
             if (ModelState.IsValid)
@@ -156,13 +156,14 @@ namespace CampusNabber.Controllers
         // POST: PostItems/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItem postItem)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItem postItem, HttpPostedFileBase[] images)
         {
             if (ModelState.IsValid)
             {
                 postItem.updateEntity();
+
                 //Instead of taking you back to the index page, the user is now taken back to the Details page of that particular post. - ahenry
                 return RedirectToAction("Details", new { id = postItem.object_id });
             }
