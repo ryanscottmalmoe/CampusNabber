@@ -118,10 +118,13 @@ namespace CampusNabber.Controllers
                 postItem.photo_path_id = "";
                 foreach (var image in images) //reset photo_path here if there is a photo
                 {
-                    //set the path here to url.
-                    string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                    path = path + "\\_2" + image.FileName;
-                    image.SaveAs(path);
+                    if(image != null)
+                    {
+                        //set the path here to url.
+                        string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                        path = path + "\\_2" + image.FileName;
+                        image.SaveAs(path);
+                    }
                 }
                 postItem.createEntity();
 
@@ -165,10 +168,13 @@ namespace CampusNabber.Controllers
                 postItem.updateEntity();
                 foreach (var image in images) //reset photo_path here if there is a photo
                 {
-                    //set the path here to url.
-                    string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                    path = path + "\\_2" + image.FileName;
-                    image.SaveAs(path);
+                    if(image != null)
+                    {
+                        //set the path here to url.
+                        string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                        path = path + "\\_2" + image.FileName;
+                        image.SaveAs(path);
+                    }
                 }
                 //Instead of taking you back to the index page, the user is now taken back to the Details page of that particular post. - ahenry
                 return RedirectToAction("Details", new { id = postItem.object_id });
