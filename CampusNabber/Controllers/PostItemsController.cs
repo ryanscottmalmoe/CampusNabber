@@ -163,7 +163,13 @@ namespace CampusNabber.Controllers
             if (ModelState.IsValid)
             {
                 postItem.updateEntity();
-
+                foreach (var image in images) //reset photo_path here if there is a photo
+                {
+                    //set the path here to url.
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    path = path + "\\_2" + image.FileName;
+                    image.SaveAs(path);
+                }
                 //Instead of taking you back to the index page, the user is now taken back to the Details page of that particular post. - ahenry
                 return RedirectToAction("Details", new { id = postItem.object_id });
             }
