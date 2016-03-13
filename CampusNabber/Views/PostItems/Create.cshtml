@@ -8,34 +8,33 @@
 
 <h2>Create a New Post</h2>
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 
-@using (Html.BeginForm())
+    <link rel="stylesheet" href="~/Content/School.css" type="text/css" />
+
+    <script type="text/javascript">
+            var mainColor = '@(ViewBag.main_color)';
+            var secondaryColor = '@(ViewBag.secondary_color)';
+
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
+
+}
+
+
+
+
+@using (Html.BeginForm("Create", "PostItems", FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
 {
-    <!--@Html.AntiForgeryToken()-->
-
-
-
     <div class="form-horizontal">
          
         @Html.HiddenFor(model => Model.username)        
         
-        
-        
-        
-        
-        
-       
-
-
-
-
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
       
- 
-
-
-
         <div class="form-group">
             <label class="control-label col-md-2">Title</label>
             <div class="col-md-10">
@@ -52,8 +51,6 @@
             </div>
         </div>
 
-
-
         <div class="form-group">
             <label class = "control-label col-md-2">Description</label>
             <div class="col-md-10">
@@ -63,7 +60,6 @@
             </div>
         </div>
         
-
         <div class="form-group">
             
             <label class = "control-label col-md-2">Category</label>
@@ -72,7 +68,17 @@
             </div>
         </div>
 
-       
+        <div class="form-group">
+            <label class="control-label col-md-2">Images</label>
+
+            <div class="col-md-10">
+                <form action="demo_form.asp">
+                    <input type="file" name="images" accept="image/*" multiple>
+                </form>
+            </div>
+        </div>
+
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -81,25 +87,9 @@
     </div>
 }
 
-<!--
-@{ Model.username = ViewBag.userName;}
-
-    -->
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 
-    <link rel="stylesheet" href="~/Content/School.css" type="text/css" />
-
-    <script type="text/javascript">
-            var mainColor = '@(ViewBag.main_color)';
-            var secondaryColor = '@(ViewBag.secondary_color)';
-
-    </script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
-
-}

@@ -11,7 +11,7 @@
           <ScalarProperty Name="price" ColumnName="price" />
           <ScalarProperty Name="title" ColumnName="title" />
           <ScalarProperty Name="description" ColumnName="description" />
-          <ScalarProperty Name="photo_path" ColumnName="photo_path" />
+          <ScalarProperty Name="photo_path_id" ColumnName="photo_path_id" />
           <ScalarProperty Name="category" ColumnName="category" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -35,6 +35,15 @@
           <ScalarProperty Name="encrypted_password" ColumnName="encrypted_password" />
           <ScalarProperty Name="student_email" ColumnName="student_email" />
           <ScalarProperty Name="school_name" ColumnName="school_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostItemPhotos">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.PostItemPhotos)">
+        <MappingFragment StoreEntitySet="PostItemPhotos">
+          <ScalarProperty Name="object_id" ColumnName="Id" />
+          <ScalarProperty Name="photo_path_id" ColumnName="photo_path_id" />
+          <ScalarProperty Name="actual_photo_path" ColumnName="actual_photo_path" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -11,7 +11,7 @@
     <Property Name="price" Type="Int16" Nullable="false" />
     <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="photo_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="photo_path_id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="category" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
   </EntityType>
   <EntityType Name="School">
@@ -38,5 +38,14 @@
     <EntitySet Name="PostItems" EntityType="Self.PostItem" />
     <EntitySet Name="Schools" EntityType="Self.School" />
     <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="PostItemPhotos" EntityType="CampusNabberModel.PostItemPhotos" />
   </EntityContainer>
+  <EntityType Name="PostItemPhotos">
+    <Key>
+      <PropertyRef Name="object_id" />
+    </Key>
+    <Property Name="object_id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="photo_path_id" Type="String" Nullable="false" />
+    <Property Name="actual_photo_path" Type="String" Nullable="false" />
+  </EntityType>
 </Schema>

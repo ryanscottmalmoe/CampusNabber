@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/09/2016 08:08:59
+-- Date Created: 03/13/2016 00:20:52
 -- Generated from EDMX file: C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\Models\CampusNabber.edmx
 -- --------------------------------------------------
 
@@ -18,26 +18,13 @@ GO
 -- --------------------------------------------------
 
 
--- --------------------------------------------------
--- Dropping existing tables
--- --------------------------------------------------
-
-IF OBJECT_ID(N'[dbo].[PostItems]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PostItems];
-GO
-IF OBJECT_ID(N'[dbo].[Schools]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Schools];
-GO
-IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Users];
-GO
 
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
 
 -- Creating table 'PostItems'
-CREATE TABLE [dbo].[PostItems] (
+Alter TABLE [dbo].[PostItems] (
     [object_id] uniqueidentifier  NOT NULL,
     [username] nvarchar(40)  NOT NULL,
     [school_name] nvarchar(100)  NOT NULL,
@@ -45,7 +32,7 @@ CREATE TABLE [dbo].[PostItems] (
     [price] smallint  NOT NULL,
     [title] nvarchar(100)  NOT NULL,
     [description] nvarchar(max)  NOT NULL,
-    [photo_path] nvarchar(max)  NOT NULL,
+    [photo_path_id] nvarchar(max)  NOT NULL,
     [category] nvarchar(60)  NOT NULL
 );
 GO
@@ -70,6 +57,14 @@ CREATE TABLE [dbo].[Users] (
 );
 GO
 
+-- Creating table 'PostItemPhotos'
+CREATE TABLE [dbo].[PostItemPhotos] (
+    [Id] uniqueidentifier  NOT NULL,
+    [photo_path_id] nvarchar(max)  NOT NULL,
+    [actual_photo_path] nvarchar(max)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -90,6 +85,12 @@ GO
 ALTER TABLE [dbo].[Users]
 ADD CONSTRAINT [PK_Users]
     PRIMARY KEY CLUSTERED ([object_id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'PostItemPhotos'
+ALTER TABLE [dbo].[PostItemPhotos]
+ADD CONSTRAINT [PK_PostItemPhotos]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- --------------------------------------------------
