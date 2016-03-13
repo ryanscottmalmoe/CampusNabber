@@ -28,5 +28,6 @@ namespace CampusNabber.Models
         public virtual DbSet<PostItem> PostItems { get; set; }
         public virtual DbSet<School> Schools { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<PostItemPhotos> PostItemPhotos { get; set; }
     }
 }

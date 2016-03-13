@@ -1,3 +1,1 @@
-﻿$('.navbar-inverse').css({ "background-color": mainColor });
-$('.navbar .nav > li > a').css({ "color": "#FFFFFF" });
-$('.navbar-inverse .navbar-brand').css({ "color": "#FFFFFF" });
+﻿$('.navbar-inverse').css( { "background-color": mainColor, "border-color": "#080808", "font-family": "Verdana, Times, sans-serif", "font-weight": "bold", "font-variant": "small-caps"});
