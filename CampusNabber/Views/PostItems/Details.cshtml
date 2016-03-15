@@ -6,6 +6,16 @@
 
 <h2>@Html.DisplayFor(model => model.title)</h2>
 
+@section Scripts {
+    <script type="text/javascript">
+            var mainColor = '@(ViewBag.main_color)';
+            var secondaryColor = '@(ViewBag.secondary_color)';
+
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
+
+}
+
 <div class="container">
     <div class="row">
         <hr />
@@ -16,49 +26,36 @@
                 <dt>
                     Posted By
                 </dt>
-
                 <dd>
                     @Html.DisplayFor(model => model.username)
                 </dd>
-
-
                 <dt>
                     School
                 </dt>
-
                 <dd>
                     @Html.DisplayFor(model => model.school_name)
                 </dd>
-
                 <dt>
                     Date Posted
                 </dt>
-
                 <dd>
                     @Html.DisplayFor(model => model.post_date)
                 </dd>
-
                 <dt>
                     Price
                 </dt>
-
                 <dd>
                     @Html.DisplayFor(model => model.price)
                 </dd>
-
                 <dt>
                     Category
                 </dt>
-
                 <dd>
                     @Html.DisplayFor(model => model.category)
                 </dd>
-
-
                 <dt>
                     Description
                 </dt>
-
                 <dd>
                     @Html.DisplayFor(model => model.description)
                 </dd>
@@ -97,3 +94,4 @@
         <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
 
     }
+

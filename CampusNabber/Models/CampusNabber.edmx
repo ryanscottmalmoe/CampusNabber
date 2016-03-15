@@ -9,6 +9,7 @@
     <EntitySet Name="PostItems" EntityType="CampusNabberModel.Store.PostItems" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Schools" EntityType="CampusNabberModel.Store.Schools" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users" EntityType="CampusNabberModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PostItemPhotos" EntityType="CampusNabberModel.Store.PostItemPhotos" store:Type="Tables" Schema="dbo" />
   </EntityContainer>
   <EntityType Name="PostItems">
     <Key>
@@ -21,7 +22,7 @@
     <Property Name="price" Type="smallint" Nullable="false" />
     <Property Name="title" Type="nvarchar" Nullable="false" MaxLength="100" />
     <Property Name="description" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="photo_path" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="photo_path_id" Type="nvarchar(max)" Nullable="false" />
     <Property Name="category" Type="nvarchar" Nullable="false" MaxLength="60" />
   </EntityType>
   <EntityType Name="Schools">
@@ -44,6 +45,14 @@
     <Property Name="student_email" Type="nvarchar" Nullable="false" MaxLength="60" />
     <Property Name="school_name" Type="nvarchar" Nullable="false" MaxLength="100" />
   </EntityType>
+  <EntityType Name="PostItemPhotos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="photo_path_id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="actual_photo_path" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -59,7 +68,7 @@
           <Property Name="price" Type="Int16" Nullable="false" />
           <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="photo_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="photo_path_id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="category" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="School">
@@ -86,7 +95,16 @@
           <EntitySet Name="PostItems" EntityType="Self.PostItem" />
           <EntitySet Name="Schools" EntityType="Self.School" />
           <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="PostItemPhotos" EntityType="CampusNabberModel.PostItemPhotos" />
         </EntityContainer>
+        <EntityType Name="PostItemPhotos">
+          <Key>
+            <PropertyRef Name="object_id" />
+          </Key>
+          <Property Name="object_id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="photo_path_id" Type="String" Nullable="false" />
+          <Property Name="actual_photo_path" Type="String" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -103,7 +121,7 @@
           <ScalarProperty Name="price" ColumnName="price" />
           <ScalarProperty Name="title" ColumnName="title" />
           <ScalarProperty Name="description" ColumnName="description" />
-          <ScalarProperty Name="photo_path" ColumnName="photo_path" />
+          <ScalarProperty Name="photo_path_id" ColumnName="photo_path_id" />
           <ScalarProperty Name="category" ColumnName="category" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -127,6 +145,15 @@
           <ScalarProperty Name="encrypted_password" ColumnName="encrypted_password" />
           <ScalarProperty Name="student_email" ColumnName="student_email" />
           <ScalarProperty Name="school_name" ColumnName="school_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostItemPhotos">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.PostItemPhotos)">
+        <MappingFragment StoreEntitySet="PostItemPhotos">
+          <ScalarProperty Name="object_id" ColumnName="Id" />
+          <ScalarProperty Name="photo_path_id" ColumnName="photo_path_id" />
+          <ScalarProperty Name="actual_photo_path" ColumnName="actual_photo_path" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -104,15 +104,10 @@ namespace CampusNabber.Controllers
             return View(postItem);
         }
 
-        // POST: PostItems/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-     //   [ValidateAntiForgeryToken]
-     // Christian Change
-        //So that the system supplies the school name based off the current user & find a way to have the model do the data binding
-        public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path,category")] PostItem postItem)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItem postItem, HttpPostedFileBase[] images)
         {
+
             if (ModelState.IsValid)
             {
                 //Sets the school_name here
@@ -120,12 +115,21 @@ namespace CampusNabber.Controllers
                 postItem.school_name = user.school_name;
                 postItem.post_date = System.DateTime.Today;
                 postItem.object_id = Guid.NewGuid();
-                postItem.photo_path = "";
+                postItem.photo_path_id = "";
+                foreach (var image in images) //reset photo_path here if there is a photo
+                {
+                    if(image != null)
+                    {
+                        //set the path here to url.
+                        string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                        path = path + "\\_2" + image.FileName;
+                        image.SaveAs(path);
+                    }
+                }
                 postItem.createEntity();
                 
                 return View("Details", postItem);
             }
-
             return View(postItem);
         }
 
@@ -155,13 +159,23 @@ namespace CampusNabber.Controllers
         // POST: PostItems/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path,category")] PostItem postItem)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItem postItem, HttpPostedFileBase[] images)
         {
             if (ModelState.IsValid)
             {
                 postItem.updateEntity();
+                foreach (var image in images) //reset photo_path here if there is a photo
+                {
+                    if(image != null)
+                    {
+                        //set the path here to url.
+                        string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                        path = path + "\\_2" + image.FileName;
+                        image.SaveAs(path);
+                    }
+                }
                 //Instead of taking you back to the index page, the user is now taken back to the Details page of that particular post. - ahenry
                 return RedirectToAction("Details", new { id = postItem.object_id });
             }

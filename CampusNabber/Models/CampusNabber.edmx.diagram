@@ -8,6 +8,7 @@
         <EntityTypeShape EntityType="CampusNabberModel.PostItem" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CampusNabberModel.School" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CampusNabberModel.User" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CampusNabberModel.PostItemPhotos" Width="1.5" PointX="5" PointY="2.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
