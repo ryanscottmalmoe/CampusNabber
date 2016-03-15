@@ -237,6 +237,7 @@
     <Compile Include="Models\PostItem.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PostItemPhotos.cs" />
     <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Models\School.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
