@@ -52,7 +52,7 @@ namespace CampusNabber.Controllers
         }
 
 
-        // GET: PostItems/Details/5
+        // GET: PostItems/Details
         public ActionResult Details(Guid? id)
         {
             if (id == null)
@@ -71,16 +71,8 @@ namespace CampusNabber.Controllers
 
             return View(postItem);
         }
-
-        // GET: PostItems/Create
-        /*
-        public ActionResult Create()
-        { 
-            var user = UserManager.FindByIdAsync(User.Identity.GetUserId());
-            return View(user);
-        }
-        */
         
+        // Get: /PostItems/Create
         public ActionResult Create(String userId)
         {
             PostItem postItem = null;
@@ -104,6 +96,7 @@ namespace CampusNabber.Controllers
             return View(postItem);
         }
 
+        //Post /PostItems/Create
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItem postItem, HttpPostedFileBase[] images)
         {
@@ -115,17 +108,29 @@ namespace CampusNabber.Controllers
                 postItem.school_name = user.school_name;
                 postItem.post_date = System.DateTime.Today;
                 postItem.object_id = Guid.NewGuid();
-                postItem.photo_path_id = "";
-                foreach (var image in images) //reset photo_path here if there is a photo
+                postItem.photo_path_id = Guid.NewGuid().ToString();
+                int imageNum = 0;
+                foreach (var image in images) //New method for whole block.
                 {
                     if(image != null)
                     {
-                        //set the path here to url.
+                        PostItemPhotos itemPhotos = new PostItemPhotos();
+                        itemPhotos.object_id = Guid.NewGuid();
+                        itemPhotos.photo_path_id = postItem.photo_path_id;
+                        //Will need to save url to AWS S3 here....
+                        itemPhotos.actual_photo_path = itemPhotos.photo_path_id + imageNum.ToString();
+                       
+                        //This is for saving to desktop momentarily.
                         string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                         path = path + "\\_2" + image.FileName;
                         image.SaveAs(path);
+                        //Implement a save PostItemPhotos method.
+                        imageNum++;
+                        itemPhotos.createEntity();
                     }
+
                 }
+                
                 postItem.createEntity();
 
                 return RedirectToAction("Index");
@@ -133,7 +138,7 @@ namespace CampusNabber.Controllers
             return View(postItem);
         }
 
-        // GET: PostItems/Edit/5
+        // GET: PostItems/Edit
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -156,7 +161,7 @@ namespace CampusNabber.Controllers
             return View(postItem);
         }
 
-        // POST: PostItems/Edit/5
+        // POST: PostItems/Edit
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [ValidateAntiForgeryToken]
@@ -166,14 +171,24 @@ namespace CampusNabber.Controllers
             if (ModelState.IsValid)
             {
                 postItem.updateEntity();
-                foreach (var image in images) //reset photo_path here if there is a photo
+                int imageNum = 0;
+                foreach (var image in images) //New method for whole block....
                 {
                     if(image != null)
                     {
-                        //set the path here to url.
+                        PostItemPhotos itemPhotos = new PostItemPhotos();
+                        itemPhotos.object_id = Guid.NewGuid();
+                        itemPhotos.photo_path_id = postItem.photo_path_id;
+                        //Will need to save url to AWS S3 here....
+                        itemPhotos.actual_photo_path = itemPhotos.photo_path_id + imageNum.ToString();
+
+                        //This is saving to desktop momentarily
                         string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                         path = path + "\\_2" + image.FileName;
                         image.SaveAs(path);
+
+                        imageNum++;
+                        itemPhotos.updateEntity();
                     }
                 }
                 //Instead of taking you back to the index page, the user is now taken back to the Details page of that particular post. - ahenry
@@ -197,7 +212,7 @@ namespace CampusNabber.Controllers
             return View(postItem);
         }
 
-        // POST: PostItems/Delete/5
+        // POST: PostItems/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
@@ -216,9 +231,5 @@ namespace CampusNabber.Controllers
             }
             base.Dispose(disposing);
         }
-
-       
-        
-
     }
 }
