@@ -4,28 +4,25 @@
 @{
     ViewBag.Title = "MainMarketView";
 }
-<h2>MainMarketView</h2>
 
+    <h2>MainMarketView</h2>
 
-
-
-
-
-
-
-<div class="col-md-10">
-    <table class="table table-borderless" id="displayTable">
-       <tbody>
-            @{
-                int j = 1;
-                for (int i = Model.rangeFrom; i < Model.rangeTo; i++)
-                {
-                    if (Model.numPosts > 0)
-                    { var element = Model.getPost(i);
+<!--Threw main div into a container so that it'd play nice with footer-->
+<div class="container">
+    <div class="col-md-10">
+        <table class="table table-borderless" id="displayTable">
+            <tbody>
+                @{
+                    int j = 1;
+                    for (int i = Model.rangeFrom; i < Model.rangeTo; i++)
+                    {
+                        if (Model.numPosts > 0)
+                        {
+                            var element = Model.getPost(i);
                             <tr>
                                 <td>
                                     <a href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@j">
-                           
+
                                     </a>
                                 </td>
                             </tr>
@@ -34,42 +31,42 @@
                     }
 
                 }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <br />
+        <br />
 
-    @Html.ActionLink("Create", "Create", "PostItems")
-    @Html.EditorFor(model => Model.Posts)
-
-
-
-
-    <br />
-    @Html.HiddenFor(model => Model.rangeFrom, new { id = "rangeFrom" })
-    <br />
-    @Html.HiddenFor(model => Model.rangeTo, new { id = "rangeTo" })
-    <br />
-    @Html.HiddenFor(model => Model.school_name)
-
-    <br />
-    @Html.HiddenFor(model => Model.displayRange)
+        @Html.ActionLink("Create", "Create", "PostItems")
+        @Html.EditorFor(model => Model.Posts)
 
 
 
-    <br />
+
+        <br />
+        @Html.HiddenFor(model => Model.rangeFrom, new { id = "rangeFrom" })
+        <br />
+        @Html.HiddenFor(model => Model.rangeTo, new { id = "rangeTo" })
+        <br />
+        @Html.HiddenFor(model => Model.school_name)
+
+        <br />
+        @Html.HiddenFor(model => Model.displayRange)
 
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
 
-            <button type="button" onclick="displayNext(-1)" class="btn btn-primary btn-lg">Previous</button>
-            <button type="button" onclick="displayNext(1)" class="btn btn-primary btn-lg">Next</button>
+        <br />
 
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+
+                <button type="button" onclick="displayNext(-1)" class="btn btn-primary btn-lg">Previous</button>
+                <button type="button" onclick="displayNext(1)" class="btn btn-primary btn-lg">Next</button>
+
+            </div>
         </div>
     </div>
 </div>
-
 
 
 
