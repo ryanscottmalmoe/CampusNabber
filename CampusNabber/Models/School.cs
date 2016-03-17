@@ -17,6 +17,7 @@ namespace CampusNabber.Models
     using System.Diagnostics;
     using System.Linq;
 
+
     public partial class School
     {
         public System.Guid object_id { get; set; }

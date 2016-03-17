@@ -16,90 +16,11 @@ namespace CampusNabber.Models
     using System.Data.Entity.Validation;
     using System.Diagnostics;
     using System.Linq;
-    using System.Web.Mvc;
 
     public partial class PostItemPhotos
     {
         public System.Guid object_id { get; set; }
-        public string photo_path_id { get; set; }
-        public string actual_photo_path { get; set; }
-
-        public void deleteEntity()
-        {
-            //Creates new context and deletes local variable to server
-            using (var context = new CampusNabberEntities())
-            {
-                context.PostItemPhotos.Remove(this);
-                try
-                {
-                    context.SaveChanges();
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation("Property: {0} Error: {1}",
-                                                    validationError.PropertyName,
-                                                    validationError.ErrorMessage);
-                        }
-                    }
-                }
-                catch (DbUpdateException dbEx)
-                {
-                    Console.WriteLine(dbEx.Message);
-                    foreach (var entries in dbEx.Entries)
-                    {
-                        Console.WriteLine(entries.Entity);
-                        Console.WriteLine(dbEx.InnerException);
-                    }
-                }
-            }
-        }
-
-        public void updateEntity()
-        {
-            //Creates new context and saves local variable to server
-            using (var context = new CampusNabberEntities())
-            {
-                PostItemPhotos postItemPhotos = (from o in context.PostItemPhotos
-                                     where o.object_id.Equals(object_id)
-                                     select o).First();
-                postItemPhotos.actual_photo_path = actual_photo_path;
-                postItemPhotos.photo_path_id = photo_path_id;
-                try
-                {
-                    context.PostItemPhotos.Attach(postItemPhotos);
-                    var entry = context.Entry(postItemPhotos);
-                    entry.Property(e => e.photo_path_id).IsModified = true;
-                    entry.Property(e => e.actual_photo_path).IsModified = true;
-
-                    context.SaveChanges();
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation("Property: {0} Error: {1}",
-                                                    validationError.PropertyName,
-                                                    validationError.ErrorMessage);
-                        }
-                    }
-                }
-                catch (DbUpdateException dbEx)
-                {
-                    Console.WriteLine(dbEx.Message);
-                    foreach (var entries in dbEx.Entries)
-                    {
-                        Console.WriteLine(entries.Entity);
-                        Console.WriteLine(dbEx.InnerException);
-                    }
-                }
-            }
-        }
+        public short num_photos { get; set; }
 
         public void createEntity()
         {
@@ -134,11 +55,5 @@ namespace CampusNabber.Models
                 }
             }
         }
-
-
-
-
-
-
     }
 }

@@ -15,10 +15,20 @@ using System.Diagnostics;
 using CampusNabber.Utility;
 using CampusNabber.Helpers.SchoolClasses;
 
+using Amazon;
+using Amazon.S3;
+using Amazon.S3.Model;
+using System.Configuration;
+
 namespace CampusNabber.Controllers
 {
     public class PostItemsController : Controller
     {
+
+        private static readonly string _awsAccessKey = "AKIAJ4CAE6M72TYTV2KA";
+        private static readonly string _awsSecretKey = "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";
+        private static readonly string _bucketName = "campusnabberphotos";
+
 
 
         ApplicationUserManager _userManager;
@@ -76,7 +86,6 @@ namespace CampusNabber.Controllers
         public ActionResult Create(String userId)
         {
             PostItem postItem = null;
-            //var user = UserManager.FindByName(userId);
             if (userId == null)
                 postItem = new PostItem { username = User.Identity.GetUserName() };
             else
@@ -100,7 +109,6 @@ namespace CampusNabber.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItem postItem, HttpPostedFileBase[] images)
         {
-
             if (ModelState.IsValid)
             {
                 //Sets the school_name here
@@ -108,28 +116,11 @@ namespace CampusNabber.Controllers
                 postItem.school_name = user.school_name;
                 postItem.post_date = System.DateTime.Today;
                 postItem.object_id = Guid.NewGuid();
-                postItem.photo_path_id = Guid.NewGuid().ToString();
-                int imageNum = 0;
-                foreach (var image in images) //New method for whole block.
-                {
-                    if(image != null)
-                    {
-                        PostItemPhotos itemPhotos = new PostItemPhotos();
-                        itemPhotos.object_id = Guid.NewGuid();
-                        itemPhotos.photo_path_id = postItem.photo_path_id;
-                        //Will need to save url to AWS S3 here....
-                        itemPhotos.actual_photo_path = itemPhotos.photo_path_id + imageNum.ToString();
-                       
-                        //This is for saving to desktop momentarily.
-                        string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                        path = path + "\\_2" + image.FileName;
-                        image.SaveAs(path);
-                        //Implement a save PostItemPhotos method.
-                        imageNum++;
-                        itemPhotos.createEntity();
-                    }
+                postItem.photo_path_id = Guid.NewGuid();
+                if (postItem.tags == null)
+                    postItem.tags = "default";
 
-                }
+                //StoreS3Photos(images, postItem);
                 
                 postItem.createEntity();
 
@@ -137,6 +128,72 @@ namespace CampusNabber.Controllers
             }
             return View(postItem);
         }
+
+        /// <summary>
+        /// This is a GET request for all of the images in a certain folder
+        /// </summary>
+        public void GetS3Photos()
+        {
+            IAmazonS3 client;
+            using (client = Amazon.AWSClientFactory.CreateAmazonS3Client(_awsAccessKey, _awsSecretKey))
+            {
+                GetObjectRequest request = new GetObjectRequest
+                {
+                    BucketName = _bucketName,
+                    //Key = keyName
+                };
+
+                using (GetObjectResponse response = client.GetObject(request))
+                {
+                    //
+                }
+            }
+        }
+
+        
+         /// <summary>
+         /// This method stores all of the currently uploaded images to AWS S3
+         /// </summary>
+         /// <param name="images"> Images of the file upload</param>
+         /// <param name="awsFolderName"> Username of the account</param>
+         /// <param name="postItemID"> This associates this posting to the current user</param>
+        public void StoreS3Photos(HttpPostedFileBase[] images, PostItem postItem)
+        {   
+            PostItemPhotos itemPhotos = new PostItemPhotos();
+            itemPhotos.object_id = (Guid)postItem.photo_path_id;
+            int imageCounter = 1;
+            try
+            {
+                IAmazonS3 client;
+                using (client = new AmazonS3Client(_awsAccessKey, _awsSecretKey, Amazon.RegionEndpoint.USWest2))
+                {
+                    foreach (var image in images)
+                    {
+                        if (image != null)
+                        {
+                            //Will need to save url to AWS S3 here....
+                            var request = new PutObjectRequest()
+                            {
+                                BucketName = _bucketName,
+                                CannedACL = S3CannedACL.PublicRead,//PERMISSION TO FILE PUBLIC ACCESIBLE
+                                Key = postItem.username + "/" + itemPhotos.object_id.ToString() + "/" + imageCounter.ToString(),
+                                InputStream = image.InputStream//SEND THE FILE STREAM
+                            };
+                            client.PutObject(request);
+                            imageCounter++;
+                        }
+                    }
+                }
+                itemPhotos.num_photos = (short)imageCounter;
+                itemPhotos.createEntity();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        
+
 
         // GET: PostItems/Edit
         public ActionResult Edit(Guid? id)
@@ -170,27 +227,12 @@ namespace CampusNabber.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Here we need to delete old photos. And upload new ones! 
+                //      Will take care of this after break ~Ryan
+                postItem.photo_path_id = Guid.NewGuid();
+
                 postItem.updateEntity();
-                int imageNum = 0;
-                foreach (var image in images) //New method for whole block....
-                {
-                    if(image != null)
-                    {
-                        PostItemPhotos itemPhotos = new PostItemPhotos();
-                        itemPhotos.object_id = Guid.NewGuid();
-                        itemPhotos.photo_path_id = postItem.photo_path_id;
-                        //Will need to save url to AWS S3 here....
-                        itemPhotos.actual_photo_path = itemPhotos.photo_path_id + imageNum.ToString();
 
-                        //This is saving to desktop momentarily
-                        string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                        path = path + "\\_2" + image.FileName;
-                        image.SaveAs(path);
-
-                        imageNum++;
-                        itemPhotos.updateEntity();
-                    }
-                }
                 //Instead of taking you back to the index page, the user is now taken back to the Details page of that particular post. - ahenry
                 return RedirectToAction("Details", new { id = postItem.object_id });
             }

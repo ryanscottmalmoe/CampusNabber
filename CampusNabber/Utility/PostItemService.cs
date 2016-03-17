@@ -138,7 +138,7 @@ namespace CampusNabber.Utility
             var user = userManager.FindByName(postItem.username).school_name;
             postItem.school_name = userManager.FindByName(postItem.username).school_name;
             postItem.object_id = Guid.NewGuid();
-            postItem.photo_path_id = "";
+            postItem.photo_path_id = Guid.NewGuid();
         }
     }
 }

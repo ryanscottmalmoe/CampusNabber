@@ -13,6 +13,7 @@
           <ScalarProperty Name="description" ColumnName="description" />
           <ScalarProperty Name="photo_path_id" ColumnName="photo_path_id" />
           <ScalarProperty Name="category" ColumnName="category" />
+          <ScalarProperty Name="tags" ColumnName="tags" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -27,25 +28,89 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Users">
-      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.User)">
-        <MappingFragment StoreEntitySet="Users">
-          <ScalarProperty Name="object_id" ColumnName="object_id" />
-          <ScalarProperty Name="username" ColumnName="username" />
-          <ScalarProperty Name="encrypted_password" ColumnName="encrypted_password" />
-          <ScalarProperty Name="student_email" ColumnName="student_email" />
+    <EntitySetMapping Name="C__MigrationHistory">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.C__MigrationHistory)">
+        <MappingFragment StoreEntitySet="C__MigrationHistory">
+          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+          <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetRoles">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.AspNetRole)">
+        <MappingFragment StoreEntitySet="AspNetRoles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserClaims">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.AspNetUserClaim)">
+        <MappingFragment StoreEntitySet="AspNetUserClaims">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserLogins">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.AspNetUserLogin)">
+        <MappingFragment StoreEntitySet="AspNetUserLogins">
+          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.AspNetUser)">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="school_name" ColumnName="school_name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="PostItemPhotos">
       <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.PostItemPhotos)">
         <MappingFragment StoreEntitySet="PostItemPhotos">
-          <ScalarProperty Name="object_id" ColumnName="Id" />
-          <ScalarProperty Name="photo_path_id" ColumnName="photo_path_id" />
-          <ScalarProperty Name="actual_photo_path" ColumnName="actual_photo_path" />
+          <ScalarProperty Name="object_id" ColumnName="object_id" />
+          <ScalarProperty Name="num_photos" ColumnName="num_photos" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="FlagPosts">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.FlagPost)">
+        <MappingFragment StoreEntitySet="FlagPosts">
+          <ScalarProperty Name="object_id" ColumnName="object_id" />
+          <ScalarProperty Name="flagged_postitem_id" ColumnName="flagged_postitem_id" />
+          <ScalarProperty Name="username_of_post" ColumnName="username_of_post" />
+          <ScalarProperty Name="flag_reason" ColumnName="flag_reason" />
+          <ScalarProperty Name="username_of_flagger" ColumnName="username_of_flagger" />
+          <ScalarProperty Name="flag_date" ColumnName="flag_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AspNetUserRoles" TypeName="CampusNabberModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+      <EndProperty Name="AspNetRole">
+        <ScalarProperty Name="Id" ColumnName="AspNetRoles_Id" />
+      </EndProperty>
+      <EndProperty Name="AspNetUser">
+        <ScalarProperty Name="Id" ColumnName="AspNetUsers_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

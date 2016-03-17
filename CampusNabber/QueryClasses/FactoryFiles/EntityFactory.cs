@@ -13,10 +13,7 @@ namespace DatabaseCode.FactoryFiles
 
         public dynamic getEntityObject(string tableName)
         {
-            if (tableName.Equals("User"))
-            {
-                return new User();
-            } else if (tableName.Equals("PostItem"))
+            if (tableName.Equals("PostItem"))
             {
                 return new PostItem();
             } else if (tableName.Equals("School"))

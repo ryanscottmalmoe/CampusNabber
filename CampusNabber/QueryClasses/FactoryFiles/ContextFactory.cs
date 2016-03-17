@@ -13,13 +13,7 @@ namespace DatabaseCode.FactoryFiles
     {
         public dynamic getEntity(CampusNabberEntities context, string contextName, Guid guid)
         {
-            if (contextName.Equals("User"))
-            {
-               return (from o in context.Users
-                 where o.object_id.Equals(guid)
-                 select o).First();
-            }
-            else if (contextName.Equals("PostItem"))
+            if (contextName.Equals("PostItem"))
             {
                 return (from o in context.PostItems
                         where o.object_id.Equals(guid)
@@ -36,11 +30,7 @@ namespace DatabaseCode.FactoryFiles
 
         public dynamic getDbSet(CampusNabberEntities context, string contextName)
         {
-                if (contextName.Equals("User"))
-                {
-                    return context.Users;
-                }
-                else if (contextName.Equals("PostItem"))
+                if (contextName.Equals("PostItem"))
                 {
                     return context.PostItems;
                 }
@@ -53,11 +43,7 @@ namespace DatabaseCode.FactoryFiles
 
         public IQueryable<dynamic> getIQueryableSet(CampusNabberEntities context, string contextName)
         {
-            if (contextName.Equals("User"))
-            {
-                return context.Users;
-            }
-            else if (contextName.Equals("PostItem"))
+            if (contextName.Equals("PostItem"))
             {
                 return context.PostItems;
             }

@@ -211,6 +211,8 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\CampusNabber.dll.config
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\CampusNabber.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\CampusNabber.pdb
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Antlr3.Runtime.dll
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\AWS.SessionProvider.dll
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\AWSSDK.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\EntityFramework.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\EntityFramework.SqlServer.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AI.Agent.Intercept.dll
@@ -246,6 +248,7 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\System.Web.WebPages.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\System.Web.WebPages.Razor.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\WebGrease.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Antlr3.Runtime.pdb
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\AWSSDK.pdb
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AI.DependencyCollector.xml
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AI.Web.xml
@@ -274,5 +277,8 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.O
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.Migrations.ChangePostItems.resources
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csproj.GenerateResource.Cache
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.pdb
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csprojResolveAssemblyReference.cache
