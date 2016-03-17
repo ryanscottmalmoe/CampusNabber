@@ -16,7 +16,6 @@ namespace CampusNabber.Models
     using System.Data.Entity.Validation;
     using System.Diagnostics;
     using System.Linq;
-    using System.Web.Mvc;
 
     public partial class PostItem
     {
@@ -27,8 +26,9 @@ namespace CampusNabber.Models
         public short price { get; set; }
         public string title { get; set; }
         public string description { get; set; }
-        public string photo_path_id { get; set; }
+        public Nullable<System.Guid> photo_path_id { get; set; }
         public string category { get; set; }
+        public string tags { get; set; }
 
         public void deleteEntity()
         {
