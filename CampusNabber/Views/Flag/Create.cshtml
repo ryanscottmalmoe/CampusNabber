@@ -8,7 +8,10 @@
 @using (Html.BeginForm("Create", "Flag", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="form-horizontal container">
-        <!--@Html.HiddenFor(model => model.flagged_postitem_id)-->
+        @Html.HiddenFor(model => Model.flagged_postitem_id)
+        @Html.HiddenFor(model => Model.username_of_post)
+        @Html.HiddenFor(model => Model.username_of_flagger)
+        @Html.HiddenFor(model => Model.flag_date)
         <div class="form-group">
             <div class="col-md-12">
                 <h3>Why are you flagging this post?</h3>

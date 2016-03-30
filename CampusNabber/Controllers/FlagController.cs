@@ -17,10 +17,10 @@ namespace CampusNabber.Controllers
         {
             return View();
         }
-        public ActionResult Create(Guid postId)
+        public ActionResult Create(Guid postId, string username)
         {
-            ViewBag.flagged_postitem_id = postId;
-            return View();
+            FlagPost newFlag = new FlagPost { username_of_post = username, flagged_postitem_id = postId, flag_date = DateTime.Now, username_of_flagger = User.Identity.Name };
+            return View(newFlag);
         }
 
         [HttpPost]

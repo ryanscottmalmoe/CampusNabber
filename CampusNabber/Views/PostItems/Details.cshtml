@@ -70,7 +70,7 @@
     <div class="row">
         <p>
             @Html.ActionLink("Back to List", "MainMarketView", "MarketPlace")
-            @Html.ActionLink("Report Post", "Create", "Flag", new { postId = Model.object_id }, null)
+            @Html.ActionLink("Report Post", "Create", "Flag", new { postId = Model.object_id, username = Model.username }, null)
             @if (User.Identity.Name.Equals(Model.username))
             {
                 <a class="btn btn-primary pull-right" href=@Url.Action("Edit", "PostItems", new { id = Model.object_id })>Edit Post</a>
