@@ -221,24 +221,8 @@
     </Compile>
     <Compile Include="Helpers\SchoolClasses\SchoolFactory.cs" />
     <Compile Include="Helpers\SchoolClasses\SchoolUtility.cs" />
-    <Compile Include="Migrations\201603161429174_ChangePostItems.cs" />
-    <Compile Include="Migrations\201603161429174_ChangePostItems.Designer.cs">
-      <DependentUpon>201603161429174_ChangePostItems.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AspNetRole.cs">
-      <DependentUpon>CampusNabber.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUser.cs">
-      <DependentUpon>CampusNabber.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUserClaim.cs">
-      <DependentUpon>CampusNabber.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUserLogin.cs">
-      <DependentUpon>CampusNabber.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CampusNabber.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -398,11 +382,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603161429174_ChangePostItems.resx">
-      <DependentUpon>201603161429174_ChangePostItems.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
