@@ -366,6 +366,8 @@
     <Content Include="Views\Profile\ProfileView.cshtml" />
     <Content Include="Views\MarketPlace\EditorTemplates\PostItem.cshtml" />
     <Content Include="Views\Flag\Create.cshtml" />
+    <Content Include="Views\Flag\SuccessfulCreation.cshtml" />
+    <Content Include="Views\PostItems\FlaggedPosts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

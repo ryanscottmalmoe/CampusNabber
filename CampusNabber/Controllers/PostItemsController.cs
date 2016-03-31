@@ -14,6 +14,7 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using CampusNabber.Utility;
 using CampusNabber.Helpers.SchoolClasses;
+using DatabaseCode.FactoryFiles;
 
 using Amazon;
 using Amazon.S3;
@@ -268,6 +269,24 @@ namespace CampusNabber.Controllers
             db.PostItems.Remove(postItem);
             db.SaveChanges();
             return RedirectToAction("MainMarketView", "MarketPlace");
+        }
+
+        public ActionResult ViewFlaggedPosts()
+        {
+            CNQuery query = new CNQuery("FlagPost");
+            List<FlagPost> flags = query.select().Cast<FlagPost>().ToList();
+            CNQuery query2 = new CNQuery("PostItem");
+            List<PostItem> posts = query2.select().Cast<PostItem>().ToList();
+            List<dynamic> results = null;
+            ContextFactory cf = new ContextFactory();
+            using (var context = new CampusNabberEntities())
+            {
+                IQueryable<dynamic> testList = cf.getIQueryableSet(context, "PostItem");
+                IQueryable<dynamic> testList2 = cf.getIQueryableSet(context, "FlagPost");
+                
+                testList.Join(testList2, postItem => postItem.object_id, flagPost => flagPost.flagged_postitem_id, (postItem, flagPost) => new { PostTitle = postItem.title });
+            }
+            return View("FlaggedPosts", posts);
         }
 
         protected override void Dispose(bool disposing)

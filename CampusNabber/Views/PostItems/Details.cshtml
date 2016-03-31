@@ -95,13 +95,14 @@
 
         <!--When we start uploading images with PostItems, insert it here!!!-->
         <div class="col-md-6 text-center">
-            <img src='@ViewBag.AWS_URL' alt="hey we couldn't find this picture" height="300" width="250" />
+            <img src='@ViewBag.AWS_URL' alt="Post Image" height="300" width="250" />
         </div>
     </div>
     <div class="row">
         <p>
             @Html.ActionLink("Back to List", "MainMarketView", "MarketPlace")
-            @Html.ActionLink("Report Post", "Create", "Flag", new { postId = Model.object_id, username = Model.username }, null)
+            <a class="btn btn-primary pull-left" href=@Url.Action("Create","Flag", new { postId = Model.object_id, username = Model.username })>
+            <span class="glyphicon glyphicon-flag"></span> Report Post</a>
             @if (User.Identity.Name.Equals(Model.username))
             {
                 <a class="btn btn-primary pull-right" href=@Url.Action("Edit", "PostItems", new { id = Model.object_id })>Edit Post</a>

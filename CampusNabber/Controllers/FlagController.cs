@@ -30,6 +30,7 @@ namespace CampusNabber.Controllers
             {
                 newFlag.flag_date = DateTime.Now;
                 newFlag.username_of_flagger = User.Identity.Name;
+                newFlag.object_id = Guid.NewGuid();
                 db.FlagPosts.Add(newFlag);
                 try
                 {
@@ -40,7 +41,7 @@ namespace CampusNabber.Controllers
                     Console.WriteLine(e.Message);
                 }
                 //probably insert "flag created" view
-                return View();
+                return View("SuccessfulCreation");
             }
             return View();
         }

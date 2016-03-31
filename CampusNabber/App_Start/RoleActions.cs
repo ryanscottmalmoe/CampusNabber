@@ -33,9 +33,11 @@ namespace CampusNabber.App_Start
             var appUser = new ApplicationUser
             {
                 Email = "campusnabber@gmail.com",
-                UserName = "campusnabber@gmail.com",
+                UserName = "Admin",
                 EmailConfirmed = true,
-                school_name = "Eastern Washington University"
+                school_name = "Eastern Washington University",
+                LockoutEnabled = true
+                
             };
             userResult = userManager.Create(appUser, "Pa$$w0rd");
 

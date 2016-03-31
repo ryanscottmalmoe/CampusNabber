@@ -26,7 +26,6 @@ namespace CampusNabber.Models
             rangeFrom = 0;
             rangeTo = displayRange;
             //might want to change this to a school object in the future //Christian
-            //if (user.Roles.Contains()
             school_name = user.school_name;
             CNQuery query = new CNQuery("PostItem");
             query.setQueryWhereKeyEqualToCondition("school_name", user.school_name);

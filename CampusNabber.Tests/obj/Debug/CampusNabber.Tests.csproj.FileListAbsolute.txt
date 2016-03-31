@@ -252,3 +252,5 @@ D:\Users\Audrey\Documents\CampusNabber\CampusNabber.Tests\bin\Debug\Microsoft.Ow
 D:\Users\Audrey\Documents\CampusNabber\CampusNabber.Tests\obj\Debug\CampusNabber.Tests.csprojResolveAssemblyReference.cache
 D:\Users\Audrey\Documents\CampusNabber\CampusNabber.Tests\obj\Debug\CampusNabber.Tests.dll
 D:\Users\Audrey\Documents\CampusNabber\CampusNabber.Tests\obj\Debug\CampusNabber.Tests.pdb
+D:\Users\Audrey\Documents\CampusNabber\CampusNabber.Tests\bin\Debug\AWSSDK.dll
+D:\Users\Audrey\Documents\CampusNabber\CampusNabber.Tests\bin\Debug\AWSSDK.pdb
