@@ -19,6 +19,7 @@ using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 using System.Configuration;
+using System.IO;
 
 namespace CampusNabber.Controllers
 {
@@ -74,10 +75,13 @@ namespace CampusNabber.Controllers
             {
                 return HttpNotFound();
             }
+
+            string s3Url = GetS3Photos(postItem);
             //Builds the school class for create page.
             School school = SchoolFactory.BuildSchool(postItem.school_name);
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
+            ViewBag.AWS_URL = s3Url;
 
             return View(postItem);
         }
@@ -120,7 +124,7 @@ namespace CampusNabber.Controllers
                 if (postItem.tags == null)
                     postItem.tags = "default";
 
-                //StoreS3Photos(images, postItem);
+                StoreS3Photos(images, postItem);
                 
                 postItem.createEntity();
 
@@ -132,22 +136,22 @@ namespace CampusNabber.Controllers
         /// <summary>
         /// This is a GET request for all of the images in a certain folder
         /// </summary>
-        public void GetS3Photos()
+        public string GetS3Photos(PostItem postItem)
         {
+            int imageCounter = 1;
+            return "https://s3-us-west-2.amazonaws.com/campusnabberphotos/" + postItem.username + "/" + postItem.photo_path_id.ToString() + "/" + imageCounter.ToString();
+
+            /*
             IAmazonS3 client;
-            using (client = Amazon.AWSClientFactory.CreateAmazonS3Client(_awsAccessKey, _awsSecretKey))
+            using (client = new AmazonS3Client(_awsAccessKey, _awsSecretKey, Amazon.RegionEndpoint.USWest2))
             {
                 GetObjectRequest request = new GetObjectRequest
                 {
                     BucketName = _bucketName,
-                    //Key = keyName
+                    Key = postItem.username + "/" + postItem.photo_path_id.ToString() + "/" + imageCounter.ToString()
                 };
-
-                using (GetObjectResponse response = client.GetObject(request))
-                {
-                    //
-                }
             }
+            */
         }
 
         
