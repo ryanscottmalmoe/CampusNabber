@@ -20,6 +20,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using System.Configuration;
 using System.IO;
+using System.Collections;
 
 namespace CampusNabber.Controllers
 {
@@ -76,12 +77,27 @@ namespace CampusNabber.Controllers
                 return HttpNotFound();
             }
 
-            string s3Url = GetS3Photos(postItem);
+
             //Builds the school class for create page.
             School school = SchoolFactory.BuildSchool(postItem.school_name);
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
-            ViewBag.AWS_URL = s3Url;
+           
+            ArrayList photoList = GetS3Photos(postItem);
+            if(photoList.Count != 0)
+            {
+                string s3Url = photoList[0].ToString();
+                ViewBag.AWS_URL = s3Url;
+                ViewBag.NUMPHOTOS = photoList.Count;
+                int photoNum = 0;
+                foreach (var photo in photoList)
+                {
+                    string photoName = "photos" + photoNum;
+                    Session[photoName] = photo;
+                    photoNum++;
+                }
+            }
+
 
             return View(postItem);
         }
@@ -136,10 +152,14 @@ namespace CampusNabber.Controllers
         /// <summary>
         /// This is a GET request for all of the images in a certain folder
         /// </summary>
-        public string GetS3Photos(PostItem postItem)
+        public ArrayList GetS3Photos(PostItem postItem)
         {
-            int imageCounter = 1;
-            return "https://s3-us-west-2.amazonaws.com/campusnabberphotos/" + postItem.username + "/" + postItem.photo_path_id.ToString() + "/" + imageCounter.ToString();
+            PostItemPhotos photos = db.PostItemPhotos.Find(postItem.photo_path_id);
+            ArrayList photosList = new ArrayList();
+            for (int i = 0, counter = 1; i < photos.num_photos; i++, counter++)
+                photosList.Add("https://s3-us-west-2.amazonaws.com/campusnabberphotos/" + postItem.username + "/" + postItem.photo_path_id.ToString() + "/" + counter.ToString());
+            return photosList;
+
 
             /*
             IAmazonS3 client;
@@ -188,12 +208,12 @@ namespace CampusNabber.Controllers
                         }
                     }
                 }
-                itemPhotos.num_photos = (short)imageCounter;
+                itemPhotos.num_photos = (short)(imageCounter - 1);
                 itemPhotos.createEntity();
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
         
