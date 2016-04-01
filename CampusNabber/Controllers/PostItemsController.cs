@@ -15,7 +15,7 @@ using System.Diagnostics;
 using CampusNabber.Utility;
 using CampusNabber.Helpers.SchoolClasses;
 using DatabaseCode.FactoryFiles;
-
+using System.Linq.Dynamic;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -273,20 +273,20 @@ namespace CampusNabber.Controllers
 
         public ActionResult ViewFlaggedPosts()
         {
-            CNQuery query = new CNQuery("FlagPost");
+            /*CNQuery query = new CNQuery("FlagPost");
             List<FlagPost> flags = query.select().Cast<FlagPost>().ToList();
             CNQuery query2 = new CNQuery("PostItem");
-            List<PostItem> posts = query2.select().Cast<PostItem>().ToList();
-            List<dynamic> results = null;
+            List<PostItem> posts = query2.select().Cast<PostItem>().ToList();*/
             ContextFactory cf = new ContextFactory();
             using (var context = new CampusNabberEntities())
             {
-                IQueryable<dynamic> testList = cf.getIQueryableSet(context, "PostItem");
-                IQueryable<dynamic> testList2 = cf.getIQueryableSet(context, "FlagPost");
+                List<PostItem> posts = cf.PostItems.AsEnumerable().Cast<PostItem>().ToList();
+                List<FlagPost> flags = cf.FlagPosts.AsEnumerable().Cast<FlagPost>().ToList();
+                var joinedTables = posts.Join(flags, postitem => postitem.object_id, flagpost => flagpost.flagged_postitem_id, (postitem, flagpost) => new { Title = postitem.title });
+                var results = from item in joinedTables group item by item.Title into grp select new { Title = grp.Key, cnt = grp.Count() };
                 
-                testList.Join(testList2, postItem => postItem.object_id, flagPost => flagPost.flagged_postitem_id, (postItem, flagPost) => new { PostTitle = postItem.title });
             }
-            return View("FlaggedPosts", posts);
+            return View("FlaggedPosts");
         }
 
         protected override void Dispose(bool disposing)
