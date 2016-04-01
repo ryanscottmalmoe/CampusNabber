@@ -11,8 +11,9 @@
     <Property Name="price" Type="Int16" Nullable="false" />
     <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="photo_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="photo_path_id" Type="Guid" />
     <Property Name="category" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="tags" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
   </EntityType>
   <EntityType Name="School">
     <Key>
@@ -21,22 +22,42 @@
     <Property Name="object_id" Type="Guid" Nullable="false" />
     <Property Name="school_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="address" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="main_hex_color" Type="String" Nullable="false" />
-    <Property Name="secondary_hex_color" Type="String" Nullable="false" />
-  </EntityType>
-  <EntityType Name="User">
-    <Key>
-      <PropertyRef Name="object_id" />
-    </Key>
-    <Property Name="object_id" Type="Guid" Nullable="false" />
-    <Property Name="username" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="encrypted_password" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
-    <Property Name="student_email" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="school_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="main_hex_color" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="secondary_hex_color" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
   </EntityType>
   <EntityContainer Name="CampusNabberEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="PostItems" EntityType="Self.PostItem" />
     <EntitySet Name="Schools" EntityType="Self.School" />
-    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="C__MigrationHistory" EntityType="CampusNabberModel.C__MigrationHistory" />
+    <EntitySet Name="PostItemPhotos" EntityType="CampusNabberModel.PostItemPhotos" />
+    <EntitySet Name="FlagPosts" EntityType="CampusNabberModel.FlagPost" />
   </EntityContainer>
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="PostItemPhotos">
+    <Key>
+      <PropertyRef Name="object_id" />
+    </Key>
+    <Property Name="object_id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="num_photos" Type="Int16" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FlagPost">
+    <Key>
+      <PropertyRef Name="object_id" />
+    </Key>
+    <Property Name="object_id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="flagged_postitem_id" Type="Guid" Nullable="false" />
+    <Property Name="username_of_post" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="flag_reason" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="username_of_flagger" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="flag_date" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
 </Schema>

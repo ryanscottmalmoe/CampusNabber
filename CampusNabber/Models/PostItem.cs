@@ -16,7 +16,6 @@ namespace CampusNabber.Models
     using System.Data.Entity.Validation;
     using System.Diagnostics;
     using System.Linq;
-    using System.Web.Mvc;
 
     public partial class PostItem
     {
@@ -27,8 +26,9 @@ namespace CampusNabber.Models
         public short price { get; set; }
         public string title { get; set; }
         public string description { get; set; }
-        public string photo_path { get; set; }
+        public Nullable<System.Guid> photo_path_id { get; set; }
         public string category { get; set; }
+        public string tags { get; set; }
 
         public void deleteEntity()
         {
@@ -78,7 +78,7 @@ namespace CampusNabber.Models
                 postItem.title = title;
                 postItem.description = description;
                 postItem.category = category;
-                postItem.photo_path = photo_path;
+                postItem.photo_path_id = photo_path_id;
                 postItem.post_date = post_date;
                 try
                 {
@@ -89,7 +89,7 @@ namespace CampusNabber.Models
                     entry.Property(e => e.price).IsModified = true;
                     entry.Property(e => e.description).IsModified = true;
                     entry.Property(e => e.title).IsModified = true;
-                    entry.Property(e => e.photo_path).IsModified = true;
+                    entry.Property(e => e.photo_path_id).IsModified = true;
                     entry.Property(e => e.category).IsModified = true;
 
                     context.SaveChanges();
@@ -153,3 +153,4 @@ namespace CampusNabber.Models
         }
     }
 }
+

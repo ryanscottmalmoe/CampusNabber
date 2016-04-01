@@ -48,6 +48,14 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="AWS.SessionProvider, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWS.SessionProvider.1.5.26.3\lib\AWS.SessionProvider.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AWSSDK, Version=2.3.55.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.2.3.55.0\lib\net45\AWSSDK.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -230,17 +238,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CampusNabber.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\C__MigrationHistory.cs">
+      <DependentUpon>CampusNabber.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FlagPost.cs">
+      <DependentUpon>CampusNabber.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MarketPlace.cs" />
     <Compile Include="Models\PostItem.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ProfileModel.cs" />
-    <Compile Include="Models\School.cs">
+    <Compile Include="Models\PostItemPhotos.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\User.cs">
+    <Compile Include="Models\ProfileModel.cs" />
+    <Compile Include="Models\School.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -259,7 +273,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\logo-placeholder.jpg" />
-    <Content Include="Content\School.css" />
+    <Content Include="Content\images\Solid_logo_black.jpg" />
+    <Content Include="Content\images\Transparent_logo_black.png" />
+    <Content Include="Content\images\Transparent_logo_red.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -292,6 +308,7 @@
     <Content Include="Scripts\SchoolColor.js" />
     <Content Include="Scripts\jquery-2.2.1.js" />
     <Content Include="Scripts\jquery-2.2.1.min.js" />
+    <Content Include="aws-sessionprovider-sample.config" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />

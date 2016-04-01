@@ -8,7 +8,9 @@
   <EntityContainer Name="CampusNabberModelStoreContainer">
     <EntitySet Name="PostItems" EntityType="CampusNabberModel.Store.PostItems" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Schools" EntityType="CampusNabberModel.Store.Schools" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Users" EntityType="CampusNabberModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="C__MigrationHistory" EntityType="CampusNabberModel.Store.C__MigrationHistory" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PostItemPhotos" EntityType="CampusNabberModel.Store.PostItemPhotos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FlagPosts" EntityType="CampusNabberModel.Store.FlagPosts" store:Type="Tables" Schema="dbo" />
   </EntityContainer>
   <EntityType Name="PostItems">
     <Key>
@@ -21,8 +23,9 @@
     <Property Name="price" Type="smallint" Nullable="false" />
     <Property Name="title" Type="nvarchar" Nullable="false" MaxLength="100" />
     <Property Name="description" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="photo_path" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="photo_path_id" Type="uniqueidentifier" Nullable="true" />
     <Property Name="category" Type="nvarchar" Nullable="false" MaxLength="60" />
+    <Property Name="tags" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Schools">
     <Key>
@@ -34,15 +37,33 @@
     <Property Name="main_hex_color" Type="nvarchar(max)" Nullable="false" />
     <Property Name="secondary_hex_color" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="Users">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="ContextKey" Type="nvarchar" Nullable="false" MaxLength="300" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" Nullable="false" MaxLength="32" />
+  </EntityType>
+  <EntityType Name="PostItemPhotos">
     <Key>
       <PropertyRef Name="object_id" />
     </Key>
     <Property Name="object_id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="username" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="encrypted_password" Type="varbinary(max)" Nullable="false" />
-    <Property Name="student_email" Type="nvarchar" Nullable="false" MaxLength="60" />
-    <Property Name="school_name" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="num_photos" Type="smallint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FlagPosts">
+    <Key>
+      <PropertyRef Name="object_id" />
+    </Key>
+    <Property Name="object_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="flagged_postitem_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="username_of_post" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="flag_reason" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="username_of_flagger" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="flag_date" Type="datetime" Nullable="false" />
   </EntityType>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -59,8 +80,9 @@
           <Property Name="price" Type="Int16" Nullable="false" />
           <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="photo_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="photo_path_id" Type="Guid" />
           <Property Name="category" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="tags" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="School">
           <Key>
@@ -69,24 +91,44 @@
           <Property Name="object_id" Type="Guid" Nullable="false" />
           <Property Name="school_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="address" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="main_hex_color" Type="String" Nullable="false" />
-          <Property Name="secondary_hex_color" Type="String" Nullable="false" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="object_id" />
-          </Key>
-          <Property Name="object_id" Type="Guid" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="encrypted_password" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
-          <Property Name="student_email" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="school_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="main_hex_color" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="secondary_hex_color" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityContainer Name="CampusNabberEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="PostItems" EntityType="Self.PostItem" />
           <EntitySet Name="Schools" EntityType="Self.School" />
-          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="C__MigrationHistory" EntityType="CampusNabberModel.C__MigrationHistory" />
+          <EntitySet Name="PostItemPhotos" EntityType="CampusNabberModel.PostItemPhotos" />
+          <EntitySet Name="FlagPosts" EntityType="CampusNabberModel.FlagPost" />
         </EntityContainer>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PostItemPhotos">
+          <Key>
+            <PropertyRef Name="object_id" />
+          </Key>
+          <Property Name="object_id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="num_photos" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FlagPost">
+          <Key>
+            <PropertyRef Name="object_id" />
+          </Key>
+          <Property Name="object_id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="flagged_postitem_id" Type="Guid" Nullable="false" />
+          <Property Name="username_of_post" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="flag_reason" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="username_of_flagger" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="flag_date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -103,8 +145,9 @@
           <ScalarProperty Name="price" ColumnName="price" />
           <ScalarProperty Name="title" ColumnName="title" />
           <ScalarProperty Name="description" ColumnName="description" />
-          <ScalarProperty Name="photo_path" ColumnName="photo_path" />
+          <ScalarProperty Name="photo_path_id" ColumnName="photo_path_id" />
           <ScalarProperty Name="category" ColumnName="category" />
+          <ScalarProperty Name="tags" ColumnName="tags" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -119,14 +162,33 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Users">
-      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.User)">
-        <MappingFragment StoreEntitySet="Users">
+    <EntitySetMapping Name="C__MigrationHistory">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.C__MigrationHistory)">
+        <MappingFragment StoreEntitySet="C__MigrationHistory">
+          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+          <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostItemPhotos">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.PostItemPhotos)">
+        <MappingFragment StoreEntitySet="PostItemPhotos">
           <ScalarProperty Name="object_id" ColumnName="object_id" />
-          <ScalarProperty Name="username" ColumnName="username" />
-          <ScalarProperty Name="encrypted_password" ColumnName="encrypted_password" />
-          <ScalarProperty Name="student_email" ColumnName="student_email" />
-          <ScalarProperty Name="school_name" ColumnName="school_name" />
+          <ScalarProperty Name="num_photos" ColumnName="num_photos" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlagPosts">
+      <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.FlagPost)">
+        <MappingFragment StoreEntitySet="FlagPosts">
+          <ScalarProperty Name="object_id" ColumnName="object_id" />
+          <ScalarProperty Name="flagged_postitem_id" ColumnName="flagged_postitem_id" />
+          <ScalarProperty Name="username_of_post" ColumnName="username_of_post" />
+          <ScalarProperty Name="flag_reason" ColumnName="flag_reason" />
+          <ScalarProperty Name="username_of_flagger" ColumnName="username_of_flagger" />
+          <ScalarProperty Name="flag_date" ColumnName="flag_date" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

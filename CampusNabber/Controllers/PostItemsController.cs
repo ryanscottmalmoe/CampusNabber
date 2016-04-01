@@ -15,10 +15,21 @@ using System.Diagnostics;
 using CampusNabber.Utility;
 using CampusNabber.Helpers.SchoolClasses;
 
+using Amazon;
+using Amazon.S3;
+using Amazon.S3.Model;
+using System.Configuration;
+using System.IO;
+
 namespace CampusNabber.Controllers
 {
     public class PostItemsController : Controller
     {
+
+        private static readonly string _awsAccessKey = "AKIAJ4CAE6M72TYTV2KA";
+        private static readonly string _awsSecretKey = "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";
+        private static readonly string _bucketName = "campusnabberphotos";
+
 
 
         ApplicationUserManager _userManager;
@@ -52,7 +63,7 @@ namespace CampusNabber.Controllers
         }
 
 
-        // GET: PostItems/Details/5
+        // GET: PostItems/Details
         public ActionResult Details(Guid? id)
         {
             if (id == null)
@@ -64,27 +75,21 @@ namespace CampusNabber.Controllers
             {
                 return HttpNotFound();
             }
+
+            string s3Url = GetS3Photos(postItem);
             //Builds the school class for create page.
             School school = SchoolFactory.BuildSchool(postItem.school_name);
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
+            ViewBag.AWS_URL = s3Url;
 
             return View(postItem);
         }
-
-        // GET: PostItems/Create
-        /*
-        public ActionResult Create()
-        { 
-            var user = UserManager.FindByIdAsync(User.Identity.GetUserId());
-            return View(user);
-        }
-        */
         
+        // Get: /PostItems/Create
         public ActionResult Create(String userId)
         {
             PostItem postItem = null;
-            //var user = UserManager.FindByName(userId);
             if (userId == null)
                 postItem = new PostItem { username = User.Identity.GetUserName() };
             else
@@ -104,14 +109,9 @@ namespace CampusNabber.Controllers
             return View(postItem);
         }
 
-        // POST: PostItems/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-     //   [ValidateAntiForgeryToken]
-     // Christian Change
-        //So that the system supplies the school name based off the current user & find a way to have the model do the data binding
-        public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path,category")] PostItem postItem)
+        //Post /PostItems/Create
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItem postItem, HttpPostedFileBase[] images)
         {
             if (ModelState.IsValid)
             {
@@ -120,16 +120,86 @@ namespace CampusNabber.Controllers
                 postItem.school_name = user.school_name;
                 postItem.post_date = System.DateTime.Today;
                 postItem.object_id = Guid.NewGuid();
-                postItem.photo_path = "";
-                postItem.createEntity();
+                postItem.photo_path_id = Guid.NewGuid();
+                if (postItem.tags == null)
+                    postItem.tags = "default";
+
+                StoreS3Photos(images, postItem);
                 
+                postItem.createEntity();
+
                 return RedirectToAction("Index");
             }
-
             return View(postItem);
         }
 
-        // GET: PostItems/Edit/5
+        /// <summary>
+        /// This is a GET request for all of the images in a certain folder
+        /// </summary>
+        public string GetS3Photos(PostItem postItem)
+        {
+            int imageCounter = 1;
+            return "https://s3-us-west-2.amazonaws.com/campusnabberphotos/" + postItem.username + "/" + postItem.photo_path_id.ToString() + "/" + imageCounter.ToString();
+
+            /*
+            IAmazonS3 client;
+            using (client = new AmazonS3Client(_awsAccessKey, _awsSecretKey, Amazon.RegionEndpoint.USWest2))
+            {
+                GetObjectRequest request = new GetObjectRequest
+                {
+                    BucketName = _bucketName,
+                    Key = postItem.username + "/" + postItem.photo_path_id.ToString() + "/" + imageCounter.ToString()
+                };
+            }
+            */
+        }
+
+        
+         /// <summary>
+         /// This method stores all of the currently uploaded images to AWS S3
+         /// </summary>
+         /// <param name="images"> Images of the file upload</param>
+         /// <param name="awsFolderName"> Username of the account</param>
+         /// <param name="postItemID"> This associates this posting to the current user</param>
+        public void StoreS3Photos(HttpPostedFileBase[] images, PostItem postItem)
+        {   
+            PostItemPhotos itemPhotos = new PostItemPhotos();
+            itemPhotos.object_id = (Guid)postItem.photo_path_id;
+            int imageCounter = 1;
+            try
+            {
+                IAmazonS3 client;
+                using (client = new AmazonS3Client(_awsAccessKey, _awsSecretKey, Amazon.RegionEndpoint.USWest2))
+                {
+                    foreach (var image in images)
+                    {
+                        if (image != null)
+                        {
+                            //Will need to save url to AWS S3 here....
+                            var request = new PutObjectRequest()
+                            {
+                                BucketName = _bucketName,
+                                CannedACL = S3CannedACL.PublicRead,//PERMISSION TO FILE PUBLIC ACCESIBLE
+                                Key = postItem.username + "/" + itemPhotos.object_id.ToString() + "/" + imageCounter.ToString(),
+                                InputStream = image.InputStream//SEND THE FILE STREAM
+                            };
+                            client.PutObject(request);
+                            imageCounter++;
+                        }
+                    }
+                }
+                itemPhotos.num_photos = (short)imageCounter;
+                itemPhotos.createEntity();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        
+
+
+        // GET: PostItems/Edit
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -152,16 +222,21 @@ namespace CampusNabber.Controllers
             return View(postItem);
         }
 
-        // POST: PostItems/Edit/5
+        // POST: PostItems/Edit
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path,category")] PostItem postItem)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItem postItem, HttpPostedFileBase[] images)
         {
             if (ModelState.IsValid)
             {
+                //Here we need to delete old photos. And upload new ones! 
+                //      Will take care of this after break ~Ryan
+                postItem.photo_path_id = Guid.NewGuid();
+
                 postItem.updateEntity();
+
                 //Instead of taking you back to the index page, the user is now taken back to the Details page of that particular post. - ahenry
                 return RedirectToAction("Details", new { id = postItem.object_id });
             }
@@ -183,7 +258,7 @@ namespace CampusNabber.Controllers
             return View(postItem);
         }
 
-        // POST: PostItems/Delete/5
+        // POST: PostItems/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
@@ -202,9 +277,5 @@ namespace CampusNabber.Controllers
             }
             base.Dispose(disposing);
         }
-
-       
-        
-
     }
 }

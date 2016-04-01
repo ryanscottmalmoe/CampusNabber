@@ -181,7 +181,16 @@ namespace CampusNabber.Controllers
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    string code = "";
+                    try
+                    {
+                        code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+
+                    }
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     ViewBag.Message = "An email with your validation link has been sent to the address you provided. You must confirm you email address before logging in.";
