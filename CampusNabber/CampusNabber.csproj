@@ -253,6 +253,7 @@
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PostItemPhotos.cs" />
+    <Compile Include="Models\PostXFlagViewModel.cs" />
     <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Models\School.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
@@ -368,6 +369,8 @@
     <Content Include="Views\Flag\Create.cshtml" />
     <Content Include="Views\Flag\SuccessfulCreation.cshtml" />
     <Content Include="Views\PostItems\FlaggedPosts.cshtml" />
+    <Content Include="Views\PostXFlagViewModel\Index.cshtml" />
+    <Content Include="Views\PostXFlagViewModel\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

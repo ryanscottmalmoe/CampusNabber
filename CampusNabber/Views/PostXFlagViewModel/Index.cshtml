@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CampusNabber.Models.PostXFlagViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Flagged Posts</h2>
+    <table class="table">
+        <tr>
+            <th>
+                Post Title
+            </th>
+            <th>
+                Date Posted
+            </th>
+            <th>
+                Number of Flags
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+           <tr>
+                <td>
+                    
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DatePosted)
+                </td>
+                <td>
+                    @item.Flags.Count()
+                </td>
+        </tr>
+        }
+    </table>
+

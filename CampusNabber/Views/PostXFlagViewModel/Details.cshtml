@@ -1,0 +1,31 @@
+﻿@model CampusNabber.Models.PostXFlagViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Post Details</h2>
+
+<h3>@Model.Title</h3>
+<table>
+    <tr>
+        <th>
+            Flag Reason
+        </th>
+        <th>
+            Date Flagged
+        </th>
+    </tr>
+    @foreach(var flag in Model.Flags)
+    {
+        <tr>
+            <th>
+                @flag.flag_reason
+            </th>
+            <th>
+                @flag.flag_date
+            </th>
+        </tr>
+    }
+</table>
+
