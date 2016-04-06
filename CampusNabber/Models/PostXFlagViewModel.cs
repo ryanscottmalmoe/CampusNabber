@@ -20,5 +20,7 @@ namespace CampusNabber.Models
             Title = newTitle;
             DatePosted = newDatePosted;
         }
+        public PostXFlagViewModel()
+        { }
     }
 }

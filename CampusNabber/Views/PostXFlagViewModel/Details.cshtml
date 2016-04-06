@@ -7,7 +7,7 @@
 <h2>Post Details</h2>
 
 <h3>@Model.Title</h3>
-<table>
+<table class="table">
     <tr>
         <th>
             Flag Reason
@@ -16,15 +16,15 @@
             Date Flagged
         </th>
     </tr>
-    @foreach(var flag in Model.Flags)
+    @foreach(var item in Model.Flags)
     {
         <tr>
-            <th>
-                @flag.flag_reason
-            </th>
-            <th>
-                @flag.flag_date
-            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.flag_reason)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.flag_date)
+            </td>
         </tr>
     }
 </table>

@@ -273,10 +273,6 @@ namespace CampusNabber.Controllers
 
         public ActionResult ViewFlaggedPosts()
         {
-            /*CNQuery query = new CNQuery("FlagPost");
-            List<FlagPost> flags = query.select().Cast<FlagPost>().ToList();
-            CNQuery query2 = new CNQuery("PostItem");
-            List<PostItem> posts = query2.select().Cast<PostItem>().ToList();*/
             ContextFactory cf = new ContextFactory();
             
             using (var context = new CampusNabberEntities())
@@ -301,6 +297,13 @@ namespace CampusNabber.Controllers
                 
             }
             return View("Index");
+        }
+
+
+        public ActionResult PostFlagDetails(PostXFlagViewModel model)
+        {
+            model.Flags = QueryFlags(model.PostId);
+            return View("~/Views/PostXFlagViewModel/Details.cshtml", model);
         }
 
         protected IEnumerable<FlagPost> QueryFlags(Guid queryGuid)

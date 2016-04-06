@@ -22,8 +22,9 @@
         {
            <tr>
                 <td>
-                    
-                    @Html.DisplayFor(modelItem => item.Title)
+                    <a href="@Url.Action("PostFlagDetails", "PostItems", item)">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DatePosted)
