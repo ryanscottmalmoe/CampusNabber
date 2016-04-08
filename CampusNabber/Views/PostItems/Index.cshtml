@@ -35,6 +35,9 @@
         <th>
             @Html.DisplayNameFor(model => model.category)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tags)
+        </th>
         <th></th>
     </tr>
 
@@ -64,6 +67,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.category)
         </td>
+        <th>
+            @Html.DisplayNameFor(model => model.tags)
+        </th>
         <td>
             <!--@Html.ActionLink("Edit", "Edit", new { id=item.object_id }) |
             @Html.ActionLink("Details", "Details", new { id=item.object_id }) |
