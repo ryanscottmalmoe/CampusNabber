@@ -15,7 +15,7 @@
         <div class="form-group">
             <div class="col-md-12">
                 <h3>Why are you flagging this post?</h3>
-                @Html.EditorFor(model => model.flag_reason, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.flag_reason, new { @rows="5", @class="form-control" })
                 @Html.ValidationMessageFor(model => model.flag_reason, "", new {@class="text-danger"})
             </div>
         </div>
