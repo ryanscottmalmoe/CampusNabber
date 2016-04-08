@@ -266,6 +266,9 @@ namespace CampusNabber.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             PostItem postItem = db.PostItems.Find(id);
+            //Remove associated flags from the database
+            var flags = db.FlagPosts.Where(flag => flag.flagged_postitem_id == id).ToList();
+            db.FlagPosts.RemoveRange(flags);
             db.PostItems.Remove(postItem);
             db.SaveChanges();
             return RedirectToAction("MainMarketView", "MarketPlace");
