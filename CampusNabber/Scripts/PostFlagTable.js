@@ -1,5 +1,5 @@
 ﻿/*The purpose of this javascript is to allow users to click on 
-column headers of a table to sort the data.*/
+column headers of a table to sort the data. - Ahenry*/
 
 //Global values that determine the initial sort order
 var order_title = -1;
@@ -86,9 +86,21 @@ function sortTable(sort_order, column_index) {
     /*This function pulls the value of the row at the specified column_index. If the
     value is a number, it will be parsed accordingly.*/
     function getValue(element) {
-        var value = $(element).children('td').eq(column_index).text().toUpperCase();
+        var value = $(element).children('td').eq(column_index);
+        value = value[0].innerText;
+        //Try parsing the value to see if it's a date.
+        var date = Date.parse(value);
+        //Test to see if the value is a number
         if ($.isNumeric(value)) {
             value = parseInt(value);
+        }
+        //If it's not a number, determine whether the value is a valid date
+        else if (!isNaN(date)) {
+            value = date;
+        }
+        //Otherwise, it's a string
+        else {
+            value = value.toUpperCase();
         }
         return value;
     }

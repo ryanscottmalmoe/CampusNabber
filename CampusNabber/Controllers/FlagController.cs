@@ -19,6 +19,11 @@ namespace CampusNabber.Controllers
         }
         public ActionResult Create(Guid postId, string username)
         {
+            IEnumerable<FlagPost> previousFlags = db.FlagPosts.Where(flag => flag.username_of_flagger.Equals(User.Identity.Name) && flag.flagged_postitem_id.Equals(postId));
+            if(previousFlags.Count() > 0)
+            {
+                return View("AlreadyFlagged");
+            }
             FlagPost newFlag = new FlagPost { username_of_post = username, flagged_postitem_id = postId, flag_date = DateTime.Now, username_of_flagger = User.Identity.Name };
             return View(newFlag);
         }

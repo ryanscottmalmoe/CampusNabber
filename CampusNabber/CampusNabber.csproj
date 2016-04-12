@@ -373,6 +373,7 @@
     <Content Include="Views\PostItems\FlaggedPosts.cshtml" />
     <Content Include="Views\PostXFlagViewModel\Index.cshtml" />
     <Content Include="Views\PostXFlagViewModel\Details.cshtml" />
+    <Content Include="Views\Flag\AlreadyFlagged.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
