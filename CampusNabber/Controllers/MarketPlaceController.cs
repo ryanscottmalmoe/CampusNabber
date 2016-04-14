@@ -1,4 +1,5 @@
-﻿using CampusNabber.Models;
+﻿using CampusNabber.Helpers.SchoolClasses;
+using CampusNabber.Models;
 using DatabaseCode.CNQueryFolder;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -53,6 +54,11 @@ namespace CampusNabber.Controllers
         {
             var market = new MarketPlace { };
             market.setList(UserManager.FindById(User.Identity.GetUserId()));
+
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            School school = SchoolFactory.BuildSchool(user.school_name);
+            ViewBag.main_color = school.main_hex_color;
+
             return MainMarketView(market);
         }
         

@@ -276,6 +276,7 @@
     <Content Include="Content\images\Solid_logo_black.jpg" />
     <Content Include="Content\images\Transparent_logo_black.png" />
     <Content Include="Content\images\Transparent_logo_red.png" />
+    <Content Include="Content\PostItem.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

@@ -21,6 +21,7 @@ using Amazon.S3.Model;
 using System.Configuration;
 using System.IO;
 using System.Collections;
+using Newtonsoft.Json;
 
 namespace CampusNabber.Controllers
 {
@@ -82,22 +83,22 @@ namespace CampusNabber.Controllers
             School school = SchoolFactory.BuildSchool(postItem.school_name);
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
-           
-            ArrayList photoList = GetS3Photos(postItem);
-            if(photoList.Count != 0)
-            {
-                string s3Url = photoList[0].ToString();
-                ViewBag.AWS_URL = s3Url;
-                ViewBag.NUMPHOTOS = photoList.Count;
-                int photoNum = 0;
-                foreach (var photo in photoList)
-                {
-                    string photoName = "photos" + photoNum;
-                    Session[photoName] = photo;
-                    photoNum++;
-                }
-            }
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
 
+            //*******AWS Portion *********************
+            List<string> photoList = PostItemService.GetS3Photos(postItem);
+            if(photoList.Count != 0)
+            { 
+                ViewBag.RESULTS = photoList;
+                ViewBag.FIRSTPHOTO = photoList[0];
+                ViewBag.EMAIL = user.Email;
+                ViewBag.HASPHOTO = true;
+            }
+            else
+            {
+                ViewBag.HASPHOTO = false;
+            }
+            //******************************************
 
             return View(postItem);
         }
@@ -140,7 +141,9 @@ namespace CampusNabber.Controllers
                 if (postItem.tags == null)
                     postItem.tags = "default";
 
-                StoreS3Photos(images, postItem);
+                //****AWS Portion**************
+                PostItemService.StoreS3Photos(images, postItem);
+                //******************************
                 
                 postItem.createEntity();
 
@@ -148,75 +151,6 @@ namespace CampusNabber.Controllers
             }
             return View(postItem);
         }
-
-        /// <summary>
-        /// This is a GET request for all of the images in a certain folder
-        /// </summary>
-        public ArrayList GetS3Photos(PostItem postItem)
-        {
-            PostItemPhotos photos = db.PostItemPhotos.Find(postItem.photo_path_id);
-            ArrayList photosList = new ArrayList();
-            for (int i = 0, counter = 1; i < photos.num_photos; i++, counter++)
-                photosList.Add("https://s3-us-west-2.amazonaws.com/campusnabberphotos/" + postItem.username + "/" + postItem.photo_path_id.ToString() + "/" + counter.ToString());
-            return photosList;
-
-
-            /*
-            IAmazonS3 client;
-            using (client = new AmazonS3Client(_awsAccessKey, _awsSecretKey, Amazon.RegionEndpoint.USWest2))
-            {
-                GetObjectRequest request = new GetObjectRequest
-                {
-                    BucketName = _bucketName,
-                    Key = postItem.username + "/" + postItem.photo_path_id.ToString() + "/" + imageCounter.ToString()
-                };
-            }
-            */
-        }
-
-        
-         /// <summary>
-         /// This method stores all of the currently uploaded images to AWS S3
-         /// </summary>
-         /// <param name="images"> Images of the file upload</param>
-         /// <param name="awsFolderName"> Username of the account</param>
-         /// <param name="postItemID"> This associates this posting to the current user</param>
-        public void StoreS3Photos(HttpPostedFileBase[] images, PostItem postItem)
-        {   
-            PostItemPhotos itemPhotos = new PostItemPhotos();
-            itemPhotos.object_id = (Guid)postItem.photo_path_id;
-            int imageCounter = 1;
-            try
-            {
-                IAmazonS3 client;
-                using (client = new AmazonS3Client(_awsAccessKey, _awsSecretKey, Amazon.RegionEndpoint.USWest2))
-                {
-                    foreach (var image in images)
-                    {
-                        if (image != null)
-                        {
-                            //Will need to save url to AWS S3 here....
-                            var request = new PutObjectRequest()
-                            {
-                                BucketName = _bucketName,
-                                CannedACL = S3CannedACL.PublicRead,//PERMISSION TO FILE PUBLIC ACCESIBLE
-                                Key = postItem.username + "/" + itemPhotos.object_id.ToString() + "/" + imageCounter.ToString(),
-                                InputStream = image.InputStream//SEND THE FILE STREAM
-                            };
-                            client.PutObject(request);
-                            imageCounter++;
-                        }
-                    }
-                }
-                itemPhotos.num_photos = (short)(imageCounter - 1);
-                itemPhotos.createEntity();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-        
 
 
         // GET: PostItems/Edit
@@ -238,6 +172,18 @@ namespace CampusNabber.Controllers
             School school = SchoolFactory.BuildSchool(postItem.school_name);
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
+
+            //*******AWS Portion *********************
+            List<string> photoList = PostItemService.GetS3Photos(postItem);
+            if (photoList.Count != 0)
+            {
+                List<dynamic> photoPaths = new List<dynamic>();
+                foreach (var photo in photoList)
+                    photoPaths.Add(new { image = photo.ToString() });
+                var results = JsonConvert.SerializeObject(photoPaths);
+                ViewBag.RESULTS = results;
+            }
+            //******************************************
 
             return View(postItem);
         }
@@ -284,8 +230,15 @@ namespace CampusNabber.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             PostItem postItem = db.PostItems.Find(id);
+            PostItemPhotos postItemPhotos = db.PostItemPhotos.Find(postItem.photo_path_id);
             db.PostItems.Remove(postItem);
+
+            //Delete AWS Photos    
+            PostItemService.DeleteS3Photos(postItem);
+            db.PostItemPhotos.Remove(postItemPhotos);
+
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

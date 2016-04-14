@@ -4,7 +4,23 @@
     ViewBag.Title = "Details";
 }
 
-<h2>@Html.DisplayFor(model => model.title)</h2>
+<header>
+
+
+    <h2>@Html.DisplayFor(model => model.title)</h2>
+
+    <div class="dropdown pull-right">
+        <button class="btn btn-primary dropdown-toggle pull-right" type="button" data-toggle="dropdown">
+            Contact
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Email: @ViewBag.EMAIL </a></li>
+            <li><a href="#">Phone: </a></li>
+        </ul>
+    </div>
+
+</header>
 
 @section Scripts {
     <script type="text/javascript">
@@ -13,8 +29,12 @@
 
     </script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
+    <link rel="stylesheet" href="~/Content/PostItem.css" type="text/css" />
 
 }
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+
 
 <div class="container">
     <div class="row">
@@ -22,95 +42,65 @@
 
         <div class="col-md-6">
             <dl class="dl-horizontal">
-
-                <dt>
-                    Posted By
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.username)
-                </dd>
-                <dt>
-                    School
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.school_name)
-                </dd>
-                <dt>
-                    Date Posted
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.post_date)
-                </dd>
-                <dt>
-                    Price
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.price)
-                </dd>
-                <dt>
-                    Category
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.category)
-                </dd>
-                <dt>
-                    Description
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.description)
-                </dd>
-
+                <dt> Posted By </dt>
+                <dd> @Html.DisplayFor(model => model.username) </dd>
+                <dt> School </dt>
+                <dd> @Html.DisplayFor(model => model.school_name) </dd>
+                <dt> Date Posted </dt>
+                <dd> @Html.DisplayFor(model => model.post_date) </dd>
+                <dt> Price </dt>
+                <dd> @Html.DisplayFor(model => model.price) </dd>
+                <dt> Category </dt>
+                <dd> @Html.DisplayFor(model => model.category) </dd>
+                <dt> Description </dt>
+                <dd> @Html.DisplayFor(model => model.description) </dd>
             </dl>
         </div>
 
 
-        @if (ViewBag.NUMPHOTOS != null)
+        @if (ViewBag.HASPHOTO)
         {
-        <div class="container">
-            <div id="myCarousel" class="carousel slide col-md-4" style="width:520px;height:500px" data-ride="carousel">
+            <div id="myCarousel" class="carousel slide col-md-6" data-ride="carousel">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#myCarousel" data-slide-to="1"></li>
-                    <li data-target="#myCarousel" data-slide-to="2"></li>
-                </ol>
-
-                <!-- Wrapper for slides
-                    We need a default photo for "alt" -->
-                @{
-
-                    int numPhotosCheck = ViewBag.NUMPHOTOS;
-                    if (numPhotosCheck != 0)
-                    {
-                        <div class="carousel-inner" role="listbox">
-                            <div class="item active">
-                                <img src='@ViewBag.AWS_URL' alt="hey we couldn't find this picture" style="width:520px;height:500px">
-                            </div>
-                            <!--If statement here if there is
-                                more than one photo-->
-                            @{
-                                int numPhotos = ViewBag.NUMPHOTOS;
-                                if (numPhotos > 1)
-                                {
-                                    int skipFirstPhoto = 0;
-                                    foreach (var item in Session)
-                                    {
-                                        if (skipFirstPhoto != 0)
-                                        {
-                                            var photo = @HttpContext.Current.Session[item.ToString()].ToString();
-                                            <div class="item">
-                                                <img src=@photo alt="hey we couldn't find this picture" style="width:520px;height:500px">
-                                            </div>
-                                        }
-                                        skipFirstPhoto++;
-                                    }
-                                }
-                                }
-                        </div>
+                    @{
+                        var dataSlideIndex = 0;
+                        var results = ViewBag.RESULTS;
+                        foreach (var photoPath in results)
+                        {
+                            <li data-target="#myCarousel" data-slide-to=dataSlideIndex class="active"></li>
+                            dataSlideIndex++;
                         }
                     }
-                    
+                </ol>
 
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        @{
+                            var firstPhoto = ViewBag.FIRSTPHOTO;
+                            <div class="item active carouselImage">
+                                <img src=@firstPhoto alt="Chania">
+                            </div>
+                            var skipFirstPhoto = 0;
+                            foreach (var photoPath in ViewBag.RESULTS)
+                            {
+                                if (@skipFirstPhoto != 0)
+                                {
+                                    <div class="item carouselImage">
+                                        <img src=@photoPath alt="Chania">
+                                    </div>
+                                }
+                                skipFirstPhoto++;
+                            }
+
+                        }
+
+                    </div>
+
+                </div>
 
                 <!-- Left and right controls -->
                 <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -122,15 +112,13 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-
-        </div>
-        <br />
-        }
-
-
+                            }
 
     </div>
-</div>
+
+    </div>
+
+<br /><br />
 <p>
     @Html.ActionLink("Back to List", "MainMarketView", "MarketPlace")
     @if (User.Identity.Name.Equals(Model.username))
