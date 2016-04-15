@@ -306,6 +306,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\PostFlagTable.js" />
+    <Content Include="Scripts\ProfileView.js" />
     <Content Include="Scripts\SchoolColor.js" />
     <Content Include="Scripts\jquery-2.2.1.js" />
     <Content Include="Scripts\jquery-2.2.1.min.js" />

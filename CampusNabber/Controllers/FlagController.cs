@@ -50,7 +50,7 @@ namespace CampusNabber.Controllers
             }
             return View();
         }
-
+        [Authorize(Roles ="Admin")]
         public ActionResult RemoveFlags(PostXFlagViewModel model)
         {
             IEnumerable<FlagPost> flags = db.FlagPosts.Where(flag => flag.flagged_postitem_id == model.PostId);

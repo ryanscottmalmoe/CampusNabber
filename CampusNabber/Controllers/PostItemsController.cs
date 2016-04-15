@@ -293,6 +293,7 @@ namespace CampusNabber.Controllers
             return RedirectToAction("MainMarketView", "MarketPlace");
         }
 
+        [Authorize(Roles ="Admin")]
         public ActionResult ViewFlaggedPosts()
         {
             ContextFactory cf = new ContextFactory();
@@ -321,7 +322,7 @@ namespace CampusNabber.Controllers
             return View("Index");
         }
 
-
+        [Authorize(Roles = "Admin")]
         public ActionResult PostFlagDetails(PostXFlagViewModel model)
         {
             model.Flags = QueryFlags(model.PostId);
