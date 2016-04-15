@@ -208,9 +208,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RoleActions.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FlagController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MarketPlaceController.cs" />
@@ -250,9 +252,8 @@
     <Compile Include="Models\PostItem.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PostItemPhotos.cs">
-      <DependentUpon>CampusNabber.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\PostItemPhotos.cs" />
+    <Compile Include="Models\PostXFlagViewModel.cs" />
     <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Models\School.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
@@ -273,9 +274,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\logo-placeholder.jpg" />
-    <Content Include="Content\images\Solid_logo_black.jpg" />
-    <Content Include="Content\images\Transparent_logo_black.png" />
-    <Content Include="Content\images\Transparent_logo_red.png" />
+    <Content Include="Content\PostFlagTable.css" />
+    <Content Include="Content\School.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -330,6 +330,8 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\PostFlagTable.js" />
+    <Content Include="Scripts\ProfileView.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-et.js" />
@@ -1148,6 +1150,12 @@
     <Content Include="Views\MarketPlace\MainMarketView.cshtml" />
     <Content Include="Views\Profile\ProfileView.cshtml" />
     <Content Include="Views\MarketPlace\EditorTemplates\PostItem.cshtml" />
+    <Content Include="Views\Flag\Create.cshtml" />
+    <Content Include="Views\Flag\SuccessfulCreation.cshtml" />
+    <Content Include="Views\PostItems\FlaggedPosts.cshtml" />
+    <Content Include="Views\PostXFlagViewModel\Index.cshtml" />
+    <Content Include="Views\PostXFlagViewModel\Details.cshtml" />
+    <Content Include="Views\Flag\AlreadyFlagged.cshtml" />
     <Content Include="Views\MarketPlace\CategoryView.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\MarketPlace\EditorTemplates\MarketPlace.cshtml" />

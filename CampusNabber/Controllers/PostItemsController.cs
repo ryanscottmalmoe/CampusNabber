@@ -14,7 +14,8 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using CampusNabber.Utility;
 using CampusNabber.Helpers.SchoolClasses;
-
+using DatabaseCode.FactoryFiles;
+using System.Linq.Dynamic;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -284,9 +285,54 @@ namespace CampusNabber.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             PostItem postItem = db.PostItems.Find(id);
+            //Remove associated flags from the database
+            var flags = db.FlagPosts.Where(flag => flag.flagged_postitem_id == id).ToList();
+            db.FlagPosts.RemoveRange(flags);
             db.PostItems.Remove(postItem);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("MainMarketView", "MarketPlace");
+        }
+
+        [Authorize(Roles ="Admin")]
+        public ActionResult ViewFlaggedPosts()
+        {
+            ContextFactory cf = new ContextFactory();
+            
+            using (var context = new CampusNabberEntities())
+            {
+                List<PostItem> posts = cf.PostItems.AsEnumerable().Cast<PostItem>().ToList();
+                List<FlagPost> flags = cf.FlagPosts.AsEnumerable().Cast<FlagPost>().ToList();
+                //var joinedTables = posts.Join(flags, postitem => postitem.object_id, flagpost => flagpost.flagged_postitem_id, (postitem, flagpost) => new { Title = postitem.title, Id = postitem.object_id, FlagReason = flagpost.flag_reason, PostDate = postitem.post_date, FlagId = flagpost.object_id });
+                var flaggedPosts = posts.Join(flags, postitem => postitem.object_id, flagpost => flagpost.flagged_postitem_id, (postitem, flagpost) => new { Title = postitem.title, Id = postitem.object_id, PostDate = postitem.post_date}).Distinct();
+                //var results = from item in joinedTables group item by item.Title into grp select new { Title = grp.Key };
+                //var results = from item in joinedTables orderby item.Title select item;
+                if (flaggedPosts.Count() > 0)
+                {
+                    List<PostXFlagViewModel> resultList = new List<PostXFlagViewModel>();
+                    Guid currentGuid = Guid.Empty;
+                    for (int i = 0; i < flaggedPosts.Count(); i++)
+                    {
+                        resultList.Add(new PostXFlagViewModel(flaggedPosts.ElementAt(i).Id, flaggedPosts.ElementAt(i).Title, flaggedPosts.ElementAt(i).PostDate));
+                        resultList.Last().Flags = QueryFlags(resultList.Last().PostId);
+                    }
+                    return View("~/Views/PostXFlagViewModel/Index.cshtml", resultList);
+                }
+                
+            }
+            return View("Index");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult PostFlagDetails(PostXFlagViewModel model)
+        {
+            model.Flags = QueryFlags(model.PostId);
+            return View("~/Views/PostXFlagViewModel/Details.cshtml", model);
+        }
+
+        protected IEnumerable<FlagPost> QueryFlags(Guid queryGuid)
+        {
+            ContextFactory cf = new ContextFactory();
+            return cf.FlagPosts.Where(flag => flag.flagged_postitem_id == queryGuid).AsEnumerable();
         }
 
         protected override void Dispose(bool disposing)

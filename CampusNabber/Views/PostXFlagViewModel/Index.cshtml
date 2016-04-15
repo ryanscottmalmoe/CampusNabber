@@ -1,0 +1,51 @@
+﻿@model IEnumerable<CampusNabber.Models.PostXFlagViewModel>
+
+@{
+    ViewBag.Title = "Flagged Posts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/PostFlagTable.js")"></script>
+    }
+
+    <link href="@Url.Content("~/Content/PostFlagTable.css")" rel="stylesheet" type="text/css" />
+
+    
+
+<h2>Flagged Posts</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th id="title_header">
+                    Post Title <span id="title_order_icon"></span>
+                </th>
+
+                <th id="date_header">
+                    Date Posted <span id="date_order_icon"></span>
+                </th>
+                <th id="flag_header">
+                    Number of Flags <span id="flag_order_icon"></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("PostFlagDetails", "PostItems", item)">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DatePosted)
+                    </td>
+                    <td>
+                        @item.Flags.Count()
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
