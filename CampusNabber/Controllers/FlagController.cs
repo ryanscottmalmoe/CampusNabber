@@ -50,5 +50,13 @@ namespace CampusNabber.Controllers
             }
             return View();
         }
+
+        public ActionResult RemoveFlags(PostXFlagViewModel model)
+        {
+            IEnumerable<FlagPost> flags = db.FlagPosts.Where(flag => flag.flagged_postitem_id == model.PostId);
+            db.FlagPosts.RemoveRange(flags);
+            db.SaveChanges();
+            return View("~/Views/PostXFlagViewModel/Details.cshtml", model);
+        }
 	}
 }
