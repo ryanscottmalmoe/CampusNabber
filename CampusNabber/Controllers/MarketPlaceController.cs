@@ -60,16 +60,36 @@ namespace CampusNabber.Controllers
             ViewBag.main_color = school.main_hex_color;
 
             return MainMarketView(market);
+            var market = new MarketPlace (UserManager.FindById(User.Identity.GetUserId()));
+            
+            //Session["Market"] = market;
+            return View(market);
         }
-        
-      
-        public ActionResult ViewNextPosts(MarketPlace market)
+
+        public ActionResult CategoryView(MarketPlace market)
         {
-            ModelState.Clear();
-            market.incrimentRange();
-            return RedirectToAction("MainMarketView", "MarketPlace", new { Posts = market.Posts,
-                rangeTo = market.rangeTo, rangeFrom = market.rangeFrom, displayRange = market.displayRange });
+            /*
+            if (category != null)
+                Session["Category"] = category;
+            else
+                category = (int?)Session["Category"];
+            MarketPlace market = (MarketPlace)Session["Market"];
+            Session.Clear();
+            */
+         //   MarketPlace market = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
+            market.setList();
+            if(market.CategoryNames.Length < 4)
+            {
+                market.setCategoryNames();
+            }
+            market.Posts = market.Categories[(int)market.categoryToDisplay];
+            market.numPosts = market.Posts.Count;
+            //market.Posts = market.Categories[(int)category];
+            //market.categoryToDisplay = category;
+          //  market.numPosts = market.Posts.Count;
+            return View(market);
         }
+
 
        [HttpPost]
         public ActionResult MainMarketView(MarketPlace market)
@@ -77,6 +97,8 @@ namespace CampusNabber.Controllers
             ModelState.Clear();
             return View(market);
         }
+
+      
 
         // GET: MarketPlace/Details/5
         public ActionResult Details(int id)
