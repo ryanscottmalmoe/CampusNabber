@@ -127,14 +127,14 @@ namespace CampusNabber.Controllers
 
         //Post /PostItems/Create
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItem postItem, HttpPostedFileBase[] images)
+        public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,tags,category")] PostItem postItem, HttpPostedFileBase[] images)
         {
             if (ModelState.IsValid)
             {
                 //Sets the school_name here
                 ApplicationUser user = UserManager.FindByName(postItem.username);
                 postItem.school_name = user.school_name;
-                postItem.post_date = System.DateTime.Today;
+                postItem.post_date = System.DateTime.Now;
                 postItem.object_id = Guid.NewGuid();
                 postItem.photo_path_id = Guid.NewGuid();
                 if (postItem.tags == null)
@@ -247,7 +247,7 @@ namespace CampusNabber.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [ValidateAntiForgeryToken]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItem postItem, HttpPostedFileBase[] images)
+        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,tags,category")] PostItem postItem, HttpPostedFileBase[] images)
         {
             if (ModelState.IsValid)
             {
