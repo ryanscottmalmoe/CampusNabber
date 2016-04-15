@@ -112,6 +112,18 @@ namespace DatabaseCode.CNQueryFolder
             }
         }
 
+        public int getCategoryCount()
+        {
+            ContextFactory cf = new ContextFactory();
+            using (var context = new CampusNabberEntities())
+            {
+                IQueryable<dynamic> test = cf.getIQueryableSet(context, queryClassName);
+               // test.Where("COUNT(CATEGORY)")
+
+
+            }
+                return 0;
+        }
 
         public List<dynamic> select()
         {

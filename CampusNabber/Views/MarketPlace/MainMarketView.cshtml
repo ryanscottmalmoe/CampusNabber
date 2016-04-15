@@ -1,6 +1,5 @@
 ﻿@model CampusNabber.Models.MarketPlace
-
-
+<script src="~/Scripts/angular.min.js" type="text/javascript"></script>
 @{
     ViewBag.Title = "MainMarketView";
 }
@@ -8,6 +7,9 @@
 
     <h2>MainMarketView</h2>
 
+
+  
+@Html.EditorForModel()
 <!-- SEARCH FUNCTION
 <form method="get" action="@Url.Action("Index", "MarketPlaceController")">
     <input type="text" name="search" id="search" />
@@ -15,137 +17,111 @@
 </form>
 -->
 
-<div class="col-md-10">
-    <table class="table table-borderless" id="displayTable">
-       <tbody>
-            @{
-                int j = 1;
-                for (int i = Model.rangeFrom; i < Model.rangeTo; i++)
-                {
-                    if (Model.numPosts > 0)
-                    { var element = Model.getPost(i);
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@j">
 
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                        j++;
-                    }
 
-                }
-            </tbody>
-        </table>
+<div class="row">
 
-        <br />
 
-        @Html.ActionLink("Create", "Create", "PostItems")
-        @Html.EditorFor(model => Model.Posts)
+    <div class="col-md-3">
+
+        <a href="@Url.Action("CategoryView", "MarketPlace", new
+                    {
+                        Categories = Model.Categories,
+                        Posts = Model.Posts,
+                        CategoryNames = Model.CategoryNames,
+                        numPosts = Model.numPosts,
+                        displayRange = Model.displayRange,
+                        rangeFrom = Model.rangeFrom,
+                        rangeTo = Model.rangeTo,
+                        school_name = Model.school_name,
+                        user_name = Model.user_name,
+                        categoryToDisplay = 0
+                })">
+                @Model.CategoryNames[0] 
+        </a>
+
+    </div>
 
 
 
-
-        <br />
-        @Html.HiddenFor(model => Model.rangeFrom, new { id = "rangeFrom" })
-        <br />
-        @Html.HiddenFor(model => Model.rangeTo, new { id = "rangeTo" })
-        <br />
-        @Html.HiddenFor(model => Model.school_name)
-
-        <br />
-        @Html.HiddenFor(model => Model.displayRange)
-
-
-
-        <br />
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-
-                <button type="button" onclick="displayNext(-1)" class="btn btn-primary btn-lg">Previous</button>
-                <button type="button" onclick="displayNext(1)" class="btn btn-primary btn-lg">Next</button>
+            <div class="col-md-3">
+                <a href="@Url.Action("CategoryView", "MarketPlace", new
+                    {
+                        Categories = Model.Categories,
+                        Posts = Model.Posts,
+                        CategoryNames = Model.CategoryNames,
+                        numPosts = Model.numPosts,
+                        displayRange = Model.displayRange,
+                        rangeFrom = Model.rangeFrom,
+                        rangeTo = Model.rangeTo,
+                        school_name = Model.school_name,
+                        user_name = Model.user_name,
+                        categoryToDisplay = 1
+                })">
+                    @Model.CategoryNames[1]
+                </a>
 
             </div>
+    <div class="col-md-3">
+        <a href="@Url.Action("CategoryView", "MarketPlace", new
+                    {
+                        Categories = Model.Categories,
+                        Posts = Model.Posts,
+                        CategoryNames = Model.CategoryNames,
+                        numPosts = Model.numPosts,
+                        displayRange = Model.displayRange,
+                        rangeFrom = Model.rangeFrom,
+                        rangeTo = Model.rangeTo,
+                        school_name = Model.school_name,
+                        user_name = Model.user_name,
+                        categoryToDisplay = 2
+                })">
+            @Model.CategoryNames[2]
+        </a>
+
+    </div>
+
+
+            <div class="col-md-3">
+                <a href="@Url.Action("CategoryView", "MarketPlace", new
+                    {
+                        Categories = Model.Categories,
+                        Posts = Model.Posts,
+                        CategoryNames = Model.CategoryNames,
+                        numPosts = Model.numPosts,
+                        displayRange = Model.displayRange,
+                        rangeFrom = Model.rangeFrom,
+                        rangeTo = Model.rangeTo,
+                        school_name = Model.school_name,
+                        user_name = Model.user_name,
+                        categoryToDisplay = 3
+                })">
+                    @Model.CategoryNames[3]
+                </a>
+
+            </div>
+
+
+
+</div>
+<!--
+<script>
+    //the angular approach
+    var data = function () { return @Html.Raw(Json.Encode(Model)); }();
+    var myApp = angular.module('myApp', []);
+    myApp.controller('categoryController', ['$scope', function ($scope) {
+        $scope.market = data;
+       // $scope.categories = data.CategoryNames;
+       
+    }]);
+   
+</script>
+<body ng-app="myApp">
+    <div ng-controller="categoryController">
+        <div ng-repeat="category in market.CategoryNames" class="col-md-3">
+            <p>{{category}}</p>
         </div>
     </div>
-</div>
+</body>
 
-
-
-
-
-
-
-    
-
-
-
-
-
-<script>
-    var data = function () { return @Html.Raw(Json.Encode(Model)); }();
-
-    var rangeTo = data.rangeTo;
-    var rangeFrom = data.rangeFrom;
-    
-    $(document).ready(displayNext(0));
-    function displayNext(inp) {
-       
-        if (data.numPosts > 0) {
-            if (inp == 0) {
-
-                var i = 1;
-
-                for (var j = rangeFrom; j < rangeTo; j++) {
-                    var element = data.Posts[j];
-
-                    var tar = $('#' + i);
-                    var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
-                    $(tar).attr("href", url);
-                    $(tar).text(element.title + " $" + element.price);
-                    i++;
-                }
-            }
-            if (inp == 1) {
-
-                if ((rangeTo + 1) < data.numPosts) {
-                    rangeTo = rangeTo + data.displayRange;
-                    rangeFrom = rangeFrom + data.displayRange;
-                }
-
-                var i = 1;
-
-
-                for (var j = rangeFrom; j < rangeTo; j++) {
-                    var element = data.Posts[j];
-                    var tar = $('#' + i);
-                    var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
-                    $(tar).attr("href", url);
-                    $(tar).text(element.title + " $" + element.price);
-                    i++;
-                }
-
-            }
-            if (inp == -1) {
-                if ((rangeFrom - 1) >= 0) {
-                    rangeTo = rangeTo - data.displayRange;
-                    rangeFrom = rangeFrom - data.displayRange;
-                }
-                var i = 1;
-                if (rangeTo <= data.Posts.length) {
-                    for (var j = rangeFrom; j < rangeTo; j++) {
-                        var element = data.Posts[j];
-                        var tar = $('#' + i);
-                        var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
-                        $(tar).attr("href", url);
-                        $(tar).text(element.title + " $" + element.price);
-                        i++;
-                    }
-                }
-            }
-        }
-        }
-</script>
+    -->
