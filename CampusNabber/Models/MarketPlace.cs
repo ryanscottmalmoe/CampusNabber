@@ -11,27 +11,57 @@ namespace CampusNabber.Models
     public class MarketPlace
     {
         //public ApplicationUser CurrentUser { get; set; }
-         public int numPosts;
+        public int numPosts;
+        public String[] CategoryNames { get; set; }
+         public List<PostItem>[] Categories { get; set; }
          public List<PostItem> Posts { get; set; }
          public string school_name { get; set; }
+         public string user_name { get; set; }
          public int rangeFrom { get; set; }
          public int displayRange { get; set; }
          public int rangeTo { get; set; }
-
-        //Christian Change
-        // this needs to filter out the current user's PostItems
-        public void setList(ApplicationUser user)
+        public int? categoryToDisplay { get; set; }
+        
+        public MarketPlace(ApplicationUser user)
         {
-            displayRange = 5;
+            Categories = new List<PostItem>[4];
+            Posts = new List<PostItem>();
+            CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
+            numPosts = 0;
+            displayRange = 2;
             rangeFrom = 0;
             rangeTo = displayRange;
             //might want to change this to a school object in the future //Christian
             school_name = user.school_name;
-            CNQuery query = new CNQuery("PostItem");
-            query.setQueryWhereKeyEqualToCondition("school_name", user.school_name);
-            query.setQueryWhereKeyNotEqualToCondition("username", user.UserName);
-            Posts = query.select().Cast<PostItem>().ToList();
-            numPosts = Posts.Count;
+            user_name = user.UserName;
+
+        }
+
+        public MarketPlace()
+        {
+           
+        }
+
+        public void  setCategoryNames()
+        {
+            CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
+        }
+
+        public void setList()
+        {
+            Categories = new List<PostItem>[4];
+            Posts = new List<PostItem>();
+            CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
+            CNQuery query;
+            Categories = new List<PostItem>[CategoryNames.Length];
+            for (int i = 0; i < CategoryNames.Length; i++)
+            {
+                query = new CNQuery("PostItem");
+                query.setQueryWhereKeyEqualToCondition("school_name", school_name);
+                query.setQueryWhereKeyNotEqualToCondition("username", user_name);
+                query.setQueryWhereKeyEqualToCondition("category", CategoryNames[i]);
+                Categories[i] = query.select().Cast<PostItem>().ToList();
+            }
         }
 
         //increment the values by a higher factor to display more records per page
@@ -41,7 +71,7 @@ namespace CampusNabber.Models
             {
                 throw new Exception("This index is out of bounds");
             }
-            
+            else
             return Posts.ElementAt(index);
         }
 
