@@ -117,6 +117,7 @@ namespace CampusNabber.Controllers
                     if (!oldUserName.Equals(profileModel.user.UserName))
                     {
                         PostItemService.updateAllPostItemsInfo(Model, oldUserName);
+                        //Are we sure we want to log the user off when they change their username?
                         return RedirectToAction("LogOffWithoutPost", "Account");
                     }
                     else if (!oldSchool.Equals(profileModel.user.school_name))

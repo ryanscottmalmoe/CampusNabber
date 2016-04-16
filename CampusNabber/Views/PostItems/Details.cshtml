@@ -133,18 +133,27 @@
         <br />
         }
 
+    </div>
+    <div class="row">
+        <p>
+            @Html.ActionLink("Back to List", "MainMarketView", "MarketPlace")
 
-
+            @if (User.Identity.Name.Equals(Model.username))
+            {
+                <a class="btn btn-primary pull-right" href=@Url.Action("Edit", "PostItems", new { id = Model.object_id })>Edit Post</a>
+            }
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="btn btn-danger pull-right" href="@Url.Action("Delete", "PostItems", new {id = Model.object_id})">Take Down Post</a>
+            }
+            else
+            {
+            <a class="btn btn-danger pull-right" href=@Url.Action("Create","Flag", new { postId = Model.object_id, username = Model.username })>
+                <span class="glyphicon glyphicon-flag"></span> Report Post
+            </a>
+            }
+        </p>
     </div>
 </div>
-<p>
-    @Html.ActionLink("Back to List", "MainMarketView", "MarketPlace")
-    @if (User.Identity.Name.Equals(Model.username))
-    {
-        <a class="btn btn-primary pull-right" href="@Url.Action("Edit", "PostItems", new { id = Model.object_id })">Edit Post</a>
-    }
-
-
-</p>
 
 
