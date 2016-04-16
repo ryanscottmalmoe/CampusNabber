@@ -62,6 +62,7 @@ namespace CampusNabber.Models
                 query.setQueryWhereKeyEqualToCondition("category", CategoryNames[i]);
                 Categories[i] = query.select().Cast<PostItem>().ToList();
             }
+           // int x = Categories[0].Count;
         }
 
         //increment the values by a higher factor to display more records per page
