@@ -88,7 +88,7 @@ namespace CampusNabber.Controllers
 
             //*******AWS Portion *********************
             List<string> photoList = PostItemService.GetS3Photos(postItem);
-            if(photoList.Count != 0)
+            if(photoList != null && photoList.Count > 0)
             { 
                 ViewBag.RESULTS = photoList;
                 ViewBag.FIRSTPHOTO = photoList[0];
@@ -231,13 +231,12 @@ namespace CampusNabber.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             PostItem postItem = db.PostItems.Find(id);
-<<<<<<< HEAD
             PostItemPhotos postItemPhotos = db.PostItemPhotos.Find(postItem.photo_path_id);
-=======
+
             //Remove associated flags from the database
             var flags = db.FlagPosts.Where(flag => flag.flagged_postitem_id == id).ToList();
             db.FlagPosts.RemoveRange(flags);
->>>>>>> refs/remotes/origin/master
+
             db.PostItems.Remove(postItem);
 
             //Delete AWS Photos    
@@ -245,10 +244,7 @@ namespace CampusNabber.Controllers
             db.PostItemPhotos.Remove(postItemPhotos);
 
             db.SaveChanges();
-<<<<<<< HEAD
 
-            return RedirectToAction("Index");
-=======
             return RedirectToAction("MainMarketView", "MarketPlace");
         }
 
@@ -292,7 +288,6 @@ namespace CampusNabber.Controllers
         {
             ContextFactory cf = new ContextFactory();
             return cf.FlagPosts.Where(flag => flag.flagged_postitem_id == queryGuid).AsEnumerable();
->>>>>>> refs/remotes/origin/master
         }
 
         protected override void Dispose(bool disposing)

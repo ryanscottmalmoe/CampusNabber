@@ -48,6 +48,23 @@ namespace CampusNabber.Utility
             }
         }
 
+        /// <summary>
+        /// This is a GET request for all of the images in a certain folder
+        /// </summary>
+        public static string GetFirstPhotoPath(Guid? postItem)
+        {
+            try
+            {
+                PostItemPhotos photos = db.PostItemPhotos.Find(postItem);
+                return "https://s3-us-west-2.amazonaws.com/campusnabberphotos/" + postItem.ToString() + "/" + "1";
+            }
+            catch
+            {
+                return "";
+            }
+
+
+        }
 
         /// <summary>
         /// This is a GET request for all of the images in a certain folder
@@ -56,6 +73,8 @@ namespace CampusNabber.Utility
         {
             PostItemPhotos photos = db.PostItemPhotos.Find(postItem.photo_path_id);
             List<string> photosList = new List<string>();
+            if (photosList.Count == 0)
+                return null;
             for (int i = 0, counter = 1; i < photos.num_photos; i++, counter++)
                 photosList.Add("https://s3-us-west-2.amazonaws.com/campusnabberphotos/" + postItem.photo_path_id.ToString() + "/" + counter.ToString());
             return photosList;
