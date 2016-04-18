@@ -5,6 +5,13 @@
     ViewBag.Title = "CategoryView";
 }
 
+@section Scripts {
+    <script type="text/javascript">
+      var mainColor = '@Model.mainSchoolColor';
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
+}
+
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/CategorySheet.css">
 
