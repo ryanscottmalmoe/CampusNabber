@@ -52,7 +52,7 @@ namespace CampusNabber.Controllers
         public ActionResult MainMarketView()
         {
             var market = new MarketPlace (UserManager.FindById(User.Identity.GetUserId()));
-            
+            market.setList();
             //Session["Market"] = market;
             return View(market);
         }
