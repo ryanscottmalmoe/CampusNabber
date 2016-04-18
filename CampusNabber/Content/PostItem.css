@@ -1,0 +1,12 @@
+﻿.dropdown {
+ position:relative;
+ float:right;
+  margin-top: -20px;
+ margin-right: 20px;
+ }
+
+.carouselImage img {
+              width: auto;
+              height: 225px;
+              max-height: 225px;
+}
