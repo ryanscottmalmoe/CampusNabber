@@ -23,9 +23,12 @@ namespace CampusNabber.Models
          public int displayRange { get; set; }
          public int rangeTo { get; set; }
         public int? categoryToDisplay { get; set; }
+        public string chosenCategory { get; set; }
+        public string mainSchoolColor { get; set; }
         
         public MarketPlace(ApplicationUser user)
         {
+
             Categories = new List<PostItem>[4];
             SchoolsToDisplay = new List<String>();
             Posts = new List<PostItem>();

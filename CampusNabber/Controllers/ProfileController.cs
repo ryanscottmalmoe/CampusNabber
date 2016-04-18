@@ -50,7 +50,9 @@ namespace CampusNabber.Controllers
 
             if (_userManager == null)
                 _userManager = UserManager;
-            ViewBag.userName = User.Identity.GetUserName();
+            ApplicationUser user = UserManager.FindByName(User.Identity.GetUserName());
+
+            ViewBag.userName = user.UserName;
 
             //Creates profile model and assigns current users posts to the model
             var profile = new ProfileModel();
@@ -61,6 +63,11 @@ namespace CampusNabber.Controllers
             SelectList selectCategory = PostItemService.generateSchoolsList();
             ViewBag.selectCategory = selectCategory;
             TempData["FailedPost"] = failedPost;
+
+            School school = SchoolFactory.BuildSchool(user.school_name);
+            ViewBag.main_color = school.main_hex_color;
+            ViewBag.secondary_color = school.secondary_hex_color;
+
             return View(profile);
         }
 
@@ -92,7 +99,7 @@ namespace CampusNabber.Controllers
             }
 
             //Delete all postings from user.
-            PostItemService.deleteALlPostsByUsername(user.UserName);
+            PostItemService.deleteAllPostsByUsername(user.UserName);
 
             await _userManager.DeleteAsync(user);
             return RedirectToAction("LogOffWithoutPost", "Account");

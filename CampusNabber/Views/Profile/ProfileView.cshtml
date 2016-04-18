@@ -7,11 +7,12 @@
 }
 
 
-@section JavaScript
-{
-    <script type="text/javascript" src="@Url.Content("~/Scripts/ProfileView.js")"></script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+        <script type="text/javascript">
 
-    <script>
+        var mainColor = '@(ViewBag.main_color)';
+        var secondaryColor = '@(ViewBag.secondary_color)';
         var failed = '@TempData["FailedPost"]';
         if (failed == "true")
         {
@@ -19,7 +20,10 @@
                     $("#accountExists").modal();
             });
         }
-    </script>
+         </script>
+<link rel="stylesheet" href="~/Content/PostItem.css" type="text/css" />
+<script type="text/javascript" src="@Url.Content("~/Scripts/ProfileView.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
 }
 
 
@@ -184,14 +188,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
-
 
 
 

@@ -4,135 +4,111 @@
 @{
     ViewBag.Title = "CategoryView";
 }
-<h2>Category View</h2>
 
+@section Scripts {
+    <script type="text/javascript">
+      var mainColor = '@Model.mainSchoolColor';
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
+}
 
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/CategorySheet.css">
 
 @Html.EditorForModel(Model)
 
+            <div class="container">
+                <div class="panel-group" id="pageWindow">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h2>@Model.chosenCategory</h2></div>
+                        <div class="panel-body">
+                            <div class="col-sm-2">
+                                <fieldset id="priceField" class="myfields">
+                                    <div>
+                                        <label for="fromPrice">From Price:</label>
+                                        <input type="text" id="fromPriceInput" name="fromPriceInput" value="" />
+                                    </div>
 
+                                    <div>
+                                        <label for="toPrice">To Price:</label>
+                                        <input type="text" id="toPriceInput" name="toPriceInput" value="" />
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-sm-10">
 
-<div class="row">
-    <div class="col-md-12">
-        <table class="table table-borderless" id="displayTable">
-            <tbody>
-                @{
-                    int j = 1;
-                    for (int i = Model.rangeFrom; i < Model.rangeTo; i++)
-                    {
-                        if (Model.numPosts > i)
-                        {
-                            var element = Model.getPost(i);
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@j">
+                                <div class="box">
+                                    <div class="box-content padded">
 
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                        j++;
-                    }
+                                        <form method="Post" id="Detail1Validate">
+                                            <div id="dataTables">
+                                                <table id="PostItemTable" align="right" cellpadding="0" cellspacing="20px" border="0" style="font-size: 18px; width:auto; border: 0px solid #d9d9d9">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="font-weight: bold;">Photo</th>
+                                                            <th style="font-weight: bold; text-align:center">Title</th>
+                                                            <th style="font-weight: bold; text-align:center">Price</th>
 
-                }
-            </tbody>
-        </table>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <br />
+                                            <br />
+                                        </form>
 
-        <br />
-
-       
-        
-
-        <br />
-
-
-        <div class="form-group">
-            <div class="col-md-12">
-
-                <button type="button" onclick="displayNext(-1)" class="btn btn-primary btn-lg">Previous</button>
-                <button type="button" onclick="displayNext(1)" class="btn btn-primary btn-lg">Next</button>
-
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-    debugger;
-    var data = function () { return @Html.Raw(Json.Encode(Model)); }();
-   // alert(data.numPosts);
-    var rangeTo = data.rangeTo;
-    var rangeFrom = data.rangeFrom;
-    $(document).ready(displayNext(0));
-    function displayNext(inp) {
-        if (data.numPosts > 0) {
-            if (inp == 0) {
-
-                var i = 1;
-
-                for (var j = rangeFrom; j < rangeTo; j++) {
-                    
-                    var element = data.Posts[j];
-                   // alert(element.title + " " + element.price);
-
-                    var tar = $('#' + i);
-                    var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
-                    $(tar).attr("href", url);
-                    $(tar).text(data.SchoolToken +" " +element.title + " $" + element.price);
-                    i++;
-                }
+        @*
+            <div class="modal-footer">
+                <button class="btn btn-gray" data-dismiss="modal">Cancel</button>
+                <a id="modal-form-search" class="btn btn-primary" onclick="SearchItemHistory();" href="#">Search</a>
+            </div>
+        *@
+        <script>
+            function SearchItemHistory() {
+                oTable.fnReloadAjax();
             }
-            if (inp == 1) {
-
-                if ((rangeTo + 1) <= data.numPosts) {
-                    rangeTo = rangeTo + data.displayRange;
-                    rangeFrom = rangeFrom + data.displayRange;
-                }
-
-                var i = 1;
 
 
-                for (var j = rangeFrom; j < rangeTo; j++) {
-                    var element = data.Posts[j];
-                   // alert(element.title + " " + element.price);
-                    var tar = $('#' + i);
-                    var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
-                    $(tar).attr("href", url);
-                    $(tar).text(data.SchoolToken +" "+element.title + " $" + element.price);
-                    i++;
-                }
+            var searchBar = "";
 
-            }
-            if (inp == -1) {
-                if ((rangeFrom - 1) >= 0) {
-                    rangeTo = rangeTo - data.displayRange;
-                    rangeFrom = rangeFrom - data.displayRange;
-                }
-                var i = 1;
-                if (rangeTo <= data.Posts.length) {
-                    for (var j = rangeFrom; j < rangeTo; j++) {
-                        var element = data.Posts[j];
-                   //     alert(element.title + " " + element.price);
-                        var tar = $('#' + i);
-                        var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
-                        $(tar).attr("href", url);
-                        $(tar).text(data.SchoolToken +" "+element.title + " $" + element.price);
-                        i++;
-                    }
-                }
-            }
-        }
-        }
-</script>
+            var oTable;
+            $(function () {
+                oTable = $('#PostItemTable').dataTable({
+                    "sPaginationType": "full_numbers",
+                    "bScrollCollapse": true,
+                    "bPaginate": true,
+                    "bServerSide": true,
+                    "iDisplayLength": 10,
+                    "scrollCallapse": true,
+                    "scrollY": '50vh',
+                    "sAjaxSource": "@Url.Action("GetPostItemData", "MarketPlace")", //new { area = "PO" })",
+                    "fnServerParams": function (aoData) {
+                        aoData.push({ name: "Category", value: '@Model.chosenCategory' });
+                    },
+                    "bProcessing": true,
+                    "aoColumns": [
+                        {
+                            "mDataProp": "PhotoPath", "sWidth": "10px",
+                            "render": function (mDataProp, type, row) {
+                                return '<img src="' + mDataProp + '" style="width=10px;height=10px;" />';
+                            }
+                        },
+                        { "mDataProp": "Title", "sWidth": "100px" },
+                        { "mDataProp": "Price", "sWidth": "120px" }
+                    ]
+                });
+            });
+
+        </script>
+
+      
