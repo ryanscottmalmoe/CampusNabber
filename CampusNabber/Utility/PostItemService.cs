@@ -31,7 +31,7 @@ namespace CampusNabber.Utility
             foreach (string photo in photoStrings)
             {
                 IAmazonS3 client;
-                client = new AmazonS3Client(Amazon.RegionEndpoint.USEast1);
+                client = new AmazonS3Client(Amazon.RegionEndpoint.USWest2);
 
                 DeleteObjectRequest deleteObjectRequest =
                     new DeleteObjectRequest
@@ -73,7 +73,7 @@ namespace CampusNabber.Utility
         {
             PostItemPhotos photos = db.PostItemPhotos.Find(postItem.photo_path_id);
             List<string> photosList = new List<string>();
-            if (photosList.Count == 0)
+            if (photos.num_photos == 0)
                 return null;
             for (int i = 0, counter = 1; i < photos.num_photos; i++, counter++)
                 photosList.Add("https://s3-us-west-2.amazonaws.com/campusnabberphotos/" + postItem.photo_path_id.ToString() + "/" + counter.ToString());

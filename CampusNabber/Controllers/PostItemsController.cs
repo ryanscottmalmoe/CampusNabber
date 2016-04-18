@@ -176,7 +176,7 @@ namespace CampusNabber.Controllers
 
             //*******AWS Portion *********************
             List<string> photoList = PostItemService.GetS3Photos(postItem);
-            if (photoList.Count != 0)
+            if (photoList != null && photoList.Count > 0)
             {
                 List<dynamic> photoPaths = new List<dynamic>();
                 foreach (var photo in photoList)
@@ -238,6 +238,8 @@ namespace CampusNabber.Controllers
             db.FlagPosts.RemoveRange(flags);
 
             db.PostItems.Remove(postItem);
+            PostItemPhotos postItemPhoto = db.PostItemPhotos.Find(postItem.photo_path_id);
+            db.PostItemPhotos.Remove(postItemPhoto);
 
             //Delete AWS Photos    
             PostItemService.DeleteS3Photos(postItem);

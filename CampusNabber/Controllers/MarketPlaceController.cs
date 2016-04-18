@@ -65,16 +65,8 @@ namespace CampusNabber.Controllers
 
         public ActionResult CategoryView(MarketPlace market)
         {
-            market.setList();
-            if(market.CategoryNames.Length < 4)
-            {
-                market.setCategoryNames();
-            }
-            market.Posts = market.Categories[(int)market.categoryToDisplay];
-            market.numPosts = market.Posts.Count;
-
+            market.setCategoryNames();
             market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
-
             return View(market);
         }
 
@@ -84,7 +76,6 @@ namespace CampusNabber.Controllers
         {
             using (var context = new CampusNabberEntities())
             {
-                // Get purchase order, will use this to pull header warehouse id
                 IQueryable<PostItem> postItems = null;
                 postItems = context.PostItems.Where(d =>
                                                       d.category == Category);
@@ -105,7 +96,7 @@ namespace CampusNabber.Controllers
                 if (!string.IsNullOrEmpty(param.sSearch))
                 {
                     postItems = postItems.Where(s =>
-                                            SqlFunctions.StringConvert((double)s.price).Contains(param.sSearch) ||
+                                            //SqlFunctions.StringConvert((double)s.price).Contains(param.sSearch) ||
                                             s.title.Contains(param.sSearch) ||
                                             s.description.Contains(param.sSearch)
                         );
