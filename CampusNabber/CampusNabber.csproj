@@ -212,6 +212,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\FlagController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -1159,6 +1160,7 @@
     <Content Include="Views\MarketPlace\CategoryView.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\MarketPlace\EditorTemplates\MarketPlace.cshtml" />
+    <Content Include="Views\Admin\AdminTools.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
