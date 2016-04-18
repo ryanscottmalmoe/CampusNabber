@@ -90,7 +90,7 @@
                     var tar = $('#' + i);
                     var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
                     $(tar).attr("href", url);
-                    $(tar).text(element.title + " $" + element.price);
+                    $(tar).text(data.SchoolToken +" " +element.title + " $" + element.price);
                     i++;
                 }
             }
@@ -110,7 +110,7 @@
                     var tar = $('#' + i);
                     var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
                     $(tar).attr("href", url);
-                    $(tar).text(element.title + " $" + element.price);
+                    $(tar).text(data.SchoolToken +" "+element.title + " $" + element.price);
                     i++;
                 }
 
@@ -128,7 +128,7 @@
                         var tar = $('#' + i);
                         var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
                         $(tar).attr("href", url);
-                        $(tar).text(element.title + " $" + element.price);
+                        $(tar).text(data.SchoolToken +" "+element.title + " $" + element.price);
                         i++;
                     }
                 }

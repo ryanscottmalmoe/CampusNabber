@@ -22,3 +22,12 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.tenPoint{
+    font-size:10px;
+}
+
+.sixteenPoint{
+    font-size:16px;
+}
+

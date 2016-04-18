@@ -12,10 +12,12 @@ namespace CampusNabber.Models
     {
         //public ApplicationUser CurrentUser { get; set; }
         public int numPosts;
+        public String SchoolToken { get; set; }
         public String[] CategoryNames { get; set; }
          public List<PostItem>[] Categories { get; set; }
          public List<PostItem> Posts { get; set; }
-         public string school_name { get; set; }
+         public String school_name { get; set; }
+         public List<String> SchoolsToDisplay { get; set; }
          public string user_name { get; set; }
          public int rangeFrom { get; set; }
          public int displayRange { get; set; }
@@ -25,6 +27,7 @@ namespace CampusNabber.Models
         public MarketPlace(ApplicationUser user)
         {
             Categories = new List<PostItem>[4];
+            SchoolsToDisplay = new List<String>();
             Posts = new List<PostItem>();
             CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
             numPosts = 0;
@@ -33,7 +36,10 @@ namespace CampusNabber.Models
             rangeTo = displayRange;
             //might want to change this to a school object in the future //Christian
             school_name = user.school_name;
+            SchoolsToDisplay.Add(school_name);
             user_name = user.UserName;
+            SchoolToken = setSchoolToken(school_name);
+
 
         }
 
@@ -41,7 +47,20 @@ namespace CampusNabber.Models
         {
            
         }
-
+        
+        public String setSchoolToken(String school_name)
+        {
+            String token = "";
+            if (school_name.Equals("Eastern Washington University"))
+                token += "[EWU]";
+            else if (school_name.Equals("Washington State University"))
+                token += "[WSU]";
+            else if (school_name.Equals("Gonzaga"))
+                token += "[GU]";
+            else if (school_name.Equals("Whitworth"))
+                token += "[WU]";
+            return token;
+        }
         public void  setCategoryNames()
         {
             CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };

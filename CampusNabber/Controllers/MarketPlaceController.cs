@@ -59,25 +59,12 @@ namespace CampusNabber.Controllers
 
         public ActionResult CategoryView(MarketPlace market)
         {
-            /*
-            if (category != null)
-                Session["Category"] = category;
-            else
-                category = (int?)Session["Category"];
-            MarketPlace market = (MarketPlace)Session["Market"];
-            Session.Clear();
-            */
-         //   MarketPlace market = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
             market.setList();
             if(market.CategoryNames.Length < 4)
             {
                 market.setCategoryNames();
             }
-            market.Posts = market.Categories[(int)market.categoryToDisplay];
-            market.numPosts = market.Posts.Count;
-            //market.Posts = market.Categories[(int)category];
-            //market.categoryToDisplay = category;
-          //  market.numPosts = market.Posts.Count;
+            
             return View(market);
         }
 
