@@ -5,15 +5,17 @@
 }
 
 
-    <h2>MainMarketView</h2>
+    <h2>MainMarketView  <a href="@Url.Action("Create", "PostItems", new { userId = Model.user_name})" />Create Post</h2>
+    
 
 
-@section Scripts {
+
+    @section Scripts {
     <script type="text/javascript">
         var mainColor = '@Model.mainSchoolColor';
 
 
-@Html.EditorForModel()
+        @Html.EditorForModel()
 @* SEARCH FUNCTION
 <form method="get" action="@Url.Action("Index", "MarketPlaceController")">
     <input type="text" name="search" id="search" />
@@ -22,7 +24,7 @@
 *@
 
     </script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>   
+    <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
 }
 
 
@@ -40,13 +42,14 @@
                         displayRange = Model.displayRange,
                         rangeFrom = Model.rangeFrom,
                         rangeTo = Model.rangeTo,
+                        school_id = Model.school_id,
                         school_name = Model.school_name,
                         user_name = Model.user_name,
                         categoryToDisplay = 0
                 })">
-                @Model.CategoryNames[0]
-                
-        </a>
+    @Model.CategoryNames[0]
+
+</a>
         @for (int i = 0; i < Model.Categories[0].Count; i++)
         {
             var element = Model.Categories[0][i];
@@ -69,6 +72,7 @@
                         displayRange = Model.displayRange,
                         rangeFrom = Model.rangeFrom,
                         rangeTo = Model.rangeTo,
+                        school_id = Model.school_id,
                         school_name = Model.school_name,
                         user_name = Model.user_name,
                         categoryToDisplay = 1
@@ -108,6 +112,7 @@
                         displayRange = Model.displayRange,
                         rangeFrom = Model.rangeFrom,
                         rangeTo = Model.rangeTo,
+                        school_id = Model.school_id,
                         school_name = Model.school_name,
                         user_name = Model.user_name,
                         categoryToDisplay = 2
@@ -135,6 +140,7 @@
                         displayRange = Model.displayRange,
                         rangeFrom = Model.rangeFrom,
                         rangeTo = Model.rangeTo,
+                        school_id = Model.school_id,
                         school_name = Model.school_name,
                         user_name = Model.user_name,
                         categoryToDisplay = 3

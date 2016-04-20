@@ -10,7 +10,6 @@ using System.Data.Entity.Validation;
 using System.Data.Entity.Infrastructure;
 using CampusNabber.Models;
 using System.Data.Entity;
-using DatabaseCode.CNQueryFolder;
 
 namespace DatabaseCode.CNObjectFolder
 {
