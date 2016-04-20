@@ -25,7 +25,7 @@ namespace CampusNabber.Utility
         private static CampusNabberEntities db = new CampusNabberEntities();
 
 
-        public static void DeleteS3Photos(PostItem postItem)
+        public static void DeleteS3Photos(PostItemModel postItem)
         {
             List<string> photoStrings = GetS3Photos(postItem);
             foreach (string photo in photoStrings)
@@ -69,7 +69,7 @@ namespace CampusNabber.Utility
         /// <summary>
         /// This is a GET request for all of the images in a certain folder
         /// </summary>
-        public static List<string> GetS3Photos(PostItem postItem)
+        public static List<string> GetS3Photos(PostItemModel postItem)
         {
             PostItemPhotos photos = db.PostItemPhotos.Find(postItem.photo_path_id);
             List<string> photosList = new List<string>();
@@ -114,7 +114,9 @@ namespace CampusNabber.Utility
                     }
                 }
                 itemPhotos.num_photos = (short)(imageCounter - 1);
-                itemPhotos.createEntity();
+                db.PostItemPhotos.Add(itemPhotos);
+                db.SaveChanges();
+                //itemPhotos.createEntity();
             }
             catch (Exception ex)
             {
@@ -163,9 +165,7 @@ namespace CampusNabber.Utility
 
         public static List<PostItem> getProfilePosts(ApplicationUser user)
         {
-            CNQuery query = new CNQuery("PostItem");
-            query.setQueryWhereKeyEqualToCondition("username", user.UserName);
-            return query.select().Cast<PostItem>().ToList();
+            return db.PostItems.Where(p => p.username == user.UserName).ToList<PostItem>();
         }
 
         public static SelectList generateSchoolsList()
@@ -200,7 +200,7 @@ namespace CampusNabber.Utility
                 foreach (PostItem item in postItems)
                 {
                     item.username = user.UserName;
-                    item.school_name = user.school_name;
+                    item.school_id = user.school_id;
                     try
                     {
                         context.PostItems.Attach(item);
@@ -234,6 +234,7 @@ namespace CampusNabber.Utility
             }
         }
 
+        /*
         public static void setMissingFields(PostItem postItem, ApplicationUserManager userManager)
         {
             if(postItem.username == null)
@@ -242,9 +243,10 @@ namespace CampusNabber.Utility
             }
             postItem.post_date = System.DateTime.Today;
             var user = userManager.FindByName(postItem.username).school_name;
-            postItem.school_name = userManager.FindByName(postItem.username).school_name;
+            postItem.school_id = userManager.FindByName(postItem.username).school_name;
             postItem.object_id = Guid.NewGuid();
             postItem.photo_path_id = Guid.NewGuid();
         }
+        */
     }
 }

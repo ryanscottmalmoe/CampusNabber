@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using CampusNabber.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using DatabaseCode.CNQueryFolder;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using CampusNabber.Utility;
@@ -73,7 +72,8 @@ namespace CampusNabber.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PostItem postItem = db.PostItems.Find(id);
+            PostItem postItemTemp = db.PostItems.Find(id);
+            PostItemModel postItem = PostItemModel.bindToModel(postItemTemp);
             if (postItem == null)
             {
                 return HttpNotFound();
@@ -81,7 +81,7 @@ namespace CampusNabber.Controllers
 
 
             //Builds the school class for create page.
-            School school = SchoolFactory.BuildSchool(postItem.school_name);
+            School school = db.Schools.Where(d => d.school_name == postItem.school_name).First();
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
@@ -107,11 +107,11 @@ namespace CampusNabber.Controllers
         // Get: /PostItems/Create
         public ActionResult Create(String userId)
         {
-            PostItem postItem = null;
+            PostItemModel postItem = null;
             if (userId == null)
-                postItem = new PostItem { username = User.Identity.GetUserName() };
+                postItem = new PostItemModel { username = User.Identity.GetUserName() };
             else
-                postItem = new PostItem { username = userId };
+                postItem = new PostItemModel { username = userId };
 
             ViewBag.username = userId;
 
@@ -120,7 +120,8 @@ namespace CampusNabber.Controllers
 
             //Builds the school class for create page.
             ApplicationUser user = UserManager.FindByName(postItem.username);
-            School school = SchoolFactory.BuildSchool(user.school_name);
+            School school = db.Schools.Where(d => d.object_id == user.school_id).First();
+            postItem.school_name = school.school_name;
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
 
@@ -129,28 +130,31 @@ namespace CampusNabber.Controllers
 
         //Post /PostItems/Create
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,tags,category")] PostItem postItem, HttpPostedFileBase[] images)
+        public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItemModel postItemModel, HttpPostedFileBase[] images)
         {
             if (ModelState.IsValid)
             {
+                School school = db.Schools.Where(d => d.school_name == postItemModel.school_name).First();
+
+
                 //Sets the school_name here
-                ApplicationUser user = UserManager.FindByName(postItem.username);
-                postItem.school_name = user.school_name;
-                postItem.post_date = System.DateTime.Now;
-                postItem.object_id = Guid.NewGuid();
-                postItem.photo_path_id = Guid.NewGuid();
-                if (postItem.tags == null)
-                    postItem.tags = "default";
+                ApplicationUser user = UserManager.FindByName(postItemModel.username);
+                postItemModel.school_name = school.school_name;
+                postItemModel.post_date = System.DateTime.Now;
+                postItemModel.object_id = Guid.NewGuid();
+                postItemModel.photo_path_id = Guid.NewGuid();
+                PostItem postItem = postItemModel.bindToPostItem();
+
 
                 //****AWS Portion**************
                 PostItemService.StoreS3Photos(images, postItem);
                 //******************************
-                
-                postItem.createEntity();
+                db.PostItems.Add(postItem);
+                db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
-            return View(postItem);
+            return View(postItemModel);
         }
 
 
@@ -161,7 +165,9 @@ namespace CampusNabber.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PostItem postItem = db.PostItems.Find(id);
+            PostItem postItemTemp = db.PostItems.Find(id);
+            PostItemModel postItem = PostItemModel.bindToModel(postItemTemp);
+
             if (postItem == null)
             {
                 return HttpNotFound();
@@ -170,7 +176,7 @@ namespace CampusNabber.Controllers
             ViewBag.selectCategory = selectCategory;
 
             //Builds the school class for edit page.
-            School school = SchoolFactory.BuildSchool(postItem.school_name);
+            School school = db.Schools.Where(d => d.school_name == postItem.school_name).First();
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
 
@@ -198,11 +204,10 @@ namespace CampusNabber.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Here we need to delete old photos. And upload new ones! 
-                //      Will take care of this after break ~Ryan
                 postItem.photo_path_id = Guid.NewGuid();
-
-                postItem.updateEntity();
+                db.Set<PostItem>().Attach(postItem);
+                db.Entry(postItem).State = EntityState.Modified;
+                db.SaveChanges();
 
                 //Instead of taking you back to the index page, the user is now taken back to the Details page of that particular post. - ahenry
                 return RedirectToAction("Details", new { id = postItem.object_id });
@@ -230,14 +235,15 @@ namespace CampusNabber.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            PostItem postItem = db.PostItems.Find(id);
+            PostItem postItemTemp = db.PostItems.Find(id);
+            PostItemModel postItem = PostItemModel.bindToModel(postItemTemp);
             PostItemPhotos postItemPhotos = db.PostItemPhotos.Find(postItem.photo_path_id);
 
             //Remove associated flags from the database
             var flags = db.FlagPosts.Where(flag => flag.flagged_postitem_id == id).ToList();
             db.FlagPosts.RemoveRange(flags);
 
-            db.PostItems.Remove(postItem);
+            db.PostItems.Remove(postItemTemp);
             PostItemPhotos postItemPhoto = db.PostItemPhotos.Find(postItem.photo_path_id);
             db.PostItemPhotos.Remove(postItemPhoto);
 

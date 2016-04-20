@@ -10,6 +10,9 @@ namespace CampusNabber.Models
 {
     public class PostItemModel
     {
+        private static CampusNabberEntities db = new CampusNabberEntities();
+
+
         public System.Guid object_id { get; set; }
         public string username { get; set; }
         public string school_name { get; set; }
@@ -17,130 +20,37 @@ namespace CampusNabber.Models
         public short price { get; set; }
         public string title { get; set; }
         public string description { get; set; }
-        public Nullable<System.Guid> photo_path_id { get; set; }
+        public System.Guid photo_path_id { get; set; }
         public string category { get; set; }
-        public string tags { get; set; }
 
-        public void deleteEntity(PostItem postItem)
+        public PostItem bindToPostItem()
         {
-            //Creates new context and deletes local variable to server
-            using (var context = new CampusNabberEntities())
-            {
-                context.PostItems.Remove(postItem);
-                try
-                {
-                    context.SaveChanges();
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation("Property: {0} Error: {1}",
-                                                    validationError.PropertyName,
-                                                    validationError.ErrorMessage);
-                        }
-                    }
-                }
-                catch (DbUpdateException dbEx)
-                {
-                    Console.WriteLine(dbEx.Message);
-                    foreach (var entries in dbEx.Entries)
-                    {
-                        Console.WriteLine(entries.Entity);
-                        Console.WriteLine(dbEx.InnerException);
-                    }
-                }
-            }
+            PostItem postItem = new PostItem();
+            postItem.object_id = this.object_id;
+            postItem.username = this.username;
+            postItem.post_date = this.post_date;
+            postItem.price = this.price;
+            postItem.title = this.title;
+            postItem.description = this.description;
+            postItem.photo_path_id = this.photo_path_id;
+            postItem.category = this.category;
+            postItem.school_id = db.Schools.Where(d => d.school_name == this.school_name).First().object_id;
+            return postItem;
         }
 
-        public void updateEntity()
+        public static PostItemModel bindToModel(PostItem postItem)
         {
-            //Creates new context and saves local variable to server
-            using (var context = new CampusNabberEntities())
-            {
-                PostItem postItem = (from o in context.PostItems
-                                     where o.object_id.Equals(object_id)
-                                     select o).First();
-                postItem.username = username;
-                postItem.school_name = school_name;
-                postItem.price = price;
-                postItem.title = title;
-                postItem.description = description;
-                postItem.category = category;
-                postItem.photo_path_id = photo_path_id;
-                postItem.post_date = post_date;
-                try
-                {
-
-                    context.PostItems.Attach(postItem);
-                    var entry = context.Entry(postItem);
-
-                    entry.Property(e => e.price).IsModified = true;
-                    entry.Property(e => e.description).IsModified = true;
-                    entry.Property(e => e.title).IsModified = true;
-                    entry.Property(e => e.photo_path_id).IsModified = true;
-                    entry.Property(e => e.category).IsModified = true;
-
-                    context.SaveChanges();
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation("Property: {0} Error: {1}",
-                                                    validationError.PropertyName,
-                                                    validationError.ErrorMessage);
-                        }
-                    }
-                }
-                catch (DbUpdateException dbEx)
-                {
-                    Console.WriteLine(dbEx.Message);
-                    foreach (var entries in dbEx.Entries)
-                    {
-                        Console.WriteLine(entries.Entity);
-                        Console.WriteLine(dbEx.InnerException);
-                    }
-                }
-            }
-        }
-
-        public void createEntity(PostItem postItem)
-        {
-            //Creates new context and saves local variable to server
-            using (var context = new CampusNabberEntities())
-            {
-                context.PostItems.Add(postItem);
-                try
-                {
-                    context.SaveChanges();
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation("Property: {0} Error: {1}",
-                                                    validationError.PropertyName,
-                                                    validationError.ErrorMessage);
-                        }
-                    }
-                }
-                catch (DbUpdateException dbEx)
-                {
-                    Console.WriteLine(dbEx.Message);
-                    foreach (var entries in dbEx.Entries)
-                    {
-                        Console.WriteLine(entries.Entity);
-                        Console.WriteLine(dbEx.InnerException);
-                    }
-                }
-            }
+            PostItemModel postItemModel = new PostItemModel();
+            postItemModel.object_id = postItem.object_id;
+            postItemModel.username = postItem.username;
+            postItemModel.post_date = postItem.post_date;
+            postItemModel.price = postItem.price;
+            postItemModel.title = postItem.title;
+            postItemModel.description = postItem.description;
+            postItemModel.photo_path_id = postItem.photo_path_id;
+            postItemModel.category = postItem.category;
+            postItemModel.school_name = db.Schools.Where(d => d.object_id == postItem.school_id).First().school_name;
+            return postItemModel;
         }
 
     }

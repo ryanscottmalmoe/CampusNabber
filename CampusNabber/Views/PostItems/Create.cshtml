@@ -1,4 +1,4 @@
-﻿@model CampusNabber.Models.PostItem
+﻿@model CampusNabber.Models.PostItemModel
 
 
 
@@ -13,7 +13,8 @@
 {
     <div class="form-horizontal">
          
-        @Html.HiddenFor(model => Model.username)        
+        @Html.HiddenFor(model => Model.username)   
+        @Html.HiddenFor(model => Model.school_name)     
         
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -48,14 +49,6 @@
             <label class = "control-label col-md-2">Category</label>
             <div class="col-md-10">
                 @Html.DropDownListFor(n => n.category, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Tags</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.tags, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.tags, "", new { @class = "text-danger" })
             </div>
         </div>
 

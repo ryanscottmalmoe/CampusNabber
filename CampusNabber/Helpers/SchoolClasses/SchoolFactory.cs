@@ -1,5 +1,4 @@
 ﻿using CampusNabber.Models;
-using DatabaseCode.CNQueryFolder;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,6 +9,9 @@ namespace CampusNabber.Helpers.SchoolClasses
 {
     abstract public class SchoolFactory
     {
+
+        private static CampusNabberEntities db = new CampusNabberEntities();
+
         /*This function will eventually build school names
         by querying a School database from school_name.
         That entry holds mainHexColor & secondaryHexColor
@@ -17,9 +19,7 @@ namespace CampusNabber.Helpers.SchoolClasses
         */
         public static School BuildSchool(string school_name)
         {
-            CNQuery schoolQuery = new CNQuery("School");
-            schoolQuery.setQueryWhereKeyEqualToCondition("school_name", school_name);
-            return schoolQuery.select().Cast<School>().First();
+            return db.Schools.Where(p => p.school_name == school_name).First();
         }
 
         public static Color getColor(string hex)
