@@ -17,7 +17,7 @@ namespace CampusNabber.Controllers
     public class MarketPlaceController : Controller
     {
         private ApplicationUserManager _userManager;
-        private CNQuery query;
+        private static CampusNabberEntities db = new CampusNabberEntities();
 
         // GET: MarketPlace
         public ActionResult Index()
@@ -57,8 +57,9 @@ namespace CampusNabber.Controllers
             var market = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
 
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-            School school = SchoolFactory.BuildSchool(user.school_name);
+            School school = db.Schools.Where(d => d.object_id == user.school_id).First();
             market.mainSchoolColor = school.main_hex_color;
+            market.school_name = school.school_name;
             market.setList();
             return View(market);
         }
@@ -68,7 +69,7 @@ namespace CampusNabber.Controllers
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             market.setCategoryNames();
             market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
-            School school = SchoolFactory.BuildSchool(user.school_name);
+            School school = db.Schools.Where(d => d.object_id == user.school_id).First();
             market.mainSchoolColor = school.main_hex_color;
             return View(market);
         }

@@ -6,14 +6,13 @@
     </Key>
     <Property Name="object_id" Type="Guid" Nullable="false" />
     <Property Name="username" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="school_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="post_date" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="price" Type="Int16" Nullable="false" />
     <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="photo_path_id" Type="Guid" />
     <Property Name="category" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="tags" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="school_id" Type="Guid" Nullable="true" />
+    <Property Name="photo_path_id" Type="Guid" Nullable="false" />
   </EntityType>
   <EntityType Name="School">
     <Key>
@@ -24,6 +23,7 @@
     <Property Name="address" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="main_hex_color" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="secondary_hex_color" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="school_tag" Type="String" Nullable="false" />
   </EntityType>
   <EntityContainer Name="CampusNabberEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="PostItems" EntityType="Self.PostItem" />
@@ -31,6 +31,10 @@
     <EntitySet Name="C__MigrationHistory" EntityType="CampusNabberModel.C__MigrationHistory" />
     <EntitySet Name="PostItemPhotos" EntityType="CampusNabberModel.PostItemPhotos" />
     <EntitySet Name="FlagPosts" EntityType="CampusNabberModel.FlagPost" />
+    <AssociationSet Name="PostItemSchool" Association="CampusNabberModel.PostItemSchool">
+      <End Role="PostItem" EntitySet="PostItems" />
+      <End Role="School" EntitySet="Schools" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -60,4 +64,16 @@
     <Property Name="username_of_flagger" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="flag_date" Type="DateTime" Nullable="false" Precision="3" />
   </EntityType>
+  <Association Name="PostItemSchool">
+    <End Type="CampusNabberModel.PostItem" Role="PostItem" Multiplicity="*" />
+    <End Type="CampusNabberModel.School" Role="School" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="School">
+        <PropertyRef Name="object_id" />
+      </Principal>
+      <Dependent Role="PostItem">
+        <PropertyRef Name="school_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

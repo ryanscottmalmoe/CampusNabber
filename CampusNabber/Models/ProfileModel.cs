@@ -11,6 +11,8 @@ namespace CampusNabber.Models
     {
         public virtual List<PostItem> Posts { get; set; }
         public virtual ApplicationUser user { get; set; }
+        public virtual string school_name { get; set; }
+        private static CampusNabberEntities db = new CampusNabberEntities();
 
         /*
         [ExistingEmailValidator(ErrorMessage = "Email already exists")]
@@ -22,12 +24,10 @@ namespace CampusNabber.Models
 
         public void getProfilePosts(ApplicationUser user)
         {
-            CNQuery query = new CNQuery("PostItem");
-            query.setQueryWhereKeyEqualToCondition("username", user.UserName);
-            Posts = query.select().Cast<PostItem>().ToList();
+           Posts = db.PostItems.Where(p => p.username == user.UserName).ToList<PostItem>();
         }
 
-        
+
 
 
 

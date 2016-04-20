@@ -16,6 +16,7 @@ namespace CampusNabber.Controllers
     public class ProfileController : Controller
     {
         private ApplicationUserManager _userManager;
+        private static CampusNabberEntities db = new CampusNabberEntities();
 
         public ApplicationUserManager UserManager
         {
@@ -58,13 +59,14 @@ namespace CampusNabber.Controllers
             var profile = new ProfileModel();
             profile.getProfilePosts(_userManager.FindById(User.Identity.GetUserId()));
             profile.user = (_userManager.FindById(User.Identity.GetUserId()));
+            School school = db.Schools.Where(d => d.object_id == user.school_id).First();
 
+            profile.school_name = school.school_name;
             //Creates school drop down menu
             SelectList selectCategory = PostItemService.generateSchoolsList();
             ViewBag.selectCategory = selectCategory;
             TempData["FailedPost"] = failedPost;
 
-            School school = SchoolFactory.BuildSchool(user.school_name);
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
 
@@ -114,10 +116,10 @@ namespace CampusNabber.Controllers
             {
                 ApplicationUser Model = UserManager.FindById(User.Identity.GetUserId());
                 string oldUserName = Model.UserName;
-                string oldSchool = Model.school_name;
+                Guid oldSchoolID = Model.school_id;
                 Model.Email = profileModel.user.Email;
                 Model.UserName = profileModel.user.UserName;
-                Model.school_name = profileModel.user.school_name;
+                Model.school_id = profileModel.user.school_id;
                 IdentityResult result = await UserManager.UpdateAsync(Model);
                 if(result.Succeeded)
                 {
@@ -127,7 +129,7 @@ namespace CampusNabber.Controllers
                         //Are we sure we want to log the user off when they change their username?
                         return RedirectToAction("LogOffWithoutPost", "Account");
                     }
-                    else if (!oldSchool.Equals(profileModel.user.school_name))
+                    else if (!oldSchoolID.Equals(profileModel.user.school_id))
                     {
                         PostItemService.updateAllPostItemsInfo(Model, oldUserName);
 

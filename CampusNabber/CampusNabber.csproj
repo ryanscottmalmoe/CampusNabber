@@ -224,6 +224,10 @@
     </Compile>
     <Compile Include="Helpers\SchoolClasses\SchoolFactory.cs" />
     <Compile Include="Helpers\SchoolClasses\SchoolUtility.cs" />
+    <Compile Include="Migrations\201604201244506_SchoolId.cs" />
+    <Compile Include="Migrations\201604201244506_SchoolId.Designer.cs">
+      <DependentUpon>201604201244506_SchoolId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CampusNabber.Context.cs">
@@ -266,12 +270,12 @@
     </Compile>
     <Compile Include="Models\SchoolModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryClasses\CNObject%28Depricated%29\CNObject.cs" />
-    <Compile Include="QueryClasses\CNObject%28Depricated%29\CNObjectInterface.cs" />
-    <Compile Include="QueryClasses\CNQuery\CNQuery.cs" />
-    <Compile Include="QueryClasses\CNQuery\CNQueryInterface.cs" />
-    <Compile Include="QueryClasses\FactoryFiles\ContextFactory.cs" />
-    <Compile Include="QueryClasses\FactoryFiles\EntityFactory.cs" />
+    <Compile Include="QueryClasses%28Depricated%29\CNObject%28Depricated%29\CNObject.cs" />
+    <Compile Include="QueryClasses%28Depricated%29\CNObject%28Depricated%29\CNObjectInterface.cs" />
+    <Compile Include="QueryClasses%28Depricated%29\CNQuery\CNQuery.cs" />
+    <Compile Include="QueryClasses%28Depricated%29\CNQuery\CNQueryInterface.cs" />
+    <Compile Include="QueryClasses%28Depricated%29\FactoryFiles\ContextFactory.cs" />
+    <Compile Include="QueryClasses%28Depricated%29\FactoryFiles\EntityFactory.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utility\PostItemService.cs" />
     <Compile Include="Validation\ExistingEmailValidator.cs" />
@@ -1293,6 +1297,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201604201244506_SchoolId.resx">
+      <DependentUpon>201604201244506_SchoolId.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

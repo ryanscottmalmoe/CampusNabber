@@ -1,5 +1,4 @@
-﻿using DatabaseCode.CNQueryFolder;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,17 +12,22 @@ namespace CampusNabber.Models
         //public ApplicationUser CurrentUser { get; set; }
         public int numPosts;
         public String[] CategoryNames { get; set; }
-         public List<PostItem>[] Categories { get; set; }
-         public List<PostItem> Posts { get; set; }
-         public string school_name { get; set; }
-         public string user_name { get; set; }
-         public int rangeFrom { get; set; }
-         public int displayRange { get; set; }
-         public int rangeTo { get; set; }
+        public List<PostItem>[] Categories { get; set; }
+        public List<PostItem> Posts { get; set; }
+        public string school_name { get; set; }
+        public Guid school_id { get; set; }
+        public string user_name { get; set; }
+        public int rangeFrom { get; set; }
+        public int displayRange { get; set; }
+        public int rangeTo { get; set; }
         public int? categoryToDisplay { get; set; }
         public string chosenCategory { get; set; }
         public string mainSchoolColor { get; set; }
-        
+        public string userId { get; set; }
+
+        private static CampusNabberEntities db = new CampusNabberEntities();
+
+
         public MarketPlace(ApplicationUser user)
         {
 
@@ -35,8 +39,10 @@ namespace CampusNabber.Models
             rangeFrom = 0;
             rangeTo = displayRange;
             //might want to change this to a school object in the future //Christian
-            school_name = user.school_name;
+            //School school = db.Schools.Where(d => d.object_id == user.school_id).First();
+            school_id = user.school_id;
             user_name = user.UserName;
+            userId = user.Id;
 
         }
 
@@ -55,15 +61,16 @@ namespace CampusNabber.Models
             Categories = new List<PostItem>[4];
             Posts = new List<PostItem>();
             CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
-            CNQuery query;
             Categories = new List<PostItem>[CategoryNames.Length];
             for (int i = 0; i < CategoryNames.Length; i++)
             {
-                query = new CNQuery("PostItem");
-                query.setQueryWhereKeyEqualToCondition("school_name", school_name);
-                query.setQueryWhereKeyNotEqualToCondition("username", user_name);
-                query.setQueryWhereKeyEqualToCondition("category", CategoryNames[i]);
-                Categories[i] = query.select().Cast<PostItem>().ToList();
+                string categoryNameTemp = CategoryNames[i];
+                IQueryable<PostItem> postItem = null;
+                postItem = db.PostItems.Where(d => d.school_id == school_id &&
+                                                  d.username != user_name &&
+                                                  d.category == categoryNameTemp);
+                Categories[i] = postItem.ToList<PostItem>();
+                
             }
            // int x = Categories[0].Count;
         }

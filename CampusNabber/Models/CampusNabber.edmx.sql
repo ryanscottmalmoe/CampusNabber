@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/30/2016 22:22:18
+-- Date Created: 04/20/2016 04:50:19
 -- Generated from EDMX file: C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\Models\CampusNabber.edmx
 -- --------------------------------------------------
 
@@ -22,20 +22,20 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[C__MigrationHistory]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[C__MigrationHistory];
-GO
-IF OBJECT_ID(N'[dbo].[FlagPosts]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[FlagPosts];
-GO
-IF OBJECT_ID(N'[dbo].[PostItemPhotos]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PostItemPhotos];
-GO
 IF OBJECT_ID(N'[dbo].[PostItems]', 'U') IS NOT NULL
     DROP TABLE [dbo].[PostItems];
 GO
 IF OBJECT_ID(N'[dbo].[Schools]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Schools];
+GO
+IF OBJECT_ID(N'[dbo].[C__MigrationHistory]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[C__MigrationHistory];
+GO
+IF OBJECT_ID(N'[dbo].[PostItemPhotos]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PostItemPhotos];
+GO
+IF OBJECT_ID(N'[dbo].[FlagPosts]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[FlagPosts];
 GO
 
 -- --------------------------------------------------
@@ -46,14 +46,13 @@ GO
 CREATE TABLE [dbo].[PostItems] (
     [object_id] uniqueidentifier  NOT NULL,
     [username] nvarchar(40)  NOT NULL,
-    [school_name] nvarchar(100)  NOT NULL,
     [post_date] datetime  NOT NULL,
     [price] smallint  NOT NULL,
     [title] nvarchar(100)  NOT NULL,
     [description] nvarchar(max)  NOT NULL,
-    [photo_path_id] uniqueidentifier  NULL,
     [category] nvarchar(60)  NOT NULL,
-    [tags] nvarchar(max)  NOT NULL
+    [school_id] uniqueidentifier  NULL,
+    [photo_path_id] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -63,7 +62,8 @@ CREATE TABLE [dbo].[Schools] (
     [school_name] nvarchar(100)  NOT NULL,
     [address] nvarchar(80)  NOT NULL,
     [main_hex_color] nvarchar(max)  NOT NULL,
-    [secondary_hex_color] nvarchar(max)  NOT NULL
+    [secondary_hex_color] nvarchar(max)  NOT NULL,
+    [school_tag] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -131,6 +131,21 @@ GO
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
+
+-- Creating foreign key on [school_id] in table 'PostItems'
+ALTER TABLE [dbo].[PostItems]
+ADD CONSTRAINT [FK_PostItemSchool]
+    FOREIGN KEY ([school_id])
+    REFERENCES [dbo].[Schools]
+        ([object_id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PostItemSchool'
+CREATE INDEX [IX_FK_PostItemSchool]
+ON [dbo].[PostItems]
+    ([school_id]);
+GO
 
 -- --------------------------------------------------
 -- Script has ended
