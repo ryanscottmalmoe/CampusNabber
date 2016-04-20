@@ -58,15 +58,18 @@ namespace CampusNabber.Controllers
 
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             School school = SchoolFactory.BuildSchool(user.school_name);
-            ViewBag.main_color = school.main_hex_color;
+            market.mainSchoolColor = school.main_hex_color;
             market.setList();
             return View(market);
         }
 
         public ActionResult CategoryView(MarketPlace market)
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             market.setCategoryNames();
             market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
+            School school = SchoolFactory.BuildSchool(user.school_name);
+            market.mainSchoolColor = school.main_hex_color;
             return View(market);
         }
 

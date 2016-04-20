@@ -10,9 +10,9 @@
 
 @section Scripts {
     <script type="text/javascript">
-        var mainColor = '@(ViewBag.main_color)';
+        var mainColor = '@Model.mainSchoolColor';
 
-  
+
 @Html.EditorForModel()
 @* SEARCH FUNCTION
 <form method="get" action="@Url.Action("Index", "MarketPlaceController")">
