@@ -50,6 +50,7 @@ namespace CampusNabber.Controllers
             }
             return View();
         }
+
         [Authorize(Roles ="Admin")]
         public ActionResult RemoveFlags(PostXFlagViewModel model)
         {

@@ -10,7 +10,14 @@ namespace CampusNabber.Controllers
     {
         //
         // GET: /Admin/
+        [Authorize(Roles ="Admin")]
         public ActionResult AdminTools()
+        {
+            return View();
+        }
+
+        [Authorize(Roles ="Admin")]
+        public ActionResult BlockUser()
         {
             return View();
         }

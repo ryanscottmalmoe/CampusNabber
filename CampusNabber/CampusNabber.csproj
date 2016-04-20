@@ -1278,6 +1278,7 @@
     <Content Include="Scripts\version.json" />
     <Content Include="Views\MarketPlace\EditorTemplates\MarketPlace.cshtml" />
     <Content Include="Views\Admin\AdminTools.cshtml" />
+    <Content Include="Views\Admin\BlockUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

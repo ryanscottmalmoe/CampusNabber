@@ -51,7 +51,6 @@ namespace CampusNabber.Controllers
             UserManager = manager;
         }
 
-        
         public ActionResult MainMarketView()
         {
             var market = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
