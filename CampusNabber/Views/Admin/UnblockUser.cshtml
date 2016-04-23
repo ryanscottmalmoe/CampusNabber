@@ -1,15 +1,16 @@
 ﻿
 @{
-    ViewBag.Title = "Block User";
+    ViewBag.Title = "Unblock User";
 }
 
-<h2>Block User</h2>
-<h4>Enter the email address of the user you would like to block.</h4>
-@using (Html.BeginForm("FindUserToBlock", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{ 
+<h2>Unblock User</h2>
+<hr />
+<h3>Enter the email address of the user you would like to unblock.</h3>
+@using (Html.BeginForm("FindUserToUnblock", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
     <div class="form-horizontal container">
         <div class="form-group col-md-12">
-            <input type="text" class="form-control" name="userEmail"/>
+            <input type="text" class="form-control" name="userEmail" />
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -18,3 +19,4 @@
         </div>
     </div>
 }
+

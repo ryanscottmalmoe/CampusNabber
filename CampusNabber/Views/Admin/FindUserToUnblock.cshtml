@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Unblock User";
+}
+
+<h2>Unblock a User</h2>
+<h3>@Model.user.UserName</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Email</dt>
+        <dd>@Model.user.Email</dd>
+        <dt>School</dt>
+        <dd>@Model.school_name</dd>
+    </dl>
+</div>
+<h4>Are you sure you want to unblock this user?</h4>
+<a class="btn btn-primary" href="@Url.Action("UnlockUser", "Admin", Model)" style="width:200px">Yes</a> |
+@Html.ActionLink("Back to Admin Tools", "AdminTools", "Admin")

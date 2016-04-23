@@ -40,10 +40,77 @@ namespace CampusNabber.Controllers
 
         [Authorize(Roles ="Admin")]
         [HttpPost]
-        public ActionResult FindUser(string userEmail)
+        public ActionResult FindUserToBlock(string userEmail)
         {
             ApplicationUser result = UserManager.FindByEmail(userEmail);
-            return View(result);
+            if(result != null)
+            {
+                ProfileModel user = new ProfileModel();
+                user.getProfilePosts(result);
+                user.user = result;
+                School school = db.Schools.Where(d => d.object_id == result.school_id).First();
+                user.school_name = school.school_name;
+                return View(user);
+            }
+            else
+            {
+                return View("UserNotFound");
+            }
+        }
+        [Authorize(Roles="Admin")]
+        public ActionResult LockoutUser(ProfileModel user)
+        {
+            if(user != null)
+            {
+                user.user.LockoutEnabled = true;
+                user.user.LockoutEndDateUtc = System.DateTime.MaxValue;
+                ViewBag.Username = user.user.UserName;
+                return View("LockoutSuccess");
+            }
+            else
+            {
+                return View("UserNotFound");
+            }
+        }
+
+        [Authorize(Roles="Admin")]
+        public ActionResult UnblockUser()
+        {
+            return View();
+        }
+
+        [Authorize(Roles="Admin")]
+        public ActionResult FindUserToUnblock(string userEmail)
+        {
+            ApplicationUser result = UserManager.FindByEmail(userEmail);
+            if (result != null)
+            {
+                ProfileModel user = new ProfileModel();
+                user.getProfilePosts(result);
+                user.user = result;
+                School school = db.Schools.Where(d => d.object_id == result.school_id).First();
+                user.school_name = school.school_name;
+                return View(user);
+            }
+            else
+            {
+                return View("UserNotFound");
+            }
+        }
+
+        [Authorize(Roles="Admin")]
+        public ActionResult UnlockUser(ProfileModel user)
+        {
+            if (user != null)
+            {
+                user.user.LockoutEndDateUtc = null;
+                ViewBag.Username = user.user.UserName;
+                return View("UnlockSuccess");
+            }
+            else
+            {
+                return View("UserNotFound");
+            }
         }
 	}
 }
