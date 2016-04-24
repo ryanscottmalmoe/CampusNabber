@@ -1,17 +1,48 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
-{
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+{/*
+    using (Html.BeginForm("SearchSite", "MarketPlace", FormMethod.Post, new { @class = "navbar-form" }))
     {
-    @Html.AntiForgeryToken()
+        <ul class="nav navbar-nav">
+            <li>
+                <div class="input-group" id="setWidth">
+                    @Html.TextBox("Search", null, new { @class = "form-control text-box" });
+                    <span class="input-group-btn">
+                        <input class="btn btn-default" id="buttonAlign" type="submit" value="Search">
+                    </span>
+                </div>
+            </li>
+        </ul>
+    }*/
+    
+    
 
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav">
         <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "ProfileView", "Profile", new { failedPost = "false" }, null)
+            @using (Html.BeginForm("SearchSite", "MarketPlace", FormMethod.Post, new { @class = "navbar-form" }))
+            {
+
+                <div class="input-group" id="setWidth">
+                    @Html.TextBox("Search", null, new { @class = "form-control text-box" })
+                    <span class="input-group-btn">
+                        <input class="btn btn-default" id="buttonText" type="submit" value="Search">
+                    </span>
+                </div>
+
+            }
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
-    }
+        <li>
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class= "formFix" }))
+
+            {
+                @Html.AntiForgeryToken()
+                <a id="navFix" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+
+
+            }
+        </li>
+        </ul>
+
 }
 else
 {

@@ -1,5 +1,4 @@
-﻿using DatabaseCode.CNQueryFolder;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,25 +11,29 @@ namespace CampusNabber.Models
     {
         //public ApplicationUser CurrentUser { get; set; }
         public int numPosts;
-        public String SchoolToken { get; set; }
         public String[] CategoryNames { get; set; }
-         public List<PostItem>[] Categories { get; set; }
-         public List<PostItem> Posts { get; set; }
-         public String school_name { get; set; }
-         public List<String> SchoolsToDisplay { get; set; }
-         public string user_name { get; set; }
-         public int rangeFrom { get; set; }
-         public int displayRange { get; set; }
-         public int rangeTo { get; set; }
+        public List<PostItem>[] Categories { get; set; }
+        public List<PostItemModel>[] CategoriesToDisplay { get; set; }
+        public List<PostItem> Posts { get; set; }
+        public string school_name { get; set; }
+        public Guid school_id { get; set; }
+        public string user_name { get; set; }
+        public int rangeFrom { get; set; }
+        public int displayRange { get; set; }
+        public int rangeTo { get; set; }
         public int? categoryToDisplay { get; set; }
         public string chosenCategory { get; set; }
         public string mainSchoolColor { get; set; }
-        
+        public string userId { get; set; }
+        public String SchoolToken { get; set; }
+
+        private static CampusNabberEntities db = new CampusNabberEntities();
+
+
         public MarketPlace(ApplicationUser user)
         {
 
             Categories = new List<PostItem>[4];
-            SchoolsToDisplay = new List<String>();
             Posts = new List<PostItem>();
             CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
             numPosts = 0;
@@ -38,51 +41,60 @@ namespace CampusNabber.Models
             rangeFrom = 0;
             rangeTo = displayRange;
             //might want to change this to a school object in the future //Christian
-            school_name = user.school_name;
-            SchoolsToDisplay.Add(school_name);
+            //School school = db.Schools.Where(d => d.object_id == user.school_id).First();
+            school_id = user.school_id;
             user_name = user.UserName;
-            SchoolToken = setSchoolToken(school_name);
-
-
+            userId = user.Id;
+   //         SchoolToken = setSchoolToken();
         }
+
+
 
         public MarketPlace()
         {
            
         }
-        
-        public String setSchoolToken(String school_name)
-        {
-            String token = "";
-            if (school_name.Equals("Eastern Washington University"))
-                token += "[EWU]";
-            else if (school_name.Equals("Washington State University"))
-                token += "[WSU]";
-            else if (school_name.Equals("Gonzaga"))
-                token += "[GU]";
-            else if (school_name.Equals("Whitworth"))
-                token += "[WU]";
-            return token;
-        }
+
         public void  setCategoryNames()
         {
             CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
         }
 
+        public void setSchoolToken(String school_name)
+        {
+            String token = "";
+                        if (school_name.Equals("Eastern Washington University"))
+                            token += "[EWU]";
+                        else if (school_name.Equals("Washington State University"))
+                            token += "[WSU]";
+                        else if (school_name.Equals("Gonzaga"))
+                            token += "[GU]";
+                        else if (school_name.Equals("Whitworth"))
+                            token += "[WU]";
+                        SchoolToken = token;
+        }
+
         public void setList()
         {
+            CategoriesToDisplay = new List<PostItemModel>[4];
             Categories = new List<PostItem>[4];
             Posts = new List<PostItem>();
             CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
-            CNQuery query;
             Categories = new List<PostItem>[CategoryNames.Length];
             for (int i = 0; i < CategoryNames.Length; i++)
             {
-                query = new CNQuery("PostItem");
-                query.setQueryWhereKeyEqualToCondition("school_name", school_name);
-                query.setQueryWhereKeyNotEqualToCondition("username", user_name);
-                query.setQueryWhereKeyEqualToCondition("category", CategoryNames[i]);
-                Categories[i] = query.select().Cast<PostItem>().ToList();
+                string categoryNameTemp = CategoryNames[i];
+                IQueryable<PostItem> postItem = null;
+                postItem = db.PostItems.Where(d => d.school_id == school_id &&
+                                                  d.username != user_name &&
+                                                  d.category == categoryNameTemp);
+                Categories[i] = postItem.ToList<PostItem>();
+                CategoriesToDisplay[i] = new List<PostItemModel>();
+                for(int j = 0; j < Categories[i].Count(); j++)
+                {
+                    CategoriesToDisplay[i].Add(PostItemModel.bindToModel(Categories[i].ElementAt(j)));
+                }
+                
             }
            // int x = Categories[0].Count;
         }

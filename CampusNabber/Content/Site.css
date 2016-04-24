@@ -31,3 +31,35 @@ textarea {
     font-size:16px;
 }
 
+.red{
+    background-color:red;
+}
+
+.left{
+    float:left;
+}
+
+#setWidth {
+    max-width:361px;
+}
+
+#buttonText{
+    font-family: "Verdana", Times, sans-serif;
+    font-weight: bold;
+    font-variant: small-caps;
+    color: #999999;
+}
+#buttonText:hover{
+    background-color:white;
+}
+ .formFix{
+     padding-top:15px;
+     padding-bottom:15px;
+ }
+ #navFix{
+     color: #999999;
+     text-decoration:none;
+ }
+ #navFix:hover{
+     color:white;
+ }

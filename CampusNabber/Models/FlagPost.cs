@@ -9,14 +9,9 @@
 
 namespace CampusNabber.Models
 {
-    using DatabaseCode.CNObjectFolder;
     using System;
     using System.Collections.Generic;
-    using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Validation;
-    using System.Diagnostics;
-    using System.Linq;
-
+    
     public partial class FlagPost
     {
         public System.Guid object_id { get; set; }

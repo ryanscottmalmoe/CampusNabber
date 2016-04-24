@@ -19,6 +19,7 @@ namespace CampusNabber.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private static CampusNabberEntities db = new CampusNabberEntities();
 
         public AccountController()
         {
@@ -172,7 +173,10 @@ namespace CampusNabber.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, school_name = model.school_name };
+                Guid schoolID = (from d in db.Schools
+                                 where d.school_name.Equals(model.school_name)
+                                 select d.object_id).First();
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, school_id = schoolID };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

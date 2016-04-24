@@ -16,17 +16,31 @@ namespace CampusNabber.Models
         public string address { get; set; }
         public string main_hex_color { get; set; }
         public string secondary_hex_color { get; set; }
+        public string school_tag { get; set; }
 
         public SchoolModel()
         {
 
         }
 
-        public SchoolModel(string school_name, string main_hex_color, string secondary_hex_color)
+        public School bindSchoolModel()
+        {
+            School school = new School();
+            school.object_id = this.object_id;
+            school.school_name = this.school_name;
+            school.address = this.address;
+            school.main_hex_color = this.main_hex_color;
+            school.secondary_hex_color = this.secondary_hex_color;
+            school.school_tag = this.school_tag;
+            return school;
+        }
+
+        public SchoolModel(string school_name, string school_tag, string main_hex_color, string secondary_hex_color)
         {
             object_id = Guid.NewGuid();
             address = "TempAddress";
             this.school_name = school_name;
+            this.school_tag = school_tag;
             this.main_hex_color = main_hex_color;
             this.secondary_hex_color = secondary_hex_color;
         }
