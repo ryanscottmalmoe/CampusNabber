@@ -15,5 +15,5 @@
     </dl>
 </div>
 <h4>Are you sure you want to unblock this user?</h4>
-<a class="btn btn-primary" href="@Url.Action("UnlockUser", "Admin", Model)" style="width:200px">Yes</a> |
+<a class="btn btn-primary" href="@Url.Action("UnlockUser", "Admin", new { userEmail = Model.user.Email })" style="width:150px">Yes</a> |
 @Html.ActionLink("Back to Admin Tools", "AdminTools", "Admin")

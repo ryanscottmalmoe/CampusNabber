@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using CampusNabber.Models;
 
 namespace CampusNabber.Controllers
@@ -58,13 +60,15 @@ namespace CampusNabber.Controllers
             }
         }
         [Authorize(Roles="Admin")]
-        public ActionResult LockoutUser(ProfileModel user)
+        public ActionResult LockoutUser(string userEmail)
         {
+            ApplicationUser user = UserManager.FindByEmail(userEmail);
             if(user != null)
             {
-                user.user.LockoutEnabled = true;
-                user.user.LockoutEndDateUtc = System.DateTime.MaxValue;
-                ViewBag.Username = user.user.UserName;
+                ViewBag.Username = user.UserName;
+                UserManager.SetLockoutEnabled(user.Id, true);
+                UserManager.SetLockoutEndDate(user.Id, DateTime.MaxValue.ToUniversalTime());
+                UserManager.UpdateSecurityStamp(user.Id);
                 return View("LockoutSuccess");
             }
             else
@@ -99,12 +103,14 @@ namespace CampusNabber.Controllers
         }
 
         [Authorize(Roles="Admin")]
-        public ActionResult UnlockUser(ProfileModel user)
+        public ActionResult UnlockUser(string userEmail)
         {
+            ApplicationUser user = UserManager.FindByEmail(userEmail);
             if (user != null)
             {
-                user.user.LockoutEndDateUtc = null;
-                ViewBag.Username = user.user.UserName;
+                UserManager.SetLockoutEnabled(user.Id, true);
+                UserManager.SetLockoutEndDate(user.Id, DateTime.UtcNow.Subtract(new TimeSpan(1, 0, 0, 0)));
+                ViewBag.Username = user.UserName;
                 return View("UnlockSuccess");
             }
             else
