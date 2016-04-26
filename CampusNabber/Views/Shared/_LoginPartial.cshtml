@@ -17,7 +17,7 @@
     
     
 
-    <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav navbar-right">
         <li>
             @using (Html.BeginForm("SearchSite", "MarketPlace", FormMethod.Post, new { @class = "navbar-form" }))
             {
@@ -32,7 +32,7 @@
             }
         </li>
         <li>
-            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class= "formFix" }))
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class= "formFix pull-right" }))
 
             {
                 @Html.AntiForgeryToken()

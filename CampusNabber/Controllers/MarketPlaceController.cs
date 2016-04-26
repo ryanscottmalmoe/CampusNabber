@@ -68,7 +68,7 @@ namespace CampusNabber.Controllers
         [HttpPost]
         public ActionResult SearchSite(String Search)
         {
-            return MainMarketView();
+            return RedirectToAction("MainMarketView");
         }
 
         public ActionResult CategoryView(MarketPlace market)
