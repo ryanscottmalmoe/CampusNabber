@@ -14,6 +14,7 @@ using System.Web.Mvc;
 
 namespace CampusNabber.Controllers
 {
+    [Authorize]
     public class MarketPlaceController : Controller
     {
         private ApplicationUserManager _userManager;

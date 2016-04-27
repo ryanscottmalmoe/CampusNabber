@@ -8,6 +8,7 @@ using CampusNabber.Models;
 
 namespace CampusNabber.Controllers
 {
+    [Authorize]
     public class FlagController : Controller
     {
         private CampusNabberEntities db = new CampusNabberEntities();

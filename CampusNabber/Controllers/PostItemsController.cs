@@ -25,6 +25,7 @@ using Newtonsoft.Json;
 
 namespace CampusNabber.Controllers
 {
+    [Authorize]
     public class PostItemsController : Controller
     {
 
@@ -282,7 +283,7 @@ namespace CampusNabber.Controllers
                 }
                 
             }
-            return View("Index");
+            return View("~/Views/PostXFlagViewModel/Index.cshtml");
         }
 
         [Authorize(Roles = "Admin")]
