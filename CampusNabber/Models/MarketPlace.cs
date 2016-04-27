@@ -13,6 +13,7 @@ namespace CampusNabber.Models
         public int numPosts;
         public String[] CategoryNames { get; set; }
         public List<PostItem>[] Categories { get; set; }
+        public List<PostItemModel>[] CategoriesToDisplay { get; set; }
         public List<PostItem> Posts { get; set; }
         public string school_name { get; set; }
         public Guid school_id { get; set; }
@@ -24,6 +25,7 @@ namespace CampusNabber.Models
         public string chosenCategory { get; set; }
         public string mainSchoolColor { get; set; }
         public string userId { get; set; }
+        public String SchoolToken { get; set; }
 
         private static CampusNabberEntities db = new CampusNabberEntities();
 
@@ -43,8 +45,10 @@ namespace CampusNabber.Models
             school_id = user.school_id;
             user_name = user.UserName;
             userId = user.Id;
-
+   //         SchoolToken = setSchoolToken();
         }
+
+
 
         public MarketPlace()
         {
@@ -56,8 +60,23 @@ namespace CampusNabber.Models
             CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
         }
 
+        public void setSchoolToken(String school_name)
+        {
+            String token = "";
+                        if (school_name.Equals("Eastern Washington University"))
+                            token += "[EWU]";
+                        else if (school_name.Equals("Washington State University"))
+                            token += "[WSU]";
+                        else if (school_name.Equals("Gonzaga"))
+                            token += "[GU]";
+                        else if (school_name.Equals("Whitworth"))
+                            token += "[WU]";
+                        SchoolToken = token;
+        }
+
         public void setList()
         {
+            CategoriesToDisplay = new List<PostItemModel>[4];
             Categories = new List<PostItem>[4];
             Posts = new List<PostItem>();
             CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
@@ -70,6 +89,11 @@ namespace CampusNabber.Models
                                                   d.username != user_name &&
                                                   d.category == categoryNameTemp);
                 Categories[i] = postItem.ToList<PostItem>();
+                CategoriesToDisplay[i] = new List<PostItemModel>();
+                for(int j = 0; j < Categories[i].Count(); j++)
+                {
+                    CategoriesToDisplay[i].Add(PostItemModel.bindToModel(Categories[i].ElementAt(j)));
+                }
                 
             }
            // int x = Categories[0].Count;

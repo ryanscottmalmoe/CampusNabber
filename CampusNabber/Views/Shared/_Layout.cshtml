@@ -48,6 +48,20 @@
                     
 
                 </ul>
+                @if (val1)
+                {
+                    <script type="text/javascript">
+                        var mainColor = '@(Session["Color"])';
+                        debugger;
+                       @*if (mainColor.length > 0)
+                        {
+                            @Url.Content("~/Scripts/SchoolColor.js")"
+                        }
+                       *@
+                    //alert(mainColor);
+                    </script>
+                    <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
+                }
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
@@ -65,3 +79,5 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+
