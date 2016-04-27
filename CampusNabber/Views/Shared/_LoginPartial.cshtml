@@ -19,11 +19,11 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @using (Html.BeginForm("SearchSite", "MarketPlace", FormMethod.Post, new { @class = "navbar-form" }))
+            @using (Html.BeginForm("SearchSite", "MarketPlace", FormMethod.Post, new { @class = "navbar-form"}))
             {
 
                 <div class="input-group" id="setWidth">
-                    @Html.TextBox("Search", null, new { @class = "form-control text-box" })
+                    @Html.TextBox("Search", null , new { @class = "form-control text-box searchBarCustomWidth", @placeholder="Search The MarketPlace"})
                     <span class="input-group-btn">
                         <input class="btn btn-default" id="buttonText" type="submit" value="Search">
                     </span>
@@ -51,3 +51,4 @@ else
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }
+

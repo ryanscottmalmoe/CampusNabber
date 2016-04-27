@@ -61,6 +61,7 @@ namespace CampusNabber.Controllers
             market.setSchoolToken(school.school_name);
             market.mainSchoolColor = school.main_hex_color;
             market.school_name = school.school_name;
+          //  Session["Color"] = school.main_hex_color;
             market.setList();
             return View(market);
         }
@@ -68,7 +69,10 @@ namespace CampusNabber.Controllers
         [HttpPost]
         public ActionResult SearchSite(String Search)
         {
-            return RedirectToAction("MainMarketView");
+            if(Search.Length <1)
+              return RedirectToAction("MainMarketView");
+            else
+                return RedirectToAction("MainMarketView");
         }
 
         public ActionResult CategoryView(MarketPlace market)
