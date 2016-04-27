@@ -1,19 +1,84 @@
-﻿
+﻿img {
+height:auto;
+width:100px;
+}
+
+
+.container body-content {
+    padding-bottom:0px;
+}
+
+.alignCenter { text-align: center; }
+
+
  #pageWindow {
   padding-left: 0;
   padding-right: 0;
   width:auto
 }
+
+ .dataTables {
+   margin-bottom:0px;
+ }
+ .dataTables_wrapper no-footer {
+     margin-bottom:0px;
+ }
+
+ .panel-body {
+    padding: 0px;
+    height:100%;
+    position:relative;
+}
+ .dataTables_wrapper {
+    position: relative;
+    clear: both;
+    zoom: 1;
+    margin-bottom: -20px;
+    padding-bottom: 0px;
+}
+
+ hr {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    border: 0;
+    border-top: 1px solid #eeeeee;
+}
+
+ .panel.panel-default {
+ }
  .container {
   padding-left: 0;
   padding-right: 0;
-
   width:auto;
  }
 
-body {
-    overflow:hidden;
+.panel-heading {
+    padding: 3px 6px;
 }
+
+body { 
+    padding-bottom: 30px; 
+        overflow:hidden;
+}
+
+.container {
+    max-width: 100%;
+    max-height:100%;
+}
+
+.block input {
+    margin-top:25px;
+}
+
+.btn {
+    margin-top:20px;
+}
+
+
+a.paginate_button.current {
+   background-color:tomato;
+}
+
 
 .myfields label, .myfields input {
   display:inline-block;
