@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace CampusNabber.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         private ApplicationUserManager _userManager;
