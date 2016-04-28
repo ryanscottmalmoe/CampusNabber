@@ -393,6 +393,8 @@
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\images\logo-placeholder.jpg" />
+    <Content Include="Content\images\Transparent_logo_grey.png" />
+    <Content Include="Content\images\Transparent_logo_white.png" />
     <Content Include="Content\PostFlagTable.css" />
     <Content Include="Content\PostItem.css" />
     <Content Include="Content\School.css" />
