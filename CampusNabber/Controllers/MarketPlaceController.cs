@@ -76,20 +76,36 @@ namespace CampusNabber.Controllers
 
 
 
-        public JsonResult GetPostItemData(jQueryDataTableParamModel param, string Category)
+        public JsonResult GetPostItemData(jQueryDataTableParamModel param, string Category, string Search="", string FromPrice="0", string ToPrice="1000000000")
         {
             using (var context = new CampusNabberEntities())
             {
                 IQueryable<PostItem> postItems = null;
-                postItems = context.PostItems.Where(d =>
-                                                      d.category == Category);
-                                                       /*
-                                                      d.PO_Order.OrderDate >= fromDate &&
-                                                      d.PO_Order.OrderDate <= toDate &&
-                                                      d.ItemID == itemID);
-                                                      */
-                
+                if (!string.IsNullOrEmpty(FromPrice) || !string.IsNullOrEmpty(ToPrice))
+                {
+                    if (FromPrice.Equals(""))
+                        FromPrice = "0";
+                    if (ToPrice.Equals(""))
+                        ToPrice = "1000000000";
+                    int fromPrice = Int32.Parse(FromPrice);
+                    int toPrice = Int32.Parse(ToPrice);
+                    postItems = context.PostItems.Where(d =>
+                                                      d.category == Category &&
+                                                      d.price >= fromPrice &&
+                                                      d.price <= toPrice);
+                }
+                else
+                {
+                    postItems = context.PostItems.Where(d =>
+                                                    d.category == Category);
+                }
+                foreach (PostItem postItem in postItems)
+                {
+                    if(true)
+                    {
+                    }
 
+                }
 
                 // Count
                 var count = postItems.Count();
@@ -97,12 +113,12 @@ namespace CampusNabber.Controllers
                 var totalRecords = count;
                 
                 // Search
-                if (!string.IsNullOrEmpty(param.sSearch))
+                if (!string.IsNullOrEmpty(Search))
                 {
                     postItems = postItems.Where(s =>
                                             //SqlFunctions.StringConvert((double)s.price).Contains(param.sSearch) ||
-                                            s.title.Contains(param.sSearch) ||
-                                            s.description.Contains(param.sSearch)
+                                            s.title.Contains(Search) ||
+                                            s.description.Contains(Search)
                         );
                 }
 
@@ -153,11 +169,6 @@ namespace CampusNabber.Controllers
                     orders = orders.OrderByDescending(intOrdering);
                 }
 
-                // Skip and take
-                if (param.iDisplayLength != null && param.iDisplayStart != null)
-                {
-                    lines = lines.Skip(param.iDisplayStart).Take(param.iDisplayLength);
-                }
                 */
                 var result = new List<PostItemTableModel>();
 
@@ -174,12 +185,6 @@ namespace CampusNabber.Controllers
                                     })
                                     .ToList()
                                 );
-                /*
-                foreach (PostItemTableModel item in result)
-                {
-                    PostItemService.GetFirstPhotoPath(item);
-                }
-                */
 
                 return Json(new
                 {

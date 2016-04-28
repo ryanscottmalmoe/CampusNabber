@@ -133,6 +133,7 @@ namespace CampusNabber.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItemModel postItemModel, HttpPostedFileBase[] images)
         {
+            PostItem postItem = null;
             if (ModelState.IsValid)
             {
                 School school = db.Schools.Where(d => d.school_name == postItemModel.school_name).First();
@@ -144,7 +145,7 @@ namespace CampusNabber.Controllers
                 postItemModel.post_date = System.DateTime.Now;
                 postItemModel.object_id = Guid.NewGuid();
                 postItemModel.photo_path_id = Guid.NewGuid();
-                PostItem postItem = postItemModel.bindToPostItem();
+                postItem = postItemModel.bindToPostItem();
 
 
                 //****AWS Portion**************
@@ -153,9 +154,9 @@ namespace CampusNabber.Controllers
                 db.PostItems.Add(postItem);
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("MainMarketView", "MarketPlace");
             }
-            return View(postItemModel);
+            return View(postItem);
         }
 
 
