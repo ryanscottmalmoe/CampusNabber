@@ -14,6 +14,7 @@ using System.Web.Mvc;
 
 namespace CampusNabber.Controllers
 {
+    [Authorize]
     public class MarketPlaceController : Controller
     {
         private ApplicationUserManager _userManager;
@@ -51,7 +52,6 @@ namespace CampusNabber.Controllers
             UserManager = manager;
         }
 
-        
         public ActionResult MainMarketView()
         {
             var market = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
