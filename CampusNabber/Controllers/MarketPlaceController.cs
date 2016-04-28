@@ -58,10 +58,21 @@ namespace CampusNabber.Controllers
 
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             School school = db.Schools.Where(d => d.object_id == user.school_id).First();
+            market.setSchoolToken(school.school_name);
             market.mainSchoolColor = school.main_hex_color;
             market.school_name = school.school_name;
+          //  Session["Color"] = school.main_hex_color;
             market.setList();
             return View(market);
+        }
+
+        [HttpPost]
+        public ActionResult SearchSite(String Search)
+        {
+            if(Search.Length <1)
+              return RedirectToAction("MainMarketView");
+            else
+                return RedirectToAction("MainMarketView");
         }
 
         public ActionResult CategoryView(MarketPlace market)
