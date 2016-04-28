@@ -116,7 +116,6 @@ namespace CampusNabber.Utility
                 itemPhotos.num_photos = (short)(imageCounter - 1);
                 db.PostItemPhotos.Add(itemPhotos);
                 db.SaveChanges();
-                //itemPhotos.createEntity();
             }
             catch (Exception ex)
             {
