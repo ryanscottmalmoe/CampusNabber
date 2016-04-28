@@ -12,18 +12,18 @@
     <div class="row" style="height:4em;line-height:4em;">
         <div class="col-sm-6"><h3>@Model.Title</h3></div>
         <div class="col-md-2 text-center">
-            <a class="btn btn-default" href="@Url.Action("Details", "PostItems", new { id = Model.PostId})">
+            <a class="btn btn-default" href="@Url.Action("Details", "PostItems", new { id = Model.PostId})" style="width:160px;">
                 View Post
             </a>
         </div>
         <div class="col-md-2 text-center">
-            <a class="btn btn-primary" href="@Url.Action("RemoveFlags", "Flag", Model)">
+            <a class="btn btn-primary" href="@Url.Action("RemoveFlags", "Flag", Model)" style="width:160px;">
                 Remove Flags
             </a>
         </div>
         <div class="col-md-2 text-center">
 
-            <a class="btn btn-danger" href="@Url.Action("Delete", "PostItems", new {id = Model.PostId})">
+            <a class="btn btn-danger" href="@Url.Action("Delete", "PostItems", new {id = Model.PostId})" style="width:160px;">
                 Take Down Post
             </a>
         </div>
