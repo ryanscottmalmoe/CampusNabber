@@ -21,7 +21,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
 
 <div class="container">
-    <iv class="row">
+    <div class="row">
         <div class="col-md-6">
 
             @using (Html.BeginForm("Edit", "PostItems", FormMethod.Post,
@@ -88,72 +88,76 @@ new { enctype = "multipart/form-data" }))
             }
         </div>
 
-
-        <style>
-            div.img {
-                margin: 5px;
-                border: 1px solid #ccc;
-                float: left;
-                width: 180px;
-                
-            }
-
-                div.img:hover {
-                    border: 1px solid #777;
+        <div class="col-md4">
+            <style>
+                div.img {
+                    margin: 5px;
+                    border: 1px solid #ccc;
+                    float: left;
+                    width: 180px;
                 }
 
-                div.img img {
-                    width: 100%;
-                    height: auto;
+                    div.img:hover {
+                        border: 1px solid #777;
+                    }
+
+                    div.img img {
+                        width: 100%;
+                        height: auto;
+                    }
+
+                div.desc {
+                    padding: 15px;
+                    text-align: center;
                 }
-
-            div.desc {
-                padding: 15px;
-                text-align: center;
-            }
-        </style>
+            </style>
 
 
-        <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <img src="" class="imagepreview" style="width: 100%;">
+            <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <img src="" class="imagepreview" style="width: 100%;">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div ng-app="app">
-            <div ng-controller="CarouselDemoCtrl" id="slides_control">
-                <div ng-init="slides = @ViewBag.RESULTS">
-                    <slide ng-repeat="slide in slides">
-                        <div class="img">
-                            <a href="#" class="pop">
-                                <img ng-src="{{slide.image}}">
-                            </a>
-                        </div>
-                    </slide>
+            <div ng-app="app">
+                <div ng-controller="CarouselDemoCtrl" id="slides_control">
+                    <div ng-init="slides = @ViewBag.RESULTS">
+                        <slide ng-repeat="slide in slides">
+                            <div class="img">
+                                <a href="#" class="pop">
+                                    <img ng-src="{{slide.image}}">
+                                </a>
+                            </div>
+                        </slide>
+                    </div>
                 </div>
-              </div>
-          </div>
-                <script>
-                    angular.module('app', [])
-                    .controller('CarouselDemoCtrl', function ($scope) {
-                        $scope.myInterval = 3000;
-                        $scope.slides = null;
+            </div>
+            <script>
+                angular.module('app', [])
+                .controller('CarouselDemoCtrl', function ($scope) {
+                    $scope.myInterval = 3000;
+                    $scope.slides = null;
+                });
+
+                $(function () {
+                    $('.pop').on('click', function () {
+                        $('.imagepreview').attr('src', $(this).find('img').attr('src'));
+                        $('#imagemodal').modal('show');
                     });
-
-                    $(function () {
-                        $('.pop').on('click', function () {
-                            $('.imagepreview').attr('src', $(this).find('img').attr('src'));
-                            $('#imagemodal').modal('show');
-                        });
-                    });
-                </script>
+                });
+            </script>
 
 
+        </div>
+        <div class="col-md-2 addSpace red pull-right">
+
+
+        </div>
 
             </div>
 
@@ -162,5 +166,5 @@ new { enctype = "multipart/form-data" }))
 
         </div>
 
-
+    </div>
 

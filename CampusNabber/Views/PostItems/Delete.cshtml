@@ -3,70 +3,77 @@
 @{
     ViewBag.Title = "Delete";
 }
+<div class="row">
+    <div class="col-md-10">
+        <h2>Delete Post</h2>
 
-<h2>Delete Post</h2>
+        <h3>Are you sure you want to delete this?</h3>
+        <div>
+            <hr />
+            <dl class="dl-horizontal">
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <hr />
-    <dl class="dl-horizontal">
+                <dt>
+                    Title
+                </dt>
 
-        <dt>
-            Title
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.title)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.title)
-        </dd>
+                <dt>
+                    Date Posted
+                </dt>
 
-        <dt>
-            Date Posted
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.post_date)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.post_date)
-        </dd>
+                <dt>
+                    Category
+                </dt>
 
-        <dt>
-            Category
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.category)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.category)
-        </dd>
+                <dt>
+                    Price
+                </dt>
 
-        <dt>
-            Price
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.price)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.price)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.photo_path_id)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.photo_path_id)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.photo_path_id)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.photo_path_id)
-        </dd>
+                <dt>
+                    Description
+                </dt>
 
-        <dt>
-            Description
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.description)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.description)
-        </dd>
+            </dl>
 
-    </dl>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-danger" /> |
-            @Html.ActionLink("Back to List", "MainMarketView", "MarketPlace")
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-danger" /> |
+                    @Html.ActionLink("Back to List", "MainMarketView", "MarketPlace")
+                </div>
+            }
         </div>
-    }
+        </div>
+    <div class="col-md-2 addSpace red">
+
+    </div>
 </div>

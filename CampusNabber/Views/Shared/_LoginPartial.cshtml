@@ -19,7 +19,7 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @using (Html.BeginForm("SearchSite", "MarketPlace", FormMethod.Post, new { @class = "navbar-form"}))
+            @using (Html.BeginForm("SearchSite", "MarketPlace", FormMethod.Post, new { @class = "navbar-form", @id="searchForm"}))
             {
 
                 <div class="input-group" id="setWidth">
