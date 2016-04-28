@@ -14,6 +14,7 @@ using System.Web.Mvc;
 
 namespace CampusNabber.Controllers
 {
+    [Authorize]
     public class MarketPlaceController : Controller
     {
         private ApplicationUserManager _userManager;
@@ -51,7 +52,6 @@ namespace CampusNabber.Controllers
             UserManager = manager;
         }
 
-        
         public ActionResult MainMarketView()
         {
             var market = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
@@ -61,7 +61,8 @@ namespace CampusNabber.Controllers
             market.setSchoolToken(school.school_name);
             market.mainSchoolColor = school.main_hex_color;
             market.school_name = school.school_name;
-          //  Session["Color"] = school.main_hex_color;
+            if(Session["Color"] == null)
+                Session["Color"] = school.main_hex_color;
             market.setList();
             return View(market);
         }

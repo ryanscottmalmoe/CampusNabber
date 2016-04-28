@@ -29,10 +29,6 @@ namespace CampusNabber.App_Start
             {
                 roleResult = roleManager.Create(new IdentityRole { Name = "Admin" });
             }
-            if(!roleManager.RoleExists("BaseUser"))
-            {
-                roleResult = roleManager.Create(new IdentityRole { Name = "BaseUser" });
-            }
 
 
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));

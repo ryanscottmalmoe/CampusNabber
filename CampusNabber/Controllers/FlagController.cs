@@ -8,6 +8,7 @@ using CampusNabber.Models;
 
 namespace CampusNabber.Controllers
 {
+    [Authorize]
     public class FlagController : Controller
     {
         private CampusNabberEntities db = new CampusNabberEntities();
@@ -50,6 +51,7 @@ namespace CampusNabber.Controllers
             }
             return View();
         }
+
         [Authorize(Roles ="Admin")]
         public ActionResult RemoveFlags(PostXFlagViewModel model)
         {

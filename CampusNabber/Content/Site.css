@@ -41,12 +41,14 @@ textarea {
 
 #setWidth {
     max-width:274px;
+    padding-right:25px;
 }
 
 .searchBarCustomWidth{
     max-width: 200px;
     margin-right:5px;
     float:right;
+    font-size:10px;
 }
 
 #buttonText{
@@ -70,8 +72,27 @@ textarea {
      color:white;
  }
 
+ #pullRight{
+     padding-left:25%;
+ }
+
+  @media (max-width: 1370px) {
+    .navbar-nav>li>a{
+        padding-bottom:15px;
+        padding-top:15px;
+        padding-left:5px;
+        padding-right:5px;
+    }
+    .navbar-header>a{
+        padding-bottom:15px;
+        padding-top:15px;
+        padding-left:10px;
+        padding-right:5px;
+    }
+}
+
 /*! This is a custom fix for our nav bar */
- @media (max-width: 1199px) {
+ @media (max-width: 992px) {
     .navbar-header {
         float: none;
     }
@@ -113,3 +134,5 @@ textarea {
         padding:15px 10px;
     }
 }
+
+ 
