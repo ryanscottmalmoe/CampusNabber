@@ -20,6 +20,7 @@ namespace CampusNabber
 
             //Create admin role and user
             RoleActions roleActions = new RoleActions();
+            roleActions.LoadSchools();
             roleActions.AddAdminRoleAndUser();
         }
     }
