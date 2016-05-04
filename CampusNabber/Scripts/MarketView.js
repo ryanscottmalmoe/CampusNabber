@@ -1,0 +1,1 @@
+﻿$("#searchForm").hide();

@@ -64,62 +64,67 @@
             </dl>
         </div>
 
-
-        @if (ViewBag.HASPHOTO)
-        {
-            <div id="myCarousel" class="carousel slide col-md-6" data-ride="carousel">
-                <!-- Indicators -->
-                <ol class="carousel-indicators">
-                    @{
-                        var dataSlideIndex = 0;
-                        var results = ViewBag.RESULTS;
-                        foreach (var photoPath in results)
-                        {
-                            <li data-target="#myCarousel" data-slide-to=dataSlideIndex class="active"></li>
-                            dataSlideIndex++;
+        <div class="col-md-4">
+            @if (ViewBag.HASPHOTO)
+            {
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        @{
+                            var dataSlideIndex = 0;
+                            var results = ViewBag.RESULTS;
+                            foreach (var photoPath in results)
+                            {
+                                <li data-target="#myCarousel" data-slide-to=dataSlideIndex class="active"></li>
+                                dataSlideIndex++;
+                            }
                         }
-                    }
-                </ol>
-
-                <!-- Wrapper for slides -->
-                <div class="carousel-inner" role="listbox">
+                    </ol>
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
-                        @{
-                            var firstPhoto = ViewBag.FIRSTPHOTO;
-                            <div class="item active carouselImage">
-                                <img src=@firstPhoto alt="Chania">
-                            </div>
-                            var skipFirstPhoto = 0;
-                            foreach (var photoPath in ViewBag.RESULTS)
-                            {
-                                if (@skipFirstPhoto != 0)
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+                            @{
+                                var firstPhoto = ViewBag.FIRSTPHOTO;
+                                <div class="item active carouselImage">
+                                    <img src=@firstPhoto alt="Chania">
+                                </div>
+                                var skipFirstPhoto = 0;
+                                foreach (var photoPath in ViewBag.RESULTS)
                                 {
-                                    <div class="item carouselImage">
-                                        <img src=@photoPath alt="Chania">
-                                    </div>
+                                    if (@skipFirstPhoto != 0)
+                                    {
+                                        <div class="item carouselImage">
+                                            <img src=@photoPath alt="Chania">
+                                        </div>
+                                    }
+                                    skipFirstPhoto++;
                                 }
-                                skipFirstPhoto++;
+
                             }
 
-                        }
+                        </div>
 
                     </div>
 
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
+                                }
+        </div>
+                            <div class="col-md-2 addSpace red">
 
-                <!-- Left and right controls -->
-                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-                            }
+
+                            </div>
 
     </div>
 
@@ -137,11 +142,11 @@
             }
             @if (User.IsInRole("Admin"))
             {
-                <a class="btn btn-danger pull-right" href="@Url.Action("Delete", "PostItems", new {id = Model.object_id})">Take Down Post</a>
+                <a style ="margin-right:20%" class="btn btn-danger pull-right" href="@Url.Action("Delete", "PostItems", new {id = Model.object_id})">Take Down Post</a>
             }
             else
             {
-            <a class="btn btn-danger pull-right" href=@Url.Action("Create","Flag", new { postId = Model.object_id, username = Model.username })>
+            <a style ="margin-right:20%" class="btn btn-danger pull-right" href=@Url.Action("Create","Flag", new { postId = Model.object_id, username = Model.username })>
                 <span class="glyphicon glyphicon-flag"></span> Report Post
             </a>
             }

@@ -465,6 +465,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\MarketView.js" />
     <Content Include="Scripts\PostFlagTable.js" />
     <Content Include="Scripts\ProfileView.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
