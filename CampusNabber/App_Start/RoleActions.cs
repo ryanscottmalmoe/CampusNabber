@@ -13,6 +13,19 @@ namespace CampusNabber.App_Start
     {
         private static CampusNabberEntities db = new CampusNabberEntities();
 
+
+        public async void LoadSchools()
+        {
+
+            List<SchoolModel> schools = SchoolUtility.generateSchools();
+            foreach (var school in schools)
+             {
+                School saveSchool = school.bindSchoolModel();
+                db.Schools.Add(saveSchool);
+             }
+             await db.SaveChangesAsync();
+        }
+
         internal void AddAdminRoleAndUser()
         {
             Models.ApplicationDbContext context = new ApplicationDbContext();
@@ -25,10 +38,12 @@ namespace CampusNabber.App_Start
             var roleManager = new RoleManager<IdentityRole>(roleStore);
 
             //Create Admin role if it doesn't already exist
-            if(!roleManager.RoleExists("Admin"))
+            if (!roleManager.RoleExists("Admin"))
             {
                 roleResult = roleManager.Create(new IdentityRole { Name = "Admin" });
             }
+
+
 
 
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
@@ -45,14 +60,14 @@ namespace CampusNabber.App_Start
                 UserName = "Admin",
                 EmailConfirmed = true,
                 school_id = (from d in db.Schools
-                            where d.school_name.Equals("Eastern Washington University")
-                            select d.object_id).First(),                 
+                             where d.school_name.Equals("Eastern Washington University")
+                             select d.object_id).First(),
                 LockoutEnabled = true
-                
+
             };
             userResult = userManager.Create(appUser, "Pa$$w0rd");
 
-            if(!userManager.IsInRole(userManager.FindByEmail("campusnabber@gmail.com").Id, "Admin"))
+            if (!userManager.IsInRole(userManager.FindByEmail("campusnabber@gmail.com").Id, "Admin"))
             {
                 userResult = userManager.AddToRole(userManager.FindByEmail("campusnabber@gmail.com").Id, "Admin");
             }

@@ -77,8 +77,6 @@ namespace CampusNabber.Controllers
                 return View(model);
             }
 
-
-
             // Require the user to have a confirmed email before they can log in.
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user != null)

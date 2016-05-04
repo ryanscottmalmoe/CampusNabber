@@ -12,9 +12,13 @@ namespace CampusNabber.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PostItemPhotos
+    public partial class AspNetUserClaim
     {
-        public System.Guid object_id { get; set; }
-        public short num_photos { get; set; }
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public string ClaimType { get; set; }
+        public string ClaimValue { get; set; }
+    
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

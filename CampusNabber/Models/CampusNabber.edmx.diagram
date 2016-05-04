@@ -11,6 +11,14 @@
         <EntityTypeShape EntityType="CampusNabberModel.PostItemPhotos" Width="1.5" PointX="4.75" PointY="0.875" />
         <EntityTypeShape EntityType="CampusNabberModel.FlagPost" Width="1.5" PointX="4.75" PointY="2.625" />
         <AssociationConnector Association="CampusNabberModel.PostItemSchool" />
+        <EntityTypeShape EntityType="CampusNabberModel.C__MigrationHistory1" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="CampusNabberModel.AspNetRole" Width="1.5" PointX="3.375" PointY="7.5" />
+        <EntityTypeShape EntityType="CampusNabberModel.AspNetUserClaim" Width="1.5" PointX="7.875" PointY="6" />
+        <EntityTypeShape EntityType="CampusNabberModel.AspNetUserLogin" Width="1.5" PointX="7.875" PointY="8.75" />
+        <EntityTypeShape EntityType="CampusNabberModel.AspNetUser" Width="1.5" PointX="5.625" PointY="6.25" />
+        <AssociationConnector Association="CampusNabberModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="CampusNabberModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="CampusNabberModel.AspNetUserRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
