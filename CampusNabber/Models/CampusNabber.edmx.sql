@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/20/2016 04:50:19
+-- Date Created: 05/04/2016 01:56:36
 -- Generated from EDMX file: C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\Models\CampusNabber.edmx
 -- --------------------------------------------------
 
@@ -17,6 +17,9 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_PostItemSchool]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PostItems] DROP CONSTRAINT [FK_PostItemSchool];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables

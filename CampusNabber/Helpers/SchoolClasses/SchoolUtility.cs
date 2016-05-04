@@ -13,7 +13,7 @@ namespace CampusNabber.Helpers.SchoolClasses
         public static List<SchoolModel> generateSchools()
         {
            return new List<SchoolModel> {
-                 new SchoolModel("Eastern Washingon University", "EWU", "#A32020", "#FFFFFF"),
+                 new SchoolModel("Eastern Washington University", "EWU", "#A32020", "#FFFFFF"),
                  new SchoolModel("Washington State University", "WSU", "#DC143C", "#a1a0a0"),
                  new SchoolModel("Whitworth", "WU", "#DC143C", "#000000"),
                  new SchoolModel("Gonzaga", "GU", "#0F0FA9", "#A32020")
