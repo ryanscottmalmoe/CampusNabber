@@ -52,13 +52,15 @@ namespace CampusNabber.Controllers
             UserManager = manager;
         }
 
+
+
         public ActionResult MainMarketView()
         {
             var market = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
 
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             School school = db.Schools.Where(d => d.object_id == user.school_id).First();
-            market.setSchoolToken(school.school_name);
+            market.SchoolToken = school.school_tag;
             market.mainSchoolColor = school.main_hex_color;
             market.school_name = school.school_name;
             if(Session["Color"] == null)
@@ -76,13 +78,30 @@ namespace CampusNabber.Controllers
                 return RedirectToAction("MainMarketView");
         }
 
+        [HttpPost]
+        public ActionResult CategoryView(string Search)
+        {
+            MarketPlace market = new MarketPlace();
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            market.setCategoryNames();
+            market.chosenCategory = "All Categories";
+            School school = db.Schools.Where(d => d.object_id == user.school_id).First();
+            market.mainSchoolColor = school.main_hex_color;
+            market.searchString = Search;
+            return View(market);
+        }
+
         public ActionResult CategoryView(MarketPlace market)
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+           
             market.setCategoryNames();
             market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
             School school = db.Schools.Where(d => d.object_id == user.school_id).First();
+            if (Session["Color"] == null)
+                Session["Color"] = school.main_hex_color;
             market.mainSchoolColor = school.main_hex_color;
+            market.searchString = "";
             return View(market);
         }
 
@@ -101,22 +120,27 @@ namespace CampusNabber.Controllers
                         ToPrice = "1000000000";
                     int fromPrice = Int32.Parse(FromPrice);
                     int toPrice = Int32.Parse(ToPrice);
-                    postItems = context.PostItems.Where(d =>
+                    if (Category.Equals("All Categories"))
+                    {
+                        postItems = context.PostItems.Where(d =>
+                                                      d.price >= fromPrice &&
+                                                      d.price <= toPrice);
+                    }
+                    else
+                    {
+                        postItems = context.PostItems.Where(d =>
                                                       d.category == Category &&
                                                       d.price >= fromPrice &&
                                                       d.price <= toPrice);
+                    }
                 }
                 else
                 {
-                    postItems = context.PostItems.Where(d =>
+                    if (Category.Equals("All Categories"))
+                        postItems = context.PostItems;
+                    else
+                        postItems = context.PostItems.Where(d =>
                                                     d.category == Category);
-                }
-                foreach (PostItem postItem in postItems)
-                {
-                    if(true)
-                    {
-                    }
-
                 }
 
                 // Count

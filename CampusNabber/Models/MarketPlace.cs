@@ -17,6 +17,7 @@ namespace CampusNabber.Models
         public List<PostItem> Posts { get; set; }
         public string school_name { get; set; }
         public Guid school_id { get; set; }
+        public List<Guid> secondary_schools_to_display { get; set; }
         public string user_name { get; set; }
         public int rangeFrom { get; set; }
         public int displayRange { get; set; }
@@ -26,6 +27,7 @@ namespace CampusNabber.Models
         public string mainSchoolColor { get; set; }
         public string userId { get; set; }
         public String SchoolToken { get; set; }
+        public string searchString { get; set; }
 
         private static CampusNabberEntities db = new CampusNabberEntities();
 
@@ -34,6 +36,7 @@ namespace CampusNabber.Models
         {
 
             Categories = new List<PostItem>[4];
+            secondary_schools_to_display = new List<Guid>();
             Posts = new List<PostItem>();
             CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
             numPosts = 0;
@@ -96,7 +99,6 @@ namespace CampusNabber.Models
                 }
                 
             }
-           // int x = Categories[0].Count;
         }
 
         //increment the values by a higher factor to display more records per page

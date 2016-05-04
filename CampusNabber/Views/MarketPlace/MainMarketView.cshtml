@@ -4,10 +4,15 @@
 }
 
 
+    <div class="row">
+        <div class="col-md-9">
 
-    <h2>Start Nabbin'      @Model.SchoolToken</h2>
-    <h4><a href="@Url.Action("Create", "PostItems", new { userId = Model.user_name})" />Create Post</h4>
-    
+            <h2>Start Nabbin'      [@Model.SchoolToken]</h2>
+        </div>
+        <div class="col-md-3">
+            <h2><a href="@Url.Action("Create", "PostItems", new { userId = Model.user_name})" />Create Post</h2>
+        </div>
+    </div>
 
 
 @Html.EditorForModel()
@@ -196,7 +201,7 @@
                 </table>
 
             </div>
-    <div class="col-md-2 red">
+    <div class="col-md-2 red addSpace">
 
     </div>
 

@@ -61,7 +61,8 @@ namespace CampusNabber.Controllers
             profile.getProfilePosts(_userManager.FindById(User.Identity.GetUserId()));
             profile.user = (_userManager.FindById(User.Identity.GetUserId()));
             School school = db.Schools.Where(d => d.object_id == user.school_id).First();
-
+            if (Session["Color"] == null)
+                Session["Color"] = school.main_hex_color;
             profile.school_name = school.school_name;
             //Creates school drop down menu
             SelectList selectCategory = PostItemService.generateSchoolsList();
