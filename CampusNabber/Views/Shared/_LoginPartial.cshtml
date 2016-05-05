@@ -1,24 +1,10 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
-{/*
-    using (Html.BeginForm("SearchSite", "MarketPlace", FormMethod.Post, new { @class = "navbar-form" }))
-    {
-        <ul class="nav navbar-nav">
-            <li>
-                <div class="input-group" id="setWidth">
-                    @Html.TextBox("Search", null, new { @class = "form-control text-box" });
-                    <span class="input-group-btn">
-                        <input class="btn btn-default" id="buttonAlign" type="submit" value="Search">
-                    </span>
-                </div>
-            </li>
-        </ul>
-    }*/
+{
     
-    
-
     <ul class="nav navbar-nav navbar-right">
         <li>
+
             @using (Html.BeginForm("CategoryView", "MarketPlace",  FormMethod.Post, new { @class = "navbar-form", @id = "searchForm" }))
             {
 

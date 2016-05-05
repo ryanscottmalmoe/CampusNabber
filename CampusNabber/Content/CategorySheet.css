@@ -46,7 +46,7 @@ width:100px;
 
  .panel.panel-default {
  }
- .container {
+ #customContainer {
   padding-left: 0;
   padding-right: 0;
   width:auto;
@@ -61,17 +61,20 @@ body {
         overflow:hidden;
 }
 
-.container {
+#customContainer {
     max-width: 100%;
     max-height:100%;
 }
 
-.block input {
+.block .customInput{
     margin-top:25px;
 }
 
 .btn {
-    margin-top:20px;
+    margin-top:0px;
+    font-family: "Verdana", Times, sans-serif;
+    font-weight: bold;
+    font-variant: small-caps; 
 }
 
 
@@ -80,8 +83,29 @@ a.paginate_button.current {
 }
 
 
-.myfields label, .myfields input {
+.myfields label, .myfields {
   display:inline-block;
   width:auto;
 }
 
+.customInput{
+  display:inline-block;
+  width:75px;
+
+}
+
+#fromPriceInput, #toPriceInput{
+    width:75px;
+    padding:0px;
+    height:24px;
+}
+
+#searchInput{
+    width:140px;
+    margin-top:0px;
+    margin-right:5px;
+}
+
+.panel-heading{
+    background-color:white !important;
+}

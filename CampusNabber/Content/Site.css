@@ -51,6 +51,12 @@ textarea {
     font-size:10px;
 }
 
+#navBarLogo{
+    max-width:80px; 
+    max-height:20px;
+    margin-top: 0px;
+}
+
 #buttonText{
     font-family: "Verdana", Times, sans-serif;
     font-weight: bold;
@@ -88,6 +94,10 @@ textarea {
         padding-top:15px;
         padding-left:10px;
         padding-right:5px;
+    }
+    #navBarLogo{
+        margin-top:0px;
+        width:70px;
     }
 }
 
@@ -132,6 +142,11 @@ textarea {
     .pull-right{
         float:none !important; 
         padding:15px 10px;
+    }
+
+    #navBarLogo{
+        width:50px;
+        margin-top:3px;
     }
 }
 
