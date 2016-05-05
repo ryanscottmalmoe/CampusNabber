@@ -104,6 +104,9 @@ a.paginate_button.current {
     padding:0px;
     height:24px;
 }
+#toPriceInput {
+    margin-left:2px;
+}
 
 #searchInput{
     width:140px;
@@ -114,4 +117,10 @@ a.paginate_button.current {
 
 .panel-heading{
     background-color:white !important;
+}
+
+@media (min-width: 992px){
+    .col-md-10 {
+        width: 100%;
+    }
 }

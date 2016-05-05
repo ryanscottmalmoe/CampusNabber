@@ -82,11 +82,7 @@ textarea {
      padding-left:25%;
  }
 
- @media (min-width: 992px){
-    .col-md-10 {
-        width: 100%;
-    }
-}
+
 
   @media (max-width: 1370px) {
     .navbar-nav>li>a{
