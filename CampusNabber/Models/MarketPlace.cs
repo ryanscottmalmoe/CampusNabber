@@ -27,6 +27,7 @@ namespace CampusNabber.Models
         public string mainSchoolColor { get; set; }
         public string userId { get; set; }
         public String SchoolToken { get; set; }
+        public string searchString { get; set; }
 
         private static CampusNabberEntities db = new CampusNabberEntities();
 

@@ -35,7 +35,7 @@
                                 <div class="col-sm-4">
                                     <form class="block form">
                                         <div class="input-group">
-                                            <input type="text" id="searchInput" name="searchInput" class="form-control text-box customInput " placeholder="Search @Model.chosenCategory" />
+                                            <input type="text" id="searchInput" name="searchInput" value="@Model.searchString" class="form-control text-box customInput " placeholder="Search @Model.chosenCategory" />
                                             <a id="searchButton" class="btn btn-primary" onclick="SearchPostItems();" href="#">Search</a>
                                         </div>
                                     </form>
@@ -43,6 +43,7 @@
                                 <div class="col-sm-2">
 
                                 </div>
+
                             </div>
                         </div>
                         <div class="panel-body">
