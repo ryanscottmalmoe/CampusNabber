@@ -1304,6 +1304,8 @@
     <Content Include="Views\Admin\UnblockUser.cshtml" />
     <Content Include="Views\Admin\FindUserToUnblock.cshtml" />
     <Content Include="Views\Admin\UnlockSuccess.cshtml" />
+    <Content Include="Views\Admin\AddCategory.cshtml" />
+    <Content Include="Views\Admin\AddSchool.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

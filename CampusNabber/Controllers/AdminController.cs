@@ -118,5 +118,17 @@ namespace CampusNabber.Controllers
                 return View("UserNotFound");
             }
         }
+
+        [Authorize(Roles="Admin")]
+        public ActionResult AddCategory()
+        {
+            return View();
+        }
+
+        [Authorize(Roles="Admin")]
+        public ActionResult AddSchool()
+        {
+            return View();
+        }
 	}
 }
