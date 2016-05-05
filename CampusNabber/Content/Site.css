@@ -3,6 +3,13 @@
     padding-bottom: 20px;
 }
 
+/* Ad side banner*/
+.banner {
+    float: right;
+    width: 140px;
+    margin-top: 20px;
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -81,6 +88,8 @@ textarea {
  #pullRight{
      padding-left:25%;
  }
+
+
 
   @media (max-width: 1370px) {
     .navbar-nav>li>a{

@@ -3,6 +3,11 @@ height:auto;
 width:100px;
 }
 
+h2 {
+    margin-top:20px;
+    margin-bottom:10px;
+}
+
 
 .container body-content {
     padding-bottom:0px;
@@ -99,13 +104,23 @@ a.paginate_button.current {
     padding:0px;
     height:24px;
 }
+#toPriceInput {
+    margin-left:2px;
+}
 
 #searchInput{
     width:140px;
-    margin-top:0px;
+    margin-top:20px;
     margin-right:5px;
+    margin-bottom:20px;
 }
 
 .panel-heading{
     background-color:white !important;
+}
+
+@media (min-width: 992px){
+    .col-md-10 {
+        width: 100%;
+    }
 }

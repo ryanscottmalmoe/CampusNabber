@@ -52,6 +52,8 @@ namespace CampusNabber.Controllers
             UserManager = manager;
         }
 
+
+
         public ActionResult MainMarketView()
         {
             var market = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
@@ -76,6 +78,19 @@ namespace CampusNabber.Controllers
                 return RedirectToAction("MainMarketView");
         }
 
+        [HttpPost]
+        public ActionResult CategoryView(string Search)
+        {
+            MarketPlace market = new MarketPlace();
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            market.setCategoryNames();
+            market.chosenCategory = "All Categories";
+            School school = db.Schools.Where(d => d.object_id == user.school_id).First();
+            market.mainSchoolColor = school.main_hex_color;
+            market.searchString = Search;
+            return View(market);
+        }
+
         public ActionResult CategoryView(MarketPlace market)
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
@@ -86,6 +101,7 @@ namespace CampusNabber.Controllers
             if (Session["Color"] == null)
                 Session["Color"] = school.main_hex_color;
             market.mainSchoolColor = school.main_hex_color;
+            market.searchString = "";
             return View(market);
         }
 
@@ -104,22 +120,27 @@ namespace CampusNabber.Controllers
                         ToPrice = "1000000000";
                     int fromPrice = Int32.Parse(FromPrice);
                     int toPrice = Int32.Parse(ToPrice);
-                    postItems = context.PostItems.Where(d =>
+                    if (Category.Equals("All Categories"))
+                    {
+                        postItems = context.PostItems.Where(d =>
+                                                      d.price >= fromPrice &&
+                                                      d.price <= toPrice);
+                    }
+                    else
+                    {
+                        postItems = context.PostItems.Where(d =>
                                                       d.category == Category &&
                                                       d.price >= fromPrice &&
                                                       d.price <= toPrice);
+                    }
                 }
                 else
                 {
-                    postItems = context.PostItems.Where(d =>
+                    if (Category.Equals("All Categories"))
+                        postItems = context.PostItems;
+                    else
+                        postItems = context.PostItems.Where(d =>
                                                     d.category == Category);
-                }
-                foreach (PostItem postItem in postItems)
-                {
-                    if(true)
-                    {
-                    }
-
                 }
 
                 // Count
@@ -137,14 +158,15 @@ namespace CampusNabber.Controllers
                         );
                 }
 
-                /*
+                
 
                 // Order
                 var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
                 //Expression<Func<PO_Order, int>> intOrdering = (sortInteger => sortInteger.ID);
-                Expression<Func<PO_OrderDetail1, string>> stringOrdering = (sortString => sortColumnIndex == 1 ? sortString.PO_Order.PurchaseFrom : sortColumnIndex == 2 ? sortString.PPL_Account.Title : sortColumnIndex == 5 ? sortString.TypeID : sortString.StatusID);
-                Expression<Func<PO_Order, DateTime>> dateOrdering = (sortDate => sortColumnIndex == 1 ? (sortDate.OrderDate == null ? sortDate.OrderDate : new DateTime()));
+                //Expression<Func<PostItemModel, string>> stringOrdering = (sortString => sortColumnIndex == 1 ? sortString.PO_Order.PurchaseFrom : sortColumnIndex == 2 ? sortString.PPL_Account.Title : sortColumnIndex == 5 ? sortString.TypeID : sortString.StatusID);
+                //Expression<Func<PO_Order, DateTime>> dateOrdering = (sortDate => sortColumnIndex == 1 ? (sortDate.OrderDate == null ? sortDate.OrderDate : new DateTime()));
 
+                /*
                 var sortDirection = Request["sSortDir_0"]; // asc or desc
                 if (sortColumnIndex == 0 || sortColumnIndex == 2 || sortColumnIndex == 3 || sortColumnIndex == 4 || sortColumnIndex == 5)
                 {
