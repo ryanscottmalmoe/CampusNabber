@@ -14,16 +14,18 @@ namespace CampusNabber.App_Start
         private static CampusNabberEntities db = new CampusNabberEntities();
 
 
-        public async void LoadSchools()
+        public async void LoadSchoolsOnFirstBuild()
         {
-
-            List<SchoolModel> schools = SchoolUtility.generateSchools();
-            foreach (var school in schools)
-             {
-                School saveSchool = school.bindSchoolModel();
-                db.Schools.Add(saveSchool);
-             }
-             await db.SaveChangesAsync();
+            if(db.AspNetRoles.First() == null)
+            {
+                List<SchoolModel> schools = SchoolUtility.generateSchools();
+                foreach (var school in schools)
+                {
+                    School saveSchool = school.bindSchoolModel();
+                    db.Schools.Add(saveSchool);
+                }
+                await db.SaveChangesAsync();
+            }
         }
 
         internal void AddAdminRoleAndUser()

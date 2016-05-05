@@ -3,6 +3,11 @@ height:auto;
 width:100px;
 }
 
+h2 {
+    margin-top:20px;
+    margin-bottom:10px;
+}
+
 
 .container body-content {
     padding-bottom:0px;
@@ -102,8 +107,9 @@ a.paginate_button.current {
 
 #searchInput{
     width:140px;
-    margin-top:0px;
+    margin-top:20px;
     margin-right:5px;
+    margin-bottom:20px;
 }
 
 .panel-heading{
