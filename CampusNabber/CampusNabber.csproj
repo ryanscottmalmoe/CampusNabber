@@ -295,6 +295,10 @@
     <Compile Include="Validation\ExistingUsernameValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\banners\160x600.png" />
+    <Content Include="Content\banners\320x50.png" />
+    <Content Include="Content\banners\468x60.png" />
+    <Content Include="Content\banners\728x90.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CategorySheet.css" />
