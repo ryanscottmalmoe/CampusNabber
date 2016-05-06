@@ -382,8 +382,6 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.Migrat
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csproj.GenerateResource.Cache
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.pdb
-D:\Users\Audrey\Documents\CampusNabber\CampusNabber\obj\Debug\CampusNabber.Migrations.SchoolId.resources
-D:\Users\Audrey\Documents\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csproj.GenerateResource.Cache
 C:\Users\Audreys\Desktop\CampusNabber\CampusNabber\bin\ApplicationInsights.config
 C:\Users\Audreys\Desktop\CampusNabber\CampusNabber\bin\roslyn\csc.exe
 C:\Users\Audreys\Desktop\CampusNabber\CampusNabber\bin\roslyn\csc.exe.config

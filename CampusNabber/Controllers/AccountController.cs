@@ -217,6 +217,68 @@ namespace CampusNabber.Controllers
             return View(model);
         }
 
+        [Authorize(Roles ="Admin")]
+        public ActionResult RegisterAdmin()
+        {
+            var model = new RegisterViewModel();
+            model.generateSchoolsList();
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles ="Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterAdmin(RegisterViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                Guid schoolID = (from d in db.Schools
+                                 where d.school_name.Equals(model.school_name)
+                                 select d.object_id).First();
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, school_id = schoolID };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    //The following code signs in the new user automatically. I'm commenting it out because
+                    //we want them to confirm their email address first. 
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    UserManager.AddToRole(user.Id, "Admin");
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    string code = "";
+                    try
+                    {
+                        code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+
+                    }
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    ViewBag.Message = "An email with the validation link has been sent to the address you provided. The user must confirm their email address before logging in.";
+                    
+                    return View("ValidationInstructions");
+
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    // return RedirectToAction("MainMarketView", "MarketPlace");
+                }
+                else //user account already created
+                {
+                    model = new RegisterViewModel();
+                    model.generateSchoolsList();
+                    return View(model);
+                }
+            }
+            return View(model);
+        }
+
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

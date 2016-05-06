@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Manage Admins";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Manage Admins</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-2">
+            <a class="btn btn-primary text-center" href="@Url.Action("RegisterAdmin", "Account")">Create Admin User</a>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-2">
+            <a class="btn btn-primary text-center" href="#">Grant Admin Role</a>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
