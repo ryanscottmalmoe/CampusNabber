@@ -220,7 +220,7 @@ namespace CampusNabber.Controllers
         [Authorize(Roles ="Admin")]
         public ActionResult RegisterAdmin()
         {
-            var model = new RegisterViewModel();
+            var model = new RegisterAdminViewModel();
             model.generateSchoolsList();
             return View(model);
         }
@@ -228,7 +228,7 @@ namespace CampusNabber.Controllers
         [HttpPost]
         [Authorize(Roles ="Admin")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RegisterAdmin(RegisterViewModel model)
+        public async Task<ActionResult> RegisterAdmin(RegisterAdminViewModel model)
         {
 
             if (ModelState.IsValid)
@@ -271,7 +271,7 @@ namespace CampusNabber.Controllers
                 }
                 else //user account already created
                 {
-                    model = new RegisterViewModel();
+                    model = new RegisterAdminViewModel();
                     model.generateSchoolsList();
                     return View(model);
                 }
