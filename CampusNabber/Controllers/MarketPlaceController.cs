@@ -62,7 +62,7 @@ namespace CampusNabber.Controllers
             School school = db.Schools.Where(d => d.object_id == user.school_id).First();
             market.SchoolToken = school.school_tag;
             market.mainSchoolColor = school.main_hex_color;
-            market.school_name = school.school_name;
+            //market.school_names.Add(school.school_name);
             if(Session["Color"] == null)
                 Session["Color"] = school.main_hex_color;
             market.setList();
@@ -79,6 +79,25 @@ namespace CampusNabber.Controllers
         }
 
         [HttpPost]
+        public ActionResult AddAdditionalSchools(MarketPlace market)
+        {
+            var newMarket = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
+            for(int i = 0; i <market.selectSchool.Count(); i ++)
+            {
+                if (market.selectSchool[i])
+                {
+                    newMarket.selectSchool[i] = true;
+                    newMarket.school_names.Add(newMarket.otherSchools[i]);
+                  //  newMarket.otherSchools.Remove(newMarket.otherSchools[i]);
+                }
+            }
+            //bool GU = Convert.ToBoolean(Request.Form["GU"]);
+            //bool WU = Convert.ToBoolean(Request.Form["WU"]);
+            newMarket.setList();
+            return View("MainMarketView",newMarket);
+        }
+
+        [HttpPost]
         public ActionResult CategoryView(string Search)
         {
             MarketPlace market = new MarketPlace();
@@ -87,17 +106,20 @@ namespace CampusNabber.Controllers
             market.chosenCategory = "All Categories";
             School school = db.Schools.Where(d => d.object_id == user.school_id).First();
             market.mainSchoolColor = school.main_hex_color;
+            market.school_names.Add(school.school_name);
             market.searchString = Search;
             return View(market);
         }
 
         public ActionResult CategoryView(MarketPlace market)
         {
+         //   String a = market.school_names[0];
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-           
+            market.setSchoolNames();
             market.setCategoryNames();
             market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
             School school = db.Schools.Where(d => d.object_id == user.school_id).First();
+            //market.school_names.Add(school.school_name);
             if (Session["Color"] == null)
                 Session["Color"] = school.main_hex_color;
             market.mainSchoolColor = school.main_hex_color;
@@ -107,11 +129,38 @@ namespace CampusNabber.Controllers
 
 
 
-        public JsonResult GetPostItemData(jQueryDataTableParamModel param, string Category, string Search="", string FromPrice="0", string ToPrice="1000000000")
+        public JsonResult GetPostItemData(jQueryDataTableParamModel param, String school_names, String user_name, string Category,
+            string Search="", string FromPrice="0", string ToPrice="1000000000")
         {
             using (var context = new CampusNabberEntities())
             {
+                //school_names += ",Gonzaga";
+                String[] schools = school_names.Split(',');
+                Guid[] schoolIDS = new Guid[schools.Count()];
+                School school = null;
+                Guid schoolID;
+                String schoolName;
+                for (int i = 0; i < schools.Count(); i++)
+                {
+                    schoolName = schools[i];
+                    while(schoolName.ElementAt(0)==' ')
+                    {
+                        schoolName = schoolName.Substring(1);
+                    }
+                    IQueryable<School> schoo =  db.Schools.Where(d => d.school_name == schoolName);
+                    school = schoo.First();
+                    schoolIDS[i] = school.object_id;
+                }
+
                 IQueryable<PostItem> postItems = null;
+                IQueryable<PostItem> temp = null;
+                var totalRecords = 0;
+                var result = new List<PostItemTableModel>();
+                var iDisplayRecords = 0;
+                for (int i = 0; i < schoolIDS.Count(); i ++)
+                {
+                    schoolID = schoolIDS[i];
+                    
                 if (!string.IsNullOrEmpty(FromPrice) || !string.IsNullOrEmpty(ToPrice))
                 {
                     if (FromPrice.Equals(""))
@@ -124,14 +173,18 @@ namespace CampusNabber.Controllers
                     {
                         postItems = context.PostItems.Where(d =>
                                                       d.price >= fromPrice &&
-                                                      d.price <= toPrice);
+                                                      d.price <= toPrice &&
+                                                      d.username != user_name &&
+                                                      d.school_id == schoolID);
                     }
                     else
                     {
                         postItems = context.PostItems.Where(d =>
                                                       d.category == Category &&
                                                       d.price >= fromPrice &&
-                                                      d.price <= toPrice);
+                                                      d.price <= toPrice &&
+                                                      d.username != user_name &&
+                                                      d.school_id == schoolID);
                     }
                 }
                 else
@@ -140,14 +193,16 @@ namespace CampusNabber.Controllers
                         postItems = context.PostItems;
                     else
                         postItems = context.PostItems.Where(d =>
-                                                    d.category == Category);
+                                                    d.category == Category &&
+                                                    d.username != user_name &&
+                                                      d.school_id == schoolID);
                 }
 
                 // Count
                 var count = postItems.Count();
-                var iDisplayRecords = count;
-                var totalRecords = count;
-                
+                iDisplayRecords += count;
+                totalRecords += count;
+
                 // Search
                 if (!string.IsNullOrEmpty(Search))
                 {
@@ -158,7 +213,7 @@ namespace CampusNabber.Controllers
                         );
                 }
 
-                
+
 
                 // Order
                 var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
@@ -207,7 +262,7 @@ namespace CampusNabber.Controllers
                 }
 
                 */
-                var result = new List<PostItemTableModel>();
+                
 
 
                 // Project
@@ -222,7 +277,7 @@ namespace CampusNabber.Controllers
                                     })
                                     .ToList()
                                 );
-
+            }
                 return Json(new
                 {
                     sEcho = param.sEcho,

@@ -17,6 +17,16 @@
 <link rel="stylesheet" type="text/css" href="~/Content/CategorySheet.css">
 <script type="text/javascript" src="~/Scripts/MarketView.js"></script>
 
+@{
+    var schoolnames = "";
+    for (int i = 0; i < Model.school_names.Count; i++)
+    {
+        schoolnames += Model.school_names[i];
+        if (i + 1 != Model.school_names.Count)
+        { schoolnames += ","; }
+
+    }
+}
 
 @*<div class="navbar navbar-fixed-bottom">*@
 <body>
@@ -111,13 +121,17 @@
 
 
         <script>
+
+           // alert(schoolnames);
             function SearchPostItems() {
                 oTable.fnReloadAjax();
             }
 
 
+
             var oTable;
             $(function () {
+
                 oTable = $('#PostItemTable').dataTable({
                     "sPaginationType": "full_numbers",
                     "bScrollCollapse": true,
@@ -130,7 +144,10 @@
                     "bInfo": false,
                     "sAjaxSource": "@Url.Action("GetPostItemData", "MarketPlace")",
                     "fnServerParams": function (aoData) {
-                        aoData.push({ name: "Category", value: '@Model.chosenCategory' },
+                        aoData.push(
+                            { name: "school_names", value: '@Model.schools' },
+                            { name: "user_name", value: '@Model.user_name' },
+                            { name: "Category", value: '@Model.chosenCategory' },
                             { name: "Search", value: $('#searchInput').val() },
                             { name: "FromPrice", value: $('#fromPriceInput').val() },
                             { name: "ToPrice", value: $('#toPriceInput').val() }
