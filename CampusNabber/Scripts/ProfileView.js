@@ -12,3 +12,10 @@ function settings() {
     document.getElementById("deactivateButton").style.display = "inline";
 }
 
+
+$(window).resize(function() {
+    if ($(this).width() <= 636) 
+        document.getElementById("logoImage").style.display = "none";
+    else 
+        document.getElementById("logoImage").style.display = "inline";
+});

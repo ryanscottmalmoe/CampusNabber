@@ -90,6 +90,17 @@
         .h5 {
             text-align: center;
         }
+        h1, h2, h3 {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        .panel-default > .panel-heading {
+            height: 50px;
+        }
+        .input {
+            width:100%;
+        }
     </style>
 
     <div class="container" id="customContainer">
@@ -112,6 +123,8 @@
                                         @Html.EditorFor(model => model.user.UserName, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.user.UserName, "", new { @class = "text-danger" })
                                     </div>
+                                    <img id="logoImage" src="~/Content/images/Transparent_logo_black.png" style="float:right; margin-right:50px; " alt="" height="200" width="200">
+
                                     <div id="editEmail">
                                         <label class="control-label">Email</label>
                                         @Html.EditorFor(model => model.user.Email, new { htmlAttributes = new { @class = "form-control" } })
@@ -132,6 +145,7 @@
                 </div>
             </div>
         </div>
+      
 
     </div>
 
