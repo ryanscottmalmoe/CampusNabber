@@ -16,7 +16,6 @@
         </button>
         <ul class="dropdown-menu">
             <li><a href="#">Email: @ViewBag.EMAIL </a></li>
-            <li><a href="#">Phone: </a></li>
         </ul>
     </div>
 
@@ -146,7 +145,7 @@
             }
             else
             {
-            <a style ="margin-right:20%" class="btn btn-danger pull-right" href=@Url.Action("Create","Flag", new { postId = Model.object_id, username = Model.username })>
+            <a class="btn btn-danger pull-right" href=@Url.Action("Create","Flag", new { postId = Model.object_id, username = Model.username })>
                 <span class="glyphicon glyphicon-flag"></span> Report Post
             </a>
             }
