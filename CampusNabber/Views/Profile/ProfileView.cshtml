@@ -53,8 +53,33 @@
             </div>
         </div>
     </div>
+
+
+            @*Settings section that can edit users information*@
+            <div id="settingsSection" style="display: none">
+                <div class="col-md-2">
+                    <h5 align="right">@Html.DisplayFor(m => Model.user.UserName)</h5><br />
+                    <button type="button" id="Username" onclick="username()" class="btn btn-primary btn-block">Change Username</button><br />
+                    <h5 align="right">@Html.DisplayFor(m => Model.user.Email)</h5><br />
+                    <button type="button" id="Email" onclick="email()" class="btn btn-primary btn-block">Change Email</button><br />
+                    <h5 align="right">@Html.DisplayFor(m => Model.school_name)</h5><br />
+                    <button type="button" id="School" onclick="school()" class="btn btn-primary btn-block">Change Schools</button><br />
+                    @Html.ActionLink("Change Password", "ChangePassword", "Manage", null, new { @class = "btn btn-warning btn-block" })
+                </div>
+            </div>
+        <style>
+            h4, h5, h6 {
+                margin-top: 0px;
+                margin-bottom: 0px;
+                text-align:center;
+            }
+            .btn-group, .btn-group-vertical {
+                margin-bottom:10px;
+            }
+        </style>
+
         @*Each of the forms for editing user information*@
-        <div class="col-md-3">
+        <div class="col-md-3" id="updateUserDiv" style="display:none;">
             @using (Html.BeginForm("UpdateUser", "Profile", FormMethod.Post))
             {
 
@@ -62,7 +87,7 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary("", new { @class = "text-danger" })
                 <section class="form-field">
-                    <div id="editUsername" style="display: none">
+                    <div id="editUsername" style="display: none;">
                         <label class="control-label">Username</label>
                         @Html.EditorFor(model => model.user.UserName, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.user.UserName, "", new { @class = "text-danger" })
@@ -74,34 +99,13 @@
                     </div>
                     <div class="form-group" id="editSchoolName" style="display: none">
                         <label class="control-label">Category</label>
-                            @Html.DropDownListFor(model => model.school_name, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
+                        @Html.DropDownListFor(model => model.school_name, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
                     </div>
-                      <input type="submit" value="Save" id="saveButton" style="display: none" class="submit btn blue-btn special-submit" />
+                    <input type="submit" value="Save" id="saveButton" style="display: none" class="submit btn blue-btn special-submit" />
 
-                 </section>
+                </section>
             }
-            </div>
-
-
-
-            @*Settings section that can edit users information*@
-            <div id="settingsSection" style="display: none">
-                <div class="col-md-2">
-                    <h5 align="right">@Html.DisplayFor(m => Model.user.UserName)</h5><br />
-                    <h5 align="right">@Html.DisplayFor(m => Model.user.Email)</h5><br />
-                    <h5 align="right">@Html.DisplayFor(m => Model.school_name)</h5><br />
-                </div>
-                <div class="container">
-                    <div class="col-md-2">
-                        <div class="span2">
-                            <button type="button" id="Username" onclick="username()" class="btn btn-primary btn-block">Change Username</button><br />
-                            <button type="button" id="Email" onclick="email()" class="btn btn-primary btn-block">Change Email</button><br />
-                            <button type="button" id="School" onclick="school()" class="btn btn-primary btn-block">Change Schools</button><br />
-                            @Html.ActionLink("Change Password", "ChangePassword", "Manage", null, new { @class = "btn btn-warning btn-block" })
-                         </div>
-                    </div>
-                </div>
-            </div>
+        </div>
 
 
         @*Post items table*@

@@ -18,6 +18,7 @@ function editButtonsOff() {
     document.getElementById("editEmail").style.display = "none";
     document.getElementById("editSchoolName").style.display = "none";
     document.getElementById("saveButton").style.display = "none";
+    document.getElementById("updateUserDiv").style.display = "none";
 
 }
 
@@ -26,6 +27,8 @@ function username() {
     document.getElementById("editEmail").style.display = "none";
     document.getElementById("editSchoolName").style.display = "none";
     document.getElementById("saveButton").style.display = "inline";
+    document.getElementById("updateUserDiv").style.display = "inline";
+
 
 }
 function email() {
@@ -33,12 +36,15 @@ function email() {
     document.getElementById("editEmail").style.display = "inline";
     document.getElementById("editSchoolName").style.display = "none";
     document.getElementById("saveButton").style.display = "inline";
+    document.getElementById("updateUserDiv").style.display = "inline";
+
 }
 function school() {
     document.getElementById("editUsername").style.display = "none";
     document.getElementById("editEmail").style.display = "none";
     document.getElementById("editSchoolName").style.display = "inline";
     document.getElementById("saveButton").style.display = "inline";
+    document.getElementById("updateUserDiv").style.display = "inline";
 
 }
 function password() {
@@ -46,5 +52,6 @@ function password() {
     document.getElementById("editEmail").style.display = "none";
     document.getElementById("editSchoolName").style.display = "none";
     document.getElementById("saveButton").style.display = "none";
+    document.getElementById("updateUserDiv").style.display = "inline";
 
 }
