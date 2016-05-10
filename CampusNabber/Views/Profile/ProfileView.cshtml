@@ -1,6 +1,5 @@
 ﻿@model CampusNabber.Models.ProfileModel
 
-
 @{
     ViewBag.Title = "ProfileView";
 
@@ -23,7 +22,6 @@
          </script>
 <link rel="stylesheet" href="~/Content/PostItem.css" type="text/css" />
 <script type="text/javascript" src="@Url.Content("~/Scripts/ProfileView.js")"></script>
-@*<script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>*@
 }
 
 
@@ -39,11 +37,6 @@
 @Html.HiddenFor(model => model.school_name)
 @Html.HiddenFor(model => model.Posts)
 
-
-
-
-
-
     <div class="row">
     <div class="col-md-2">
         <div class="container">
@@ -55,28 +48,95 @@
     </div>
 
 
-            @*Settings section that can edit users information*@
-            <div id="settingsSection" style="display: none">
-                <div class="col-md-2">
-                    <h5 align="right">@Html.DisplayFor(m => Model.user.UserName)</h5><br />
-                    <button type="button" id="Username" onclick="username()" class="btn btn-primary btn-block">Change Username</button><br />
-                    <h5 align="right">@Html.DisplayFor(m => Model.user.Email)</h5><br />
-                    <button type="button" id="Email" onclick="email()" class="btn btn-primary btn-block">Change Email</button><br />
-                    <h5 align="right">@Html.DisplayFor(m => Model.school_name)</h5><br />
-                    <button type="button" id="School" onclick="school()" class="btn btn-primary btn-block">Change Schools</button><br />
-                    @Html.ActionLink("Change Password", "ChangePassword", "Manage", null, new { @class = "btn btn-warning btn-block" })
+    @*Post items table*@
+    <div class="col-md-8">
+        <table class="table table-borderless" id="postItemTable">
+            <thead>
+                <tr>
+                    <th>Manage</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Post Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var element in Model.Posts)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Edit", "PostItems", new { id = element.object_id })">
+                                Edit
+                                <a href="@Url.Action("Delete", "PostItems", new { id = element.object_id})">
+                                    Delete
+                                    <a href="@Url.Action("Details", "PostItems", new { id = element.object_id})">
+                                        View
+                        </td>
+                        <td>@Html.DisplayFor(m => element.title)</td>
+                        <td>$@Html.DisplayFor(m => element.price)</td>
+                        <td>@Html.DisplayFor(m => element.category)</td>
+                        <td>@Html.DisplayFor(m => element.post_date)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <style>
+        .col-md-10 {
+            float: none;
+        }
+
+        .h5 {
+            text-align: center;
+        }
+    </style>
+
+    <div class="container" id="customContainer">
+        <div class="col-md-8">
+            <div class="panel-group" id="settingsSection" style="display:none">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2>Profile Info</h2>
+                    </div>
+                    <div class="panel-body">
+
+                        <div id="settingsSubSection">
+                            @using (Html.BeginForm("UpdateUser", "Profile", FormMethod.Post))
+                             {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                <section class="form-field">
+                                    <div id="editUsername">
+                                        <label class="control-label">Username</label>
+                                        @Html.EditorFor(model => model.user.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.user.UserName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div id="editEmail">
+                                        <label class="control-label">Email</label>
+                                        @Html.EditorFor(model => model.user.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.user.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div id="editSchoolName">
+                                        <label class="control-label">Category</label><br/>
+                                        @Html.DropDownListFor(model => model.school_name, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
+                                    </div>
+                                    <br/>
+                                    @Html.ActionLink("Change Password", "ChangePassword", "Manage", null, new { @class = "btn btn-warning btn-block" }) <br/>
+                                    <input type="submit" value="Save" id="saveButton" class="submit btn blue-btn special-submit" />
+
+                                </section>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
-        <style>
-            h4, h5, h6 {
-                margin-top: 0px;
-                margin-bottom: 0px;
-                text-align:center;
-            }
-            .btn-group, .btn-group-vertical {
-                margin-bottom:10px;
-            }
-        </style>
+        </div>
+
+    </div>
+
+</div>   
+
 
         @*Each of the forms for editing user information*@
         <div class="col-md-3" id="updateUserDiv" style="display:none;">
@@ -108,40 +168,7 @@
         </div>
 
 
-        @*Post items table*@
-            <div class="col-md-10">
-                <table class="table table-borderless" id="postItemTable">
-                    <thead>
-                        <tr>
-                            <th>Manage</th>
-                            <th>Title</th>
-                            <th>Price</th>
-                            <th>Category</th>
-                            <th>Post Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var element in Model.Posts)
-                        {
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("Edit", "PostItems", new { id = element.object_id })">
-                                       Edit
-                                    <a href="@Url.Action("Delete", "PostItems", new { id = element.object_id})">
-                                        Delete
-                                    <a href="@Url.Action("Details", "PostItems", new { id = element.object_id})">
-                                        View
-                                 </td>
-                                <td>@Html.DisplayFor(m => element.title)</td>
-                                <td>$@Html.DisplayFor(m => element.price)</td>
-                                <td>@Html.DisplayFor(m => element.category)</td>
-                                <td>@Html.DisplayFor(m => element.post_date)</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+
 
 
 
