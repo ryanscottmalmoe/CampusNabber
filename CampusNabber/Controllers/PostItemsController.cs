@@ -86,6 +86,7 @@ namespace CampusNabber.Controllers
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            
 
             //*******AWS Portion *********************
             List<string> photoList = PostItemService.GetS3Photos(postItem);
@@ -93,7 +94,6 @@ namespace CampusNabber.Controllers
             { 
                 ViewBag.RESULTS = photoList;
                 ViewBag.FIRSTPHOTO = photoList[0];
-                ViewBag.EMAIL = user.Email;
                 ViewBag.HASPHOTO = true;
             }
             else
@@ -102,6 +102,7 @@ namespace CampusNabber.Controllers
             }
             //******************************************
 
+            ViewBag.EMAIL = UserManager.FindByName(postItem.username).Email;
             return View(postItem);
         }
 

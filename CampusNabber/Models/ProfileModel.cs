@@ -12,6 +12,7 @@ namespace CampusNabber.Models
         public virtual List<PostItem> Posts { get; set; }
         public virtual ApplicationUser user { get; set; }
         public virtual string school_name { get; set; }
+        public virtual Guid school_id { get; set; }
         private static CampusNabberEntities db = new CampusNabberEntities();
 
         /*
