@@ -536,6 +536,59 @@ namespace CampusNabber.Controllers
             base.Dispose(disposing);
         }
 
+        [Authorize(Roles ="Admin")]
+        public ActionResult FindUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles ="Admin")]
+        public ActionResult UserResult(string userEmail)
+        {
+            ApplicationUser result = UserManager.FindByEmail(userEmail);
+            if (result != null)
+            {
+                ProfileModel user = new ProfileModel();
+                user.getProfilePosts(result);
+                user.user = result;
+                School school = db.Schools.Where(d => d.object_id == result.school_id).First();
+                user.school_name = school.school_name;
+
+                if (UserManager.IsInRole(result.Id, "Admin"))
+                {
+                    ViewBag.Admin = "true";
+                }
+                else
+                {
+                    ViewBag.Admin = "false";
+                }
+                return View(user);
+            }
+            else
+            {
+                return View("~/Views/Admin/UserNotFound.cshtml");
+            }
+        }
+
+        [Authorize(Roles ="Admin")]
+        public ActionResult RemoveAdminRole(string userEmail)
+        {
+            ApplicationUser result = UserManager.FindByEmail(userEmail);
+            IdentityResult r = UserManager.RemoveFromRoles(result.Id, "Admin");
+            ViewBag.Message = "The user was successfully removed from the Admin role.";
+            return View("~/Views/Admin/SuccessfulRoleChange.cshtml");
+        }
+
+        [Authorize(Roles ="Admin")]
+        public ActionResult AddAdminRole(string userEmail)
+        {
+            ApplicationUser result = UserManager.FindByEmail(userEmail);
+            IdentityResult r = UserManager.AddToRole(result.Id, "Admin");
+            ViewBag.Message = "The user was successfully granted the Admin role.";
+            return View("~/Views/Admin/SuccessfulRoleChange.cshtml");
+        }
+
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

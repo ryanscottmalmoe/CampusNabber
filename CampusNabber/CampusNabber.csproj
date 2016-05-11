@@ -1313,6 +1313,9 @@
     <Content Include="Views\Admin\AddSchool.cshtml" />
     <Content Include="Views\Admin\ManageAdmins.cshtml" />
     <Content Include="Views\Account\RegisterAdmin.cshtml" />
+    <Content Include="Views\Account\FindUser.cshtml" />
+    <Content Include="Views\Account\UserResult.cshtml" />
+    <Content Include="Views\Admin\SuccessfulRoleChange.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
