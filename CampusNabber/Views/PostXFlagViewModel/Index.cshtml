@@ -9,14 +9,14 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/PostFlagTable.js")"></script>
     }
 
-    <link href="@Url.Content("~/Content/PostFlagTable.css")" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
 
     
 
 <h2>Flagged Posts</h2>
 @if(Model != null && Model.Count() > 0)
 { 
-    <table class="table table-bordered">
+    <table class="table" id="flaggedPostTable">
         <thead>
             <tr>
                 <th id="title_header">

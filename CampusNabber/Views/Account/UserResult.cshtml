@@ -1,0 +1,38 @@
+﻿@model CampusNabber.Models.ProfileModel
+@{
+    ViewBag.Title = "Find User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>User Result</h2>
+<hr />
+<h3>@Model.user.UserName</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>Email</dt>
+        <dd>@Model.user.Email</dd>
+        <dt>School</dt>
+        <dd>@Model.school_name</dd>
+        <dt>Number of Posts</dt>
+        <dd>@Model.Posts.Count</dd>
+    </dl>
+</div>
+<div class="container">
+    <div class="row">
+        @{if (ViewBag.Admin == "true")
+            {
+
+                <h4>This user is already an Admin. Remove Admin privileges?</h4>
+                <a class="btn btn-danger col-md-2" href="@Url.Action("RemoveAdminRole", "Account", new { userEmail = Model.user.Email})">Remove Admin Role</a>
+            }
+            else
+            {
+                <h4>This user is not an Admin. Bestow Admin privileges?</h4>
+                <a class="btn btn-primary col-md-2" href="@Url.Action("AddAdminRole", "Account", new { userEmail = Model.user.Email})">Give Admin Role</a>
+            }
+        }
+        <div class="col-md-1"></div>
+        <a class="btn btn-default col-md-2" href="@Url.Action("AdminTools", "Admin")">Back to Admin Tools</a>
+        <div class="col-md-7"></div>
+    </div>
+</div>

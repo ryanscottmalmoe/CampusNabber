@@ -100,6 +100,42 @@ namespace CampusNabber.Models
         }
     }
 
+    public class RegisterAdminViewModel
+    {
+        public SelectList selectSchools { get; set; }
+
+        [Required]
+        [RegularExpression(@"^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z0-9_\-\.])+$", ErrorMessage = "Email is not a valid address")]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "School Name")]
+        public string school_name { get; set; }
+
+        public void generateSchoolsList()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem { Text = "Eastern Washington University", Value = "Eastern Washington University", Selected = true });
+            list.Add(new SelectListItem { Text = "Washington State University", Value = "Washington State University" });
+            list.Add(new SelectListItem { Text = "Gonzaga", Value = "Gonzaga" });
+            list.Add(new SelectListItem { Text = "Whitworth", Value = "Whitworth" });
+
+            selectSchools = new SelectList(list, "Text", "Value", 1);
+        }
+    }
+
     public class ResetPasswordViewModel
     {
         [Required]

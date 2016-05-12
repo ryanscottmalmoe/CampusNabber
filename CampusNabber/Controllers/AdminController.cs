@@ -11,6 +11,7 @@ using CampusNabber.Models;
 
 namespace CampusNabber.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class AdminController : Controller
     {
         ApplicationUserManager _userManager;
@@ -28,19 +29,15 @@ namespace CampusNabber.Controllers
         private CampusNabberEntities db = new CampusNabberEntities();
         //
         // GET: /Admin/
-        [Authorize(Roles ="Admin")]
         public ActionResult AdminTools()
         {
             return View();
         }
 
-        [Authorize(Roles ="Admin")]
         public ActionResult BlockUser()
         {
             return View();
         }
-
-        [Authorize(Roles ="Admin")]
         [HttpPost]
         public ActionResult FindUserToBlock(string userEmail)
         {
@@ -59,7 +56,7 @@ namespace CampusNabber.Controllers
                 return View("UserNotFound");
             }
         }
-        [Authorize(Roles="Admin")]
+
         public ActionResult LockoutUser(string userEmail)
         {
             ApplicationUser user = UserManager.FindByEmail(userEmail);
@@ -77,7 +74,6 @@ namespace CampusNabber.Controllers
             }
         }
 
-        [Authorize(Roles="Admin")]
         public ActionResult UnblockUser()
         {
             return View();
@@ -102,7 +98,6 @@ namespace CampusNabber.Controllers
             }
         }
 
-        [Authorize(Roles="Admin")]
         public ActionResult UnlockUser(string userEmail)
         {
             ApplicationUser user = UserManager.FindByEmail(userEmail);
@@ -117,6 +112,23 @@ namespace CampusNabber.Controllers
             {
                 return View("UserNotFound");
             }
+        }
+
+
+        public ActionResult AddCategory()
+        {
+            return View();
+        }
+
+
+        public ActionResult AddSchool()
+        {
+            return View();
+        }
+
+        public ActionResult ManageAdmins()
+        {
+            return View();
         }
 	}
 }
