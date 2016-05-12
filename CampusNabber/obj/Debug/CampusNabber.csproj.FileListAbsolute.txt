@@ -378,8 +378,6 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.G
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csprojResolveAssemblyReference.cache
-C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.Migrations.SchoolId.resources
-C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csproj.GenerateResource.Cache
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.pdb
 C:\Users\Audreys\Desktop\CampusNabber\CampusNabber\bin\ApplicationInsights.config
