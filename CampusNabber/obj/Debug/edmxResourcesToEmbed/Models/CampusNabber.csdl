@@ -12,7 +12,8 @@
     <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="category" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="school_id" Type="Guid" Nullable="true" />
-    <Property Name="photo_path_id" Type="Guid" Nullable="false" />
+    <Property Name="photo_path_id" Type="Guid" />
+    <Property Name="social_flag" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="School">
     <Key>
@@ -152,6 +153,7 @@
     <NavigationProperty Name="AspNetUserClaims" Relationship="CampusNabberModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
     <NavigationProperty Name="AspNetUserLogins" Relationship="CampusNabberModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
     <NavigationProperty Name="AspNetRoles" Relationship="CampusNabberModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+    <Property Name="school_id" Type="Guid" Nullable="false" />
   </EntityType>
   <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
     <End Type="CampusNabberModel.AspNetUser" Role="AspNetUser" Multiplicity="1">

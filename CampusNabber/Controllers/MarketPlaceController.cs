@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.SqlServer;
 using System.Linq;
+using System.Linq.Dynamic;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -107,7 +109,7 @@ namespace CampusNabber.Controllers
 
 
 
-        public JsonResult GetPostItemData(jQueryDataTableParamModel param, string Category, string Search="", string FromPrice="0", string ToPrice="1000000000")
+        public JsonResult GetPostItemData(jQueryDataTableParamModel param, string Category, string Search = "", string FromPrice = "0", string ToPrice = "1000000000", bool HasImage = false)
         {
             using (var context = new CampusNabberEntities())
             {
@@ -133,7 +135,17 @@ namespace CampusNabber.Controllers
                                                       d.price >= fromPrice &&
                                                       d.price <= toPrice);
                     }
+                                
                 }
+                if (HasImage)
+                {
+                    //get query of all PostItemPhotos with num_photos > 0
+                    //IQueryable<PostItemPhotos> postItemPhotos = context.PostItemPhotos.Where(d => d.num_photos > 0)
+                                                                                      //.Select(d => new List<Guid>(d.object_id) );
+                                                           
+                    // Grab all postItems where photo_path_id contained in IQueryable.
+
+                }  
                 else
                 {
                     if (Category.Equals("All Categories"))
@@ -152,7 +164,6 @@ namespace CampusNabber.Controllers
                 if (!string.IsNullOrEmpty(Search))
                 {
                     postItems = postItems.Where(s =>
-                                            //SqlFunctions.StringConvert((double)s.price).Contains(param.sSearch) ||
                                             s.title.Contains(Search) ||
                                             s.description.Contains(Search)
                         );
@@ -162,23 +173,27 @@ namespace CampusNabber.Controllers
 
                 // Order
                 var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
-                //Expression<Func<PO_Order, int>> intOrdering = (sortInteger => sortInteger.ID);
-                //Expression<Func<PostItemModel, string>> stringOrdering = (sortString => sortColumnIndex == 1 ? sortString.PO_Order.PurchaseFrom : sortColumnIndex == 2 ? sortString.PPL_Account.Title : sortColumnIndex == 5 ? sortString.TypeID : sortString.StatusID);
-                //Expression<Func<PO_Order, DateTime>> dateOrdering = (sortDate => sortColumnIndex == 1 ? (sortDate.OrderDate == null ? sortDate.OrderDate : new DateTime()));
+                Expression<Func<PostItem, int>> intOrdering = (sortInteger => sortInteger.price);
+                Expression<Func<PostItem, DateTime>> dateOrdering = (sortDate => sortDate.post_date);
 
-                /*
+                
                 var sortDirection = Request["sSortDir_0"]; // asc or desc
-                if (sortColumnIndex == 0 || sortColumnIndex == 2 || sortColumnIndex == 3 || sortColumnIndex == 4 || sortColumnIndex == 5)
+                if (sortColumnIndex == 2)
                 {
                     if (sortDirection == "asc")
                     {
-                        lines = lines.OrderBy(stringOrdering);
+                        postItems = postItems.OrderBy(intOrdering);
                     }
                     else
                     {
-                        lines = lines.OrderByDescending(dateOrdering);
+                        postItems = postItems.OrderByDescending(intOrdering);
                     }
                 }
+                else
+                {
+                    postItems = postItems.OrderBy(dateOrdering);
+                }
+                /*
                 else if (sortColumnIndex == 1 || sortColumnIndex == 2 || sortColumnIndex == 5 || sortColumnIndex == 6)
                 {
                     if (sortDirection == "asc")

@@ -20,7 +20,7 @@ namespace CampusNabber.Models
         public short price { get; set; }
         public string title { get; set; }
         public string description { get; set; }
-        public System.Guid photo_path_id { get; set; }
+        public System.Guid? photo_path_id { get; set; }
         public string category { get; set; }
 
         public PostItem bindToPostItem()
@@ -32,7 +32,10 @@ namespace CampusNabber.Models
             postItem.price = this.price;
             postItem.title = this.title;
             postItem.description = this.description;
-            postItem.photo_path_id = this.photo_path_id;
+            if (this.photo_path_id.HasValue)
+                postItem.photo_path_id = this.photo_path_id.Value;
+            else
+                postItem.photo_path_id = Guid.Empty;
             postItem.category = this.category;
             postItem.school_id = db.Schools.Where(d => d.school_name == this.school_name).First().object_id;
             return postItem;
