@@ -22,6 +22,7 @@ namespace CampusNabber.Models
         public string description { get; set; }
         public string category { get; set; }
         public Nullable<System.Guid> school_id { get; set; }
-        public System.Guid photo_path_id { get; set; }
+        public Nullable<System.Guid> photo_path_id { get; set; }
+        public bool social_flag { get; set; }
     }
 }
