@@ -137,15 +137,6 @@ namespace CampusNabber.Controllers
                     }
                                 
                 }
-                if (HasImage)
-                {
-                    //get query of all PostItemPhotos with num_photos > 0
-                    //IQueryable<PostItemPhotos> postItemPhotos = context.PostItemPhotos.Where(d => d.num_photos > 0)
-                                                                                      //.Select(d => new List<Guid>(d.object_id) );
-                                                           
-                    // Grab all postItems where photo_path_id contained in IQueryable.
-
-                }  
                 else
                 {
                     if (Category.Equals("All Categories"))
@@ -153,6 +144,10 @@ namespace CampusNabber.Controllers
                     else
                         postItems = context.PostItems.Where(d =>
                                                     d.category == Category);
+                }
+                if (HasImage)
+                {
+                    postItems = postItems.Where(d => d.photo_path_id.HasValue);
                 }
 
                 // Count
@@ -193,35 +188,7 @@ namespace CampusNabber.Controllers
                 {
                     postItems = postItems.OrderBy(dateOrdering);
                 }
-                /*
-                else if (sortColumnIndex == 1 || sortColumnIndex == 2 || sortColumnIndex == 5 || sortColumnIndex == 6)
-                {
-                    if (sortDirection == "asc")
-                    {
-                        orders = orders.OrderBy(stringOrdering);
-                    }
-                    else
-                    {
-                        orders = orders.OrderByDescending(stringOrdering);
-                    }
-                }
-                else if (sortColumnIndex == 3 || sortColumnIndex == 4)
-                {
-                    if (sortDirection == "asc")
-                    {
-                        orders = orders.OrderBy(dateOrdering);
-                    }
-                    else
-                    {
-                        orders = orders.OrderByDescending(dateOrdering);
-                    }
-                }
-                else
-                {
-                    orders = orders.OrderByDescending(intOrdering);
-                }
 
-                */
                 var result = new List<PostItemTableModel>();
 
 
@@ -230,7 +197,7 @@ namespace CampusNabber.Controllers
                                     .ToList()
                                     .Select(d => new PostItemTableModel
                                     {
-                                        PhotoPath = PostItemService.GetFirstPhotoPath(d.photo_path_id),
+                                        PhotoPath = PostItemService.GetFirstPhotoPath(d),
                                         Title = d.title.ToString(),
                                         Price = d.price.ToString(),
                                         Username = d.username,

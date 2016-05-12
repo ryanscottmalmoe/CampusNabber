@@ -51,12 +51,14 @@ namespace CampusNabber.Utility
         /// <summary>
         /// This is a GET request for all of the images in a certain folder
         /// </summary>
-        public static string GetFirstPhotoPath(Guid? postItem)
+        public static string GetFirstPhotoPath(PostItem postItem)
         {
+            if (!postItem.photo_path_id.HasValue)
+                return "/Content/images/Lloyd_Gibson_aka_pedo.jpg";
             try
             {
-                PostItemPhotos photos = db.PostItemPhotos.Find(postItem);
-                return "https://s3-us-west-2.amazonaws.com/campusnabberphotos/" + postItem.ToString() + "/" + "1";
+                PostItemPhotos photos = db.PostItemPhotos.Find(postItem.photo_path_id);
+                return "https://s3-us-west-2.amazonaws.com/campusnabberphotos/" + postItem.photo_path_id.ToString() + "/" + "1";
             }
             catch
             {
