@@ -4,6 +4,7 @@
     <EntitySetMapping Name="PostItems">
       <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.PostItem)">
         <MappingFragment StoreEntitySet="PostItems">
+          <ScalarProperty Name="social_flag" ColumnName="social_flag" />
           <ScalarProperty Name="object_id" ColumnName="object_id" />
           <ScalarProperty Name="username" ColumnName="username" />
           <ScalarProperty Name="post_date" ColumnName="post_date" />
@@ -98,6 +99,7 @@
     <EntitySetMapping Name="AspNetUsers">
       <EntityTypeMapping TypeName="CampusNabberModel.AspNetUser">
         <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="school_id" ColumnName="school_id" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
           <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />

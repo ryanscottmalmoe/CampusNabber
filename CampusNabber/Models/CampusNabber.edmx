@@ -66,6 +66,7 @@
           <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="school_id" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="C__MigrationHistory">
           <Key>
@@ -107,7 +108,8 @@
           <Property Name="description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="category" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="school_id" Type="uniqueidentifier" />
-          <Property Name="photo_path_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="photo_path_id" Type="uniqueidentifier" />
+          <Property Name="social_flag" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Schools">
           <Key>
@@ -237,7 +239,8 @@
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="category" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="school_id" Type="Guid" Nullable="true" />
-          <Property Name="photo_path_id" Type="Guid" Nullable="false" />
+          <Property Name="photo_path_id" Type="Guid" />
+          <Property Name="social_flag" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="School">
           <Key>
@@ -377,6 +380,7 @@
           <NavigationProperty Name="AspNetUserClaims" Relationship="CampusNabberModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="CampusNabberModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
           <NavigationProperty Name="AspNetRoles" Relationship="CampusNabberModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+          <Property Name="school_id" Type="Guid" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="CampusNabberModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -419,7 +423,8 @@
     <EntitySetMapping Name="PostItems">
       <EntityTypeMapping TypeName="IsTypeOf(CampusNabberModel.PostItem)">
         <MappingFragment StoreEntitySet="PostItems">
-          <ScalarProperty Name="object_id" ColumnName="object_id" />
+          <ScalarProperty Name="social_flag" ColumnName="social_flag" />
+                <ScalarProperty Name="object_id" ColumnName="object_id" />
           <ScalarProperty Name="username" ColumnName="username" />
           <ScalarProperty Name="post_date" ColumnName="post_date" />
           <ScalarProperty Name="price" ColumnName="price" />
@@ -513,6 +518,7 @@
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="CampusNabberModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="school_id" ColumnName="school_id" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
                 <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />

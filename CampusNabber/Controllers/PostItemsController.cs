@@ -86,21 +86,24 @@ namespace CampusNabber.Controllers
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-            
-
-            //*******AWS Portion *********************
-            List<string> photoList = PostItemService.GetS3Photos(postItem);
-            if(photoList != null && photoList.Count > 0)
-            { 
-                ViewBag.RESULTS = photoList;
-                ViewBag.FIRSTPHOTO = photoList[0];
-                ViewBag.HASPHOTO = true;
+            if(postItem.photo_path_id.HasValue)
+            {
+                PostItemPhotos postItemPhotos = db.PostItemPhotos.Where(d => d.object_id == postItem.photo_path_id).First();
+                //*******AWS Portion *********************
+                List<string> photoList = PostItemService.GetS3Photos(postItem);
+                if (photoList != null && photoList.Count > 0)
+                {
+                    ViewBag.RESULTS = photoList;
+                    ViewBag.FIRSTPHOTO = photoList[0];
+                    ViewBag.HASPHOTO = true;
+                }
+                //******************************************
             }
             else
             {
                 ViewBag.HASPHOTO = false;
             }
-            //******************************************
+           
 
             ViewBag.EMAIL = UserManager.FindByName(postItem.username).Email;
             return View(postItem);
@@ -145,13 +148,17 @@ namespace CampusNabber.Controllers
                 postItemModel.school_name = school.school_name;
                 postItemModel.post_date = System.DateTime.Now;
                 postItemModel.object_id = Guid.NewGuid();
-                postItemModel.photo_path_id = Guid.NewGuid();
+                if (images.Count() > 0)
+                    postItemModel.photo_path_id = Guid.NewGuid();
+                else
+                    postItemModel.photo_path_id = Guid.Empty;
                 postItem = postItemModel.bindToPostItem();
 
-
                 //****AWS Portion**************
-                PostItemService.StoreS3Photos(images, postItem);
+                if(images.Count() > 0)
+                    PostItemService.StoreS3Photos(images, postItem);
                 //******************************
+
                 db.PostItems.Add(postItem);
                 db.SaveChanges();
 
@@ -183,17 +190,20 @@ namespace CampusNabber.Controllers
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
 
-            //*******AWS Portion *********************
-            List<string> photoList = PostItemService.GetS3Photos(postItem);
-            if (photoList != null && photoList.Count > 0)
+            if(postItem.photo_path_id.HasValue)
             {
-                List<dynamic> photoPaths = new List<dynamic>();
-                foreach (var photo in photoList)
-                    photoPaths.Add(new { image = photo.ToString() });
-                var results = JsonConvert.SerializeObject(photoPaths);
-                ViewBag.RESULTS = results;
+                //*******AWS Portion *********************
+                List<string> photoList = PostItemService.GetS3Photos(postItem);
+                if (photoList != null && photoList.Count > 0)
+                {
+                    List<dynamic> photoPaths = new List<dynamic>();
+                    foreach (var photo in photoList)
+                        photoPaths.Add(new { image = photo.ToString() });
+                    var results = JsonConvert.SerializeObject(photoPaths);
+                    ViewBag.RESULTS = results;
+                }
+                //******************************************
             }
-            //******************************************
 
             return View(postItem);
         }
