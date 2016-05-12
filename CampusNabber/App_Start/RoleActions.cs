@@ -21,7 +21,7 @@ namespace CampusNabber.App_Start
                 List<SchoolModel> schools = SchoolUtility.generateSchools();
                 foreach (var school in schools)
                 {
-                    School saveSchool = school.bindSchoolModel();
+                    School saveSchool = school.bindSchool();
                     db.Schools.Add(saveSchool);
                 }
                 await db.SaveChangesAsync();

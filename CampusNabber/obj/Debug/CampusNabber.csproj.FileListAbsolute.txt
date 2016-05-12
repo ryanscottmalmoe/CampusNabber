@@ -482,3 +482,5 @@ C:\Users\Audreys\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.Migrat
 C:\Users\Audreys\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csproj.GenerateResource.Cache
 C:\Users\Audreys\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.dll
 C:\Users\Audreys\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.pdb
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.Migrations.AddAdsTable.resources
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csproj.GenerateResource.Cache
