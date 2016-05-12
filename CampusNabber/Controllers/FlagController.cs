@@ -21,7 +21,7 @@ namespace CampusNabber.Controllers
         public ActionResult Create(Guid postId, string username)
         {
             IEnumerable<FlagPost> previousFlags = db.FlagPosts.Where(flag => flag.username_of_flagger.Equals(User.Identity.Name) && flag.flagged_postitem_id.Equals(postId));
-            if(previousFlags.Count() > 0)
+            if (previousFlags.Count() > 0)
             {
                 return View("AlreadyFlagged");
             }
@@ -32,7 +32,7 @@ namespace CampusNabber.Controllers
         [HttpPost]
         public ActionResult Create(FlagPost newFlag)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 newFlag.flag_date = DateTime.Now;
                 newFlag.username_of_flagger = User.Identity.Name;
@@ -42,7 +42,7 @@ namespace CampusNabber.Controllers
                 {
                     db.SaveChanges();
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                 }
@@ -52,7 +52,7 @@ namespace CampusNabber.Controllers
             return View();
         }
 
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult RemoveFlags(PostXFlagViewModel model)
         {
             IEnumerable<FlagPost> flags = db.FlagPosts.Where(flag => flag.flagged_postitem_id == model.PostId);
@@ -60,5 +60,6 @@ namespace CampusNabber.Controllers
             db.SaveChanges();
             return View("~/Views/PostXFlagViewModel/Details.cshtml", model);
         }
-	}
+
+    }
 }

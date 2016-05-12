@@ -217,6 +217,68 @@ namespace CampusNabber.Controllers
             return View(model);
         }
 
+        [Authorize(Roles ="Admin")]
+        public ActionResult RegisterAdmin()
+        {
+            var model = new RegisterAdminViewModel();
+            model.generateSchoolsList();
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles ="Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterAdmin(RegisterAdminViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                Guid schoolID = (from d in db.Schools
+                                 where d.school_name.Equals(model.school_name)
+                                 select d.object_id).First();
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, school_id = schoolID };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    //The following code signs in the new user automatically. I'm commenting it out because
+                    //we want them to confirm their email address first. 
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    UserManager.AddToRole(user.Id, "Admin");
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    string code = "";
+                    try
+                    {
+                        code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+
+                    }
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    ViewBag.Message = "An email with the validation link has been sent to the address you provided. The user must confirm their email address before logging in.";
+                    
+                    return View("ValidationInstructions");
+
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    // return RedirectToAction("MainMarketView", "MarketPlace");
+                }
+                else //user account already created
+                {
+                    model = new RegisterAdminViewModel();
+                    model.generateSchoolsList();
+                    return View(model);
+                }
+            }
+            return View(model);
+        }
+
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -472,6 +534,59 @@ namespace CampusNabber.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        [Authorize(Roles ="Admin")]
+        public ActionResult FindUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles ="Admin")]
+        public ActionResult UserResult(string userEmail)
+        {
+            ApplicationUser result = UserManager.FindByEmail(userEmail);
+            if (result != null)
+            {
+                ProfileModel user = new ProfileModel();
+                user.getProfilePosts(result);
+                user.user = result;
+                School school = db.Schools.Where(d => d.object_id == result.school_id).First();
+                user.school_name = school.school_name;
+
+                if (UserManager.IsInRole(result.Id, "Admin"))
+                {
+                    ViewBag.Admin = "true";
+                }
+                else
+                {
+                    ViewBag.Admin = "false";
+                }
+                return View(user);
+            }
+            else
+            {
+                return View("~/Views/Admin/UserNotFound.cshtml");
+            }
+        }
+
+        [Authorize(Roles ="Admin")]
+        public ActionResult RemoveAdminRole(string userEmail)
+        {
+            ApplicationUser result = UserManager.FindByEmail(userEmail);
+            IdentityResult r = UserManager.RemoveFromRoles(result.Id, "Admin");
+            ViewBag.Message = "The user was successfully removed from the Admin role.";
+            return View("~/Views/Admin/SuccessfulRoleChange.cshtml");
+        }
+
+        [Authorize(Roles ="Admin")]
+        public ActionResult AddAdminRole(string userEmail)
+        {
+            ApplicationUser result = UserManager.FindByEmail(userEmail);
+            IdentityResult r = UserManager.AddToRole(result.Id, "Admin");
+            ViewBag.Message = "The user was successfully granted the Admin role.";
+            return View("~/Views/Admin/SuccessfulRoleChange.cshtml");
         }
 
         #region Helpers

@@ -295,6 +295,32 @@ namespace CampusNabber.Controllers
             return View("~/Views/PostXFlagViewModel/Details.cshtml", model);
         }
 
+        [Authorize(Roles ="Admin")]
+        public ActionResult PostFlagDetailsGuid(Guid post_id)
+        {
+            PostItem tempPost = db.PostItems.Where(post => post.object_id == post_id).First();
+            PostXFlagViewModel model = new PostXFlagViewModel(tempPost.object_id, tempPost.title, tempPost.post_date);
+            model.Flags = QueryFlags(tempPost.object_id);
+            return View("~/Views/PostXFlagViewModel/Details.cshtml", model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult RemoveFlags(Guid[] flag_ids)
+        {
+            if (flag_ids != null && flag_ids.Count() > 0)
+            {
+                Guid firstFlagId = flag_ids[0];
+                Guid postId = db.FlagPosts.Where(flag => flag.object_id == firstFlagId).Select(flag => flag.flagged_postitem_id).AsEnumerable().First();
+                foreach (Guid id in flag_ids)
+                {
+                    db.FlagPosts.RemoveRange(db.FlagPosts.Where(flag => flag.object_id == id));
+                }
+                db.SaveChanges();
+                return (PostFlagDetailsGuid(postId));
+            }
+            return View("~/Views/PostXFlagViewModel/Index.cshtml");
+        }
+
         protected IEnumerable<FlagPost> QueryFlags(Guid queryGuid)
         {
             ContextFactory cf = new ContextFactory();
