@@ -119,7 +119,13 @@ namespace CampusNabber.Controllers
 
         public ActionResult ManageSchools()
         {
-            return View();
+            var schools = db.Schools.AsEnumerable();
+            List<SchoolModel> schoolModels = new List<SchoolModel>();
+            foreach(School s in schools)
+            {
+                schoolModels.Add(SchoolModel.bindToSchoolModel(s));
+            }
+            return View(schoolModels.AsEnumerable());
         }
 
         public ActionResult ManageAdmins()

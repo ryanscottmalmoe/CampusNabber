@@ -35,7 +35,7 @@ namespace CampusNabber.Models
             return school;
         }
 
-        public SchoolModel bindToSchoolModel(School school)
+        public static SchoolModel bindToSchoolModel(School school)
         {
             return new SchoolModel
             {

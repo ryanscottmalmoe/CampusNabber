@@ -1,6 +1,46 @@
-﻿
+﻿@model IEnumerable<CampusNabber.Models.SchoolModel>
 @{
     ViewBag.Title = "Manage Schools";
 }
 
 <h2>Schools</h2>
+<hr/>
+<table class="table">
+    <thead>
+        <tr>
+            <th id="name_header">
+                School Name
+            </th>
+            <th id="tag_header">
+                School Tag
+            </th>
+            <th id="primary_hex_header">
+                Primary Hex Color
+            </th>
+            <th id="secondary_hex_header">
+                Secondary Hex Color
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.school_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.school_tag)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.main_hex_color)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.secondary_hex_color)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-default" href="@Url.Action("AdminTools", "Admin")">Back to Admin Tools</a>
