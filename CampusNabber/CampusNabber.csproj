@@ -224,6 +224,10 @@
     </Compile>
     <Compile Include="Helpers\SchoolClasses\SchoolFactory.cs" />
     <Compile Include="Helpers\SchoolClasses\SchoolUtility.cs" />
+    <Compile Include="Migrations\201605120436574_AddAdsTable.cs" />
+    <Compile Include="Migrations\201605120436574_AddAdsTable.Designer.cs">
+      <DependentUpon>201605120436574_AddAdsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetRole.cs">
@@ -1330,6 +1334,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605120436574_AddAdsTable.resx">
+      <DependentUpon>201605120436574_AddAdsTable.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

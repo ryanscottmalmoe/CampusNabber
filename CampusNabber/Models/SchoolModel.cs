@@ -23,7 +23,7 @@ namespace CampusNabber.Models
 
         }
 
-        public School bindSchoolModel()
+        public School bindSchool()
         {
             School school = new School();
             school.object_id = this.object_id;
@@ -33,6 +33,19 @@ namespace CampusNabber.Models
             school.secondary_hex_color = this.secondary_hex_color;
             school.school_tag = this.school_tag;
             return school;
+        }
+
+        public SchoolModel bindToSchoolModel(School school)
+        {
+            return new SchoolModel
+            {
+                object_id = school.object_id,
+                school_name = school.school_name,
+                address = school.address,
+                main_hex_color = school.main_hex_color,
+                secondary_hex_color = school.secondary_hex_color,
+                school_tag = school.school_tag
+            };
         }
 
         public SchoolModel(string school_name, string school_tag, string main_hex_color, string secondary_hex_color)
