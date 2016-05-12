@@ -1309,8 +1309,7 @@
     <Content Include="Views\Admin\UnblockUser.cshtml" />
     <Content Include="Views\Admin\FindUserToUnblock.cshtml" />
     <Content Include="Views\Admin\UnlockSuccess.cshtml" />
-    <Content Include="Views\Admin\AddCategory.cshtml" />
-    <Content Include="Views\Admin\AddSchool.cshtml" />
+    <Content Include="Views\Admin\ManageSchools.cshtml" />
     <Content Include="Views\Admin\ManageAdmins.cshtml" />
     <Content Include="Views\Account\RegisterAdmin.cshtml" />
     <Content Include="Views\Account\FindUser.cshtml" />

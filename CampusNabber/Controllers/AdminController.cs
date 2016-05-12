@@ -115,13 +115,9 @@ namespace CampusNabber.Controllers
         }
 
 
-        public ActionResult AddCategory()
-        {
-            return View();
-        }
 
 
-        public ActionResult AddSchool()
+        public ActionResult ManageSchools()
         {
             return View();
         }
