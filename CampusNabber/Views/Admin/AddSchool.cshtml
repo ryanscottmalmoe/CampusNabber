@@ -1,0 +1,61 @@
+﻿@model CampusNabber.Models.SchoolModel
+@{
+    ViewBag.Title = "Add a School";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <script type="text/javascript" src="~/Scripts/jquery-2.2.1.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/spectrum.css">
+<script type="text/javascript" src="~/Scripts/spectrum.js"></script>
+
+<h2>Add a School</h2>
+@using (Html.BeginForm("CreateSchool", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="control-label">School Name</label>
+                @Html.EditorFor(model => model.school_name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.school_name, "", new { @class = "text-danger" })
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label">School Tag</label>
+
+                @Html.EditorFor(model => model.school_tag, new { htmlAttributes =  new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.school_tag, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Primary School Color</label>
+            @Html.EditorFor(model => model.main_hex_color, new { htmlAttributes = new { @class = "form-control", id="primary_color" } })
+            @Html.ValidationMessageFor(model => model.main_hex_color, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Secondary School Color</label>
+            @Html.EditorFor(model => model.secondary_hex_color, new { htmlAttributes = new { @class = "form-control" , id="secondary_color"} })
+            @Html.ValidationMessageFor(model => model.secondary_hex_color, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+
+    </div>
+}
+
+<script>
+    $("#secondary_color").spectrum({
+        showInput: true,
+        preferredFormat: "hex"
+    });
+    $("#primary_color").spectrum({
+        showInput: true,
+        preferredFormat: "hex"
+    });
+</script>
+

@@ -294,6 +294,7 @@
     <Compile Include="QueryClasses%28Depricated%29\FactoryFiles\ContextFactory.cs" />
     <Compile Include="QueryClasses%28Depricated%29\FactoryFiles\EntityFactory.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utility\AdService.cs" />
     <Compile Include="Utility\PostItemService.cs" />
     <Compile Include="Validation\ExistingEmailValidator.cs" />
     <Compile Include="Validation\ExistingUsernameValidator.cs" />
@@ -419,6 +420,7 @@
     <Content Include="Content\PostFlagTable.css" />
     <Content Include="Content\PostItem.css" />
     <Content Include="Content\School.css" />
+    <Content Include="Content\spectrum.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1248,6 +1250,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\spectrum.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1319,6 +1322,9 @@
     <Content Include="Views\Account\FindUser.cshtml" />
     <Content Include="Views\Account\UserResult.cshtml" />
     <Content Include="Views\Admin\SuccessfulRoleChange.cshtml" />
+    <Content Include="Views\Admin\AddSchool.cshtml" />
+    <Content Include="Views\Admin\SchoolExists.cshtml" />
+    <Content Include="Views\Admin\CreateSchool.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
