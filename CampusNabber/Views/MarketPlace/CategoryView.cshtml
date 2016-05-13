@@ -4,14 +4,6 @@
 @{
     ViewBag.Title = "CategoryView";
 }
-@*
-        @section Scripts {
-            <script type="text/javascript">
-              var mainColor = '@Model.mainSchoolColor';
-            </script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
-    }
-*@
 
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/CategorySheet.css">
@@ -28,7 +20,6 @@
     }
 }
 
-@*<div class="navbar navbar-fixed-bottom">*@
 <body>
 
     @Html.EditorForModel(Model)
@@ -69,6 +60,13 @@
                                             <input type="text" class="form-control text-box customInput" id="toPriceInput" name="toPriceInput" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
                                         </div>
                                     </form>
+
+                                    <form class="form">
+                                        <div class="input-group">
+                                            <label style="margin-right:19px;" for="hasImage">Has Image:</label>
+                                            <input type="checkbox" id="hasImageInput" name="hasImageInput"/>
+                                        </div>
+                                    </form>
                                 </fieldset>
                             </div>
                             <div class="col-sm-10">
@@ -100,24 +98,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            @* Space for the ad that we may include
-            <div class="col-md-2 red addSpace">
-               
-            </div>
-            
+            </div>   
     </div>
-   
 </body>
-    @*</div>
-    *@
-
-        @*
-            <div class="modal-footer">
-                <button class="btn btn-gray" data-dismiss="modal">Cancel</button>
-                <a id="modal-form-search" class="btn btn-primary" onclick="SearchPostItems();" href="#">Search</a>
-            </div>
-        *@
+ 
 
 
         <script>
@@ -140,7 +124,10 @@
                     "iDisplayLength": 10,
                     "scrollCallapse": true,
                     "scrollY": '50vh',
-                    "bFilter": false, //These next two handle search condition
+                    "aoColumnDefs": [
+                            { 'bSortable': false, 'aTargets': [ 0, 1 ] }
+                    ],
+                    "bFilter": false,
                     "bInfo": false,
                     "sAjaxSource": "@Url.Action("GetPostItemData", "MarketPlace")",
                     "fnServerParams": function (aoData) {
@@ -150,7 +137,8 @@
                             { name: "Category", value: '@Model.chosenCategory' },
                             { name: "Search", value: $('#searchInput').val() },
                             { name: "FromPrice", value: $('#fromPriceInput').val() },
-                            { name: "ToPrice", value: $('#toPriceInput').val() }
+                            { name: "ToPrice", value: $('#toPriceInput').val() },
+                            { name: "HasImage", value: $('#hasImageInput').is(':checked') }
                             );
                     },
                     "bProcessing": true,
@@ -158,7 +146,7 @@
                         {
                             "mDataProp": "PhotoPath", "sWidth": "10px",
                             "render": function (mDataProp, type, row) {
-                                return '<img src="' + mDataProp + '" style="width=10px;height=10px;" />';
+                                return '<img src="' + mDataProp + '"style="width=10px;height=10px;" />';
                             }
                         },
                         { "mDataProp": "Title", "sWidth": "100px", "sClass": "alignCenter" },

@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Find User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Find User</h2>
+<hr/>
+<h4>Enter the user's email</h4>
+@using (Html.BeginForm("UserResult", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal container">
+        <div class="form-group col-md-12">
+            <input type="text" class="form-control" name="userEmail" />
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="submitId" value="Find User" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+

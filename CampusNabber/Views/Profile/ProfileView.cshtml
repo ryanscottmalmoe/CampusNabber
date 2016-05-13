@@ -1,6 +1,5 @@
 ﻿@model CampusNabber.Models.ProfileModel
 
-
 @{
     ViewBag.Title = "ProfileView";
 
@@ -23,7 +22,6 @@
          </script>
 <link rel="stylesheet" href="~/Content/PostItem.css" type="text/css" />
 <script type="text/javascript" src="@Url.Content("~/Scripts/ProfileView.js")"></script>
-@*<script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>*@
 }
 
 
@@ -39,11 +37,6 @@
 @Html.HiddenFor(model => model.school_name)
 @Html.HiddenFor(model => model.Posts)
 
-
-
-
-
-
     <div class="row">
     <div class="col-md-2">
         <div class="container">
@@ -53,8 +46,114 @@
             </div>
         </div>
     </div>
+
+
+    @*Post items table*@
+    <div class="col-md-8">
+        <table class="table table-borderless" id="postItemTable">
+            <thead>
+                <tr>
+                    <th>Manage</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Post Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var element in Model.Posts)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Edit", "PostItems", new { id = element.object_id })">
+                                Edit
+                                <a href="@Url.Action("Delete", "PostItems", new { id = element.object_id})">
+                                    Delete
+                                    <a href="@Url.Action("Details", "PostItems", new { id = element.object_id})">
+                                        View
+                        </td>
+                        <td>@Html.DisplayFor(m => element.title)</td>
+                        <td>$@Html.DisplayFor(m => element.price)</td>
+                        <td>@Html.DisplayFor(m => element.category)</td>
+                        <td>@Html.DisplayFor(m => element.post_date)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <style>
+        .col-md-10 {
+            float: none;
+        }
+
+        .h5 {
+            text-align: center;
+        }
+        h1, h2, h3 {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        .panel-default > .panel-heading {
+            height: 50px;
+        }
+        .input {
+            width:100%;
+        }
+    </style>
+
+    <div class="container" id="customContainer">
+        <div class="col-md-8">
+            <div class="panel-group" id="settingsSection" style="display:none">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2>Profile Info</h2>
+                    </div>
+                    <div class="panel-body">
+
+                        <div id="settingsSubSection">
+                            @using (Html.BeginForm("UpdateUser", "Profile", FormMethod.Post))
+                             {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                <section class="form-field">
+                                    <div id="editUsername">
+                                        <label class="control-label">Username</label>
+                                        @Html.EditorFor(model => model.user.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.user.UserName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <img id="logoImage" src="~/Content/images/Transparent_logo_black.png" style="float:right; margin-right:50px; " alt="" height="200" width="200">
+
+                                    <div id="editEmail">
+                                        <label class="control-label">Email</label>
+                                        @Html.EditorFor(model => model.user.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.user.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div id="editSchoolName">
+                                        <label class="control-label">Category</label><br/>
+                                        @Html.DropDownListFor(model => model.school_name, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
+                                    </div>
+                                    <br/>
+                                    @Html.ActionLink("Change Password", "ChangePassword", "Manage", null, new { @class = "btn btn-warning btn-block" }) <br/>
+                                    <input type="submit" value="Save" id="saveButton" class="submit btn blue-btn special-submit" />
+
+                                </section>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+
+    </div>
+
+</div>   
+
+
         @*Each of the forms for editing user information*@
-        <div class="col-md-3">
+        <div class="col-md-3" id="updateUserDiv" style="display:none;">
             @using (Html.BeginForm("UpdateUser", "Profile", FormMethod.Post))
             {
 
@@ -62,7 +161,7 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary("", new { @class = "text-danger" })
                 <section class="form-field">
-                    <div id="editUsername" style="display: none">
+                    <div id="editUsername" style="display: none;">
                         <label class="control-label">Username</label>
                         @Html.EditorFor(model => model.user.UserName, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.user.UserName, "", new { @class = "text-danger" })
@@ -74,70 +173,16 @@
                     </div>
                     <div class="form-group" id="editSchoolName" style="display: none">
                         <label class="control-label">Category</label>
-                            @Html.DropDownListFor(model => model.school_name, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
+                        @Html.DropDownListFor(model => model.school_name, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
                     </div>
-                      <input type="submit" value="Save" id="saveButton" style="display: none" class="submit btn blue-btn special-submit" />
+                    <input type="submit" value="Save" id="saveButton" style="display: none" class="submit btn blue-btn special-submit" />
 
-                 </section>
+                </section>
             }
-            </div>
-
-
-
-            @*Settings section that can edit users information*@
-            <div id="settingsSection" style="display: none">
-                <div class="col-md-2">
-                    <h5 align="right">@Html.DisplayFor(m => Model.user.UserName)</h5><br />
-                    <h5 align="right">@Html.DisplayFor(m => Model.user.Email)</h5><br />
-                    <h5 align="right">@Html.DisplayFor(m => Model.school_name)</h5><br />
-                </div>
-                <div class="container">
-                    <div class="col-md-2">
-                        <div class="span2">
-                            <button type="button" id="Username" onclick="username()" class="btn btn-primary btn-block">Change Username</button><br />
-                            <button type="button" id="Email" onclick="email()" class="btn btn-primary btn-block">Change Email</button><br />
-                            <button type="button" id="School" onclick="school()" class="btn btn-primary btn-block">Change Schools</button><br />
-                            @Html.ActionLink("Change Password", "ChangePassword", "Manage", null, new { @class = "btn btn-warning btn-block" })
-                         </div>
-                    </div>
-                </div>
-            </div>
-
-
-        @*Post items table*@
-            <div class="col-md-10">
-                <table class="table table-borderless" id="postItemTable">
-                    <thead>
-                        <tr>
-                            <th>Manage</th>
-                            <th>Title</th>
-                            <th>Price</th>
-                            <th>Category</th>
-                            <th>Post Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var element in Model.Posts)
-                        {
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("Edit", "PostItems", new { id = element.object_id })">
-                                       Edit
-                                    <a href="@Url.Action("Delete", "PostItems", new { id = element.object_id})">
-                                        Delete
-                                    <a href="@Url.Action("Details", "PostItems", new { id = element.object_id})">
-                                        View
-                                 </td>
-                                <td>@Html.DisplayFor(m => element.title)</td>
-                                <td>$@Html.DisplayFor(m => element.price)</td>
-                                <td>@Html.DisplayFor(m => element.category)</td>
-                                <td>@Html.DisplayFor(m => element.post_date)</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
         </div>
+
+
+
 
 
 
@@ -148,18 +193,6 @@
                 <button type="button" id="Deactivate" class="btn btn-danger btn-md" data-toggle="modal" data-target="#myModal">Deactivate Account</button>
             </div>
         </div>
-
-        <div id="sidebar_mobile_med" class="col-xs-12 hidden-xs">
-            <!--Medium banner on bottom-->
-            <img style="margin: 50px 0px">
-            <img src="~/Content/banners/728x90.png">
-        </div>  <!-- sidebar_mobile_med -->
-
-        <div id="sidebar_mobile" class="col-xs-12 hidden-sm hidden-md hidden-lg">
-            <!--Small banner on bottom-->
-            <img style="margin: 50px 0px">
-            <img src="~/Content/banners/468x60.png">
-        </div>  <!-- sidebar_mobile -->
 
         @*Username or Email Already Exists popup view
             Possibly make this alert dynamic by sending

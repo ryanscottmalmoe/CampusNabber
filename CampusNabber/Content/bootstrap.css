@@ -1099,6 +1099,7 @@ pre code {
   .col-md-11 {
     float: left;
   }
+   
   .col-md-1 {
     width: 8.333333333333332%;
   }
@@ -1126,8 +1127,8 @@ pre code {
   .col-md-9 {
     width: 75%;
   }
-  .col-md-10 {
-    width: 83.33333333333334%;
+  .col-md-12 {
+    width: 100%;
   }
   .col-md-11 {
     width: 91.66666666666666%;
@@ -4209,7 +4210,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 @media (min-width: 768px) {
   .navbar > .container .navbar-brand {
-    margin-left: -15px;
+    margin-left: 10px;
   }
 }
 
