@@ -64,7 +64,7 @@ namespace CampusNabber.Controllers
             School school = db.Schools.Where(d => d.object_id == user.school_id).First();
             market.SchoolToken = school.school_tag;
             market.mainSchoolColor = school.main_hex_color;
-            market.school_name = school.school_name;
+            //market.school_names.Add(school.school_name);
             if(Session["Color"] == null)
                 Session["Color"] = school.main_hex_color;
             market.setList();

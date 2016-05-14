@@ -681,4 +681,3 @@ C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\bin\Microsoft
 C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\obj\Debug\CampusNabber.dll
 C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\obj\Debug\CampusNabber.pdb
-C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csprojResolveAssemblyReference.cache
