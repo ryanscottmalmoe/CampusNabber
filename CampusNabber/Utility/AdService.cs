@@ -27,7 +27,7 @@ namespace CampusNabber.Utility
 
         public static void DeleteS3Photos(PostItemModel postItem)
         {
-            List<string> photoStrings = GetS3Photos(postItem);
+            List<string> photoStrings = null;// GetS3Photos(postItem);
             foreach (string photo in photoStrings)
             {
                 IAmazonS3 client;
