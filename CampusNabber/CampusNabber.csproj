@@ -226,6 +226,10 @@
     <Compile Include="Helpers\SchoolClasses\SchoolUtility.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Ad.cs">
+      <DependentUpon>CampusNabber.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdModel.cs" />
     <Compile Include="Models\AspNetRole.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>

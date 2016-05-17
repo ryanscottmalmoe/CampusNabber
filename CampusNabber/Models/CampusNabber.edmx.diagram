@@ -19,6 +19,7 @@
         <AssociationConnector Association="CampusNabberModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="CampusNabberModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="CampusNabberModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="CampusNabberModel.Ad" Width="1.5" PointX="9.75" PointY="0.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -7,33 +7,31 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CampusNabber.Models
+using System;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+
+public partial class CampusNabberEntities : DbContext
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
-    
-    public partial class CampusNabberEntities : DbContext
+    public CampusNabberEntities()
+        : base("name=CampusNabberEntities")
     {
-        public CampusNabberEntities()
-            : base("name=CampusNabberEntities")
-        {
-        }
-    
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-    
-        public virtual DbSet<PostItem> PostItems { get; set; }
-        public virtual DbSet<School> Schools { get; set; }
-        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-        public virtual DbSet<PostItemPhotos> PostItemPhotos { get; set; }
-        public virtual DbSet<FlagPost> FlagPosts { get; set; }
-        public virtual DbSet<C__MigrationHistory1> C__MigrationHistory1 { get; set; }
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
     }
+
+    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    {
+        throw new UnintentionalCodeFirstException();
+    }
+
+    public virtual DbSet<PostItem> PostItems { get; set; }
+    public virtual DbSet<School> Schools { get; set; }
+    public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+    public virtual DbSet<PostItemPhotos> PostItemPhotos { get; set; }
+    public virtual DbSet<FlagPost> FlagPosts { get; set; }
+    public virtual DbSet<C__MigrationHistory1> C__MigrationHistory1 { get; set; }
+    public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+    public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+    public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+    public virtual DbSet<Ad> Ads { get; set; }
 }

@@ -7,18 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CampusNabber.Models
+using System;
+using System.Collections.Generic;
+
+public partial class FlagPost
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class FlagPost
-    {
-        public System.Guid object_id { get; set; }
-        public System.Guid flagged_postitem_id { get; set; }
-        public string username_of_post { get; set; }
-        public string flag_reason { get; set; }
-        public string username_of_flagger { get; set; }
-        public System.DateTime flag_date { get; set; }
-    }
+    public System.Guid object_id { get; set; }
+    public System.Guid flagged_postitem_id { get; set; }
+    public string username_of_post { get; set; }
+    public string flag_reason { get; set; }
+    public string username_of_flagger { get; set; }
+    public System.DateTime flag_date { get; set; }
 }

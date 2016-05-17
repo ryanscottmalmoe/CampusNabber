@@ -10,16 +10,12 @@
 using System;
 using System.Collections.Generic;
 
-public partial class PostItem
+public partial class Ad
 {
     public System.Guid object_id { get; set; }
-    public string username { get; set; }
-    public System.DateTime post_date { get; set; }
-    public short price { get; set; }
-    public string title { get; set; }
-    public string description { get; set; }
-    public string category { get; set; }
-    public Nullable<System.Guid> school_id { get; set; }
-    public Nullable<System.Guid> photo_path_id { get; set; }
-    public bool social_flag { get; set; }
+    public string company_name { get; set; }
+    public string photo_path_160x600 { get; set; }
+    public string photo_path_468x60 { get; set; }
+    public string photo_path_728x90 { get; set; }
+    public string photo_link { get; set; }
 }
