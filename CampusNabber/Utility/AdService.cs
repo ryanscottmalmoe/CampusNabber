@@ -18,9 +18,6 @@ namespace CampusNabber.Utility
 {
     abstract class AdService
     {
-        private static readonly string _awsAccessKey = "AKIAJ4CAE6M72TYTV2KA";
-        private static readonly string _awsSecretKey = "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";
-        private static readonly string _bucketName = "adphotos";
 
         private static CampusNabberEntities db = new CampusNabberEntities();
 
