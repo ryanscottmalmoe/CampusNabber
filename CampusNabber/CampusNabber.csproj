@@ -212,6 +212,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\FlagController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1325,6 +1326,9 @@
     <Content Include="Views\Admin\AddSchool.cshtml" />
     <Content Include="Views\Admin\SchoolExists.cshtml" />
     <Content Include="Views\Admin\CreateSchool.cshtml" />
+    <Content Include="Views\Ad\Create.cshtml" />
+    <Content Include="Views\Ad\Index.cshtml" />
+    <Content Include="Views\Ad\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

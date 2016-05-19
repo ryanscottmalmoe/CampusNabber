@@ -35,7 +35,7 @@ namespace CampusNabber.Models
             return ad;
         }
 
-        public static AdModel BindToSchoolModel(Ad ad)
+        public static AdModel BindToAdModel(Ad ad)
         {
             return new AdModel
             {

@@ -55,7 +55,7 @@ namespace CampusNabber.Utility
         {
             try
             {
-                return "https://s3-us-west-2.amazonaws.com/campusnabberphotos/" + ad.photo_path_160x600 + "/" + "1";
+                return "https://s3-us-west-2.amazonaws.com/adphotos/" + ad.photo_path_160x600;
             }
             catch
             {
@@ -71,7 +71,7 @@ namespace CampusNabber.Utility
             List<string> photosList = new List<string>();
             photosList.Add("https://s3-us-west-2.amazonaws.com/adphotos/" + ad.photo_path_160x600);
             photosList.Add("https://s3-us-west-2.amazonaws.com/adphotos/" + ad.photo_path_468x60);
-            photosList.Add("https://s3-us-west-2.amazonaws.com/adphotos" + ad.photo_path_728x90);
+            photosList.Add("https://s3-us-west-2.amazonaws.com/adphotos/" + ad.photo_path_728x90);
             return photosList;
         }
 
@@ -115,14 +115,14 @@ namespace CampusNabber.Utility
                     };
                     client.PutObject(request);
                 }
-                db.PostItemPhotos.Add(itemPhotos);
-                db.SaveChanges();
+                ad.photo_path_160x600 = "https://s3-us-west-2.amazonaws.com/adphotos/" + ad.object_id.ToString() + "/160x600";
+                ad.photo_path_468x60 = "https://s3-us-west-2.amazonaws.com/adphotos/" + ad.object_id.ToString() + "/468x60";
+                ad.photo_path_728x90 = "https://s3-us-west-2.amazonaws.com/adphotos/" + ad.object_id.ToString() + "/728x90";
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
         }
-
     }
 }
