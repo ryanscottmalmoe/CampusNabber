@@ -17,9 +17,6 @@ namespace CampusNabber.Controllers
     public class AdController : Controller
     {
 
-        private static readonly string _awsAccessKey = "AKIAJ4CAE6M72TYTV2KA";
-        private static readonly string _awsSecretKey = "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";
-        private static readonly string _bucketName = "adphotos";
 
         ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
