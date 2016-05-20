@@ -11,6 +11,6 @@ namespace CampusNabber.Models
         public string Title { get; set; }
         public string Price { get; set; }
         public string Username { get; set; }
-        public string PhotoPathID { get; set; }
+        public Guid PostItemID { get; set; }
     }
 }
