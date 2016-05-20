@@ -7,6 +7,9 @@
 
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/CategorySheet.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
+
+
 <script type="text/javascript" src="~/Scripts/MarketView.js"></script>
 
 @{
@@ -79,6 +82,7 @@
                                                 <table id="PostItemTable" align="right" cellpadding="0" cellspacing="20px" border="0" style="font-size: 18px; width:auto; border: 0px solid #d9d9d9">
                                                     <thead>
                                                         <tr>
+                                                            <th style="font-weight: bold;">PostItemID</th>
                                                             <th style="font-weight: bold;">Photo</th>
                                                             <th style="font-weight: bold; text-align:center">Title</th>
                                                             <th style="font-weight: bold; text-align:center">Price</th>
@@ -118,14 +122,21 @@
                 debugger;
                 oTable = $('#PostItemTable').dataTable({
                     "sPaginationType": "full_numbers",
+                    "bInfo": true,
                     "bScrollCollapse": true,
                     "bPaginate": true,
                     "bServerSide": true,
                     "iDisplayLength": 10,
                     "scrollCallapse": true,
+                    "oLanguage": {    "sLengthMenu": "_MENU_ records per page",
+                        "oPaginate": {
+                            "sPrevious": "Prev",
+                            "sNext": "Next"
+                        }
+                    },
                     "scrollY": '50vh',
                     "aoColumnDefs": [
-                            { 'bSortable': false, 'aTargets': [ 0, 1 ] }
+                            { 'bSortable': false, 'aTargets': [ 1, 2 ] }
                     ],
                     "bFilter": false,
                     "bInfo": false,
@@ -145,15 +156,37 @@
                     "bProcessing": true,
                     "aoColumns": [
                         {
+                            "mDataProp": "PostItemID",
+                            "sWidth": "10px",
+                            "bSortable": false,
+                            "visible": false
+                        },
+                        {
                             "mDataProp": "PhotoPath", "sWidth": "10px",
                             "render": function (mDataProp, type, row) {
                                 return '<img src="' + mDataProp + '"style="width=10px;height=10px;" />';
-                            }
+                        }
                         },
                         { "mDataProp": "Title", "sWidth": "100px", "sClass": "alignCenter" },
                         { "mDataProp": "Price", "sWidth": "120px", "sClass": "alignCenter" }
-                    ]
+                    ],
+                    "fnDrawCallback": function (oSettings) {
+                        $('#PostItemTable tbody tr').click(function () {
+                            var postItemID = $(this).attr('id');
+                            postItemSelected(postItemID);
+                        }).css('cursor', 'pointer');
+                    },
+                    "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                        $(nRow).attr('id', aData.PostItemID);
+                    }
                 });
             });
+
+            function postItemSelected(id) {
+
+               var link = '@Url.Action("Details", "PostItems", new { id = "-1" })';
+                link = link.replace("-1", id);
+                window.location.href = link;
+            }
 
         </script>
