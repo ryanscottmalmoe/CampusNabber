@@ -12,6 +12,7 @@ namespace CampusNabber.Models
         //public ApplicationUser CurrentUser { get; set; }
         public int numPosts;
         public String[] CategoryNames { get; set; }
+        public List<String>[] SubCategoryNames { get; set; }
         public List<PostItem>[] Categories { get; set; }
         public List<PostItemModel>[] CategoriesToDisplay { get; set; }
         public List<PostItem> Posts { get; set; }
@@ -23,7 +24,9 @@ namespace CampusNabber.Models
         public int displayRange { get; set; }
         public int rangeTo { get; set; }
         public int? categoryToDisplay { get; set; }
+        public int? subCategoryToDisplay { get; set; }
         public string chosenCategory { get; set; }
+        public string chosenSubCategory { get; set; }
         public string mainSchoolColor { get; set; }
         public string userId { get; set; }
         public String SchoolToken { get; set; }
@@ -44,7 +47,7 @@ namespace CampusNabber.Models
             otherSchools = new List<string>();
             secondary_schools_to_display = new List<Guid>();
             Posts = new List<PostItem>();
-            CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
+            //CategoryNames = new List<String>();
             numPosts = 0;
             displayRange = 2;
             rangeFrom = 0;
@@ -81,9 +84,27 @@ namespace CampusNabber.Models
 
         public void  setCategoryNames()
         {
-            CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
+            
+            IQueryable<Category> cats = null;
+            cats = db.Categories;
+            CategoryNames = cats.Select(d => d.category_name).Distinct().ToArray();
+           // cats = db.Categories.Select(d => d.category_name).Distinct();
+            //CategoryNames.AddRange(cats.ToList());
+            setSubCategoryNames(cats);
         }
 
+        public void setSubCategoryNames(IQueryable<Category> cats)
+        {
+            if (SubCategoryNames == null)
+                SubCategoryNames = new List<string>[CategoryNames.Count()];
+            for(int i = 0; i < CategoryNames.Count(); i ++)
+            {
+                SubCategoryNames[i] = new List<string>();
+                String catName = CategoryNames.ElementAt(i);
+                SubCategoryNames[i] = cats.Where(d => d.category_name == catName).Select(d =>d.sub_category_name).ToList();
+                
+            }
+        }
         public void setSchoolToken(String school_name)
         {
             String token = "";
@@ -99,20 +120,20 @@ namespace CampusNabber.Models
         }
 
         public void setList()
-        {
-            CategoriesToDisplay = new List<PostItemModel>[4];
+        {            
             Categories = new List<PostItem>[4];
             Posts = new List<PostItem>();
-            CategoryNames = new String[] { "Automotive", "Books", "Housing", "Other" };
-            Categories = new List<PostItem>[CategoryNames.Length];
-            for(int i = 0; i < CategoryNames.Length; i ++)
+            setCategoryNames();
+            CategoriesToDisplay = new List<PostItemModel>[CategoryNames.Count()];
+            Categories = new List<PostItem>[CategoryNames.Count()];
+            for(int i = 0; i < CategoryNames.Count(); i ++)
                 CategoriesToDisplay[i] = new List<PostItemModel>();
             School school;
             for (int k = 0; k< school_names.Count(); k++)
             {
                 String schoolName = school_names[k];
                 school = db.Schools.Where(d => d.school_name == schoolName).First();
-            for (int i = 0; i < CategoryNames.Length; i++)
+            for (int i = 0; i < CategoryNames.Count(); i++)
             {
                     Categories[i] = new List<PostItem>();
                 string categoryNameTemp = CategoryNames[i];

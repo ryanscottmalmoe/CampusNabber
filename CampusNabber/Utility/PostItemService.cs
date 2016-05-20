@@ -181,13 +181,33 @@ namespace CampusNabber.Utility
         }
         public static SelectList generateCategoryList()
         {
+            String[] categories = db.Categories.Select(d => d.category_name).Distinct().ToArray();
             List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem { Text = "Automotive", Value = "Automotive", Selected = true });
-            list.Add(new SelectListItem { Text = "Books", Value = "Books" });
-            list.Add(new SelectListItem { Text = "Housing", Value = "Housing" });
-            list.Add(new SelectListItem { Text = "Other", Value = "Other" });
+            for(int i =0; i < categories.Length; i ++)
+            {
+                if(i ==0)
+                    list.Add(new SelectListItem { Text = categories[i], Value = categories[i], Selected = true});
+                else
+                    list.Add(new SelectListItem { Text = categories[i], Value = categories[i]});
+            }
 
             return new SelectList(list, "Text", "Value", 1);
+        }
+
+        public static SelectList generateSubCategoryList(string category)
+        {
+            String[] subCategories = db.Categories.Where(d => d.category_name == category).Select(
+                d => d.sub_category_name).ToArray();
+            List<SelectListItem> list = new List<SelectListItem>();
+            for (int i = 0; i < subCategories.Length; i++)
+            {
+                if (i == 0)
+                    list.Add(new SelectListItem { Text = subCategories[i], Value = subCategories[i], Selected = true });
+                else
+                    list.Add(new SelectListItem { Text = subCategories[i], Value = subCategories[i] });
+            }
+            return new SelectList(list, "Text", "Value", 1);
+
         }
 
         public static void updateAllPostItemsInfo(ApplicationUser user, string oldUsername)

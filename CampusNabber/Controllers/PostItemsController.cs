@@ -109,6 +109,32 @@ namespace CampusNabber.Controllers
             return View(postItem);
         }
 
+        public JsonResult GetSubCategory(string category)
+        {
+            String[] categories = db.Categories.Select(d => d.category_name).Distinct().ToArray();
+            SelectList categoriesDropdown = null;
+            switch (category)
+            {
+                case "Eats and Drinks":
+                    categoriesDropdown = PostItemService.generateSubCategoryList("Eats and Drinks");
+                    break;
+                case "For Sale":
+                    categoriesDropdown = PostItemService.generateSubCategoryList("For Sale");
+                    break;
+                case "Housing":
+                    categoriesDropdown = PostItemService.generateSubCategoryList("Housing");
+                    break;
+                case "Jobs":
+                    categoriesDropdown = PostItemService.generateSubCategoryList("Jobs");
+                    break;
+                case "On Campus":
+                    categoriesDropdown = PostItemService.generateSubCategoryList("On Campus");
+                    break;
+            }
+            return Json(new SelectList(categoriesDropdown, "Value", "Text"));
+        }
+
+
         // Get: /PostItems/Create
         public ActionResult Create(String userId)
         {
@@ -129,13 +155,15 @@ namespace CampusNabber.Controllers
             postItem.school_name = school.school_name;
             ViewBag.main_color = school.main_hex_color;
             ViewBag.secondary_color = school.secondary_hex_color;
+            String[] categories = db.Categories.Select(d => d.category_name).Distinct().ToArray();
+            ViewBag.categories = categories;
 
             return View(postItem);
         }
 
         //Post /PostItems/Create
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category")] PostItemModel postItemModel, HttpPostedFileBase[] images)
+        public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category,subCategory")] PostItemModel postItemModel, HttpPostedFileBase[] images)
         {
             PostItem postItem = null;
             if (ModelState.IsValid)

@@ -93,12 +93,42 @@ namespace CampusNabber.Controllers
             return View(market);
         }
 
+        [HttpPost]
+        public ActionResult AddAdditionalSchools(MarketPlace market)
+        {
+            var newMarket = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
+            for (int i = 0; i < market.selectSchool.Count(); i++)
+            {
+                if (market.selectSchool[i])
+                {
+                    newMarket.selectSchool[i] = true;
+                    newMarket.school_names.Add(newMarket.otherSchools[i]);
+                    //  newMarket.otherSchools.Remove(newMarket.otherSchools[i]);
+                }
+            }
+            //bool GU = Convert.ToBoolean(Request.Form["GU"]);
+            //bool WU = Convert.ToBoolean(Request.Form["WU"]);
+            newMarket.setList();
+            return View("MainMarketView", newMarket);
+        }        
+
         public ActionResult CategoryView(MarketPlace market)
         {
-            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-           
             market.setCategoryNames();
-            market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
+            String str = market.otherSchools.ElementAt(0);
+            if (market.subCategoryToDisplay == null)
+            {
+                market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
+            }
+            else
+            {
+                market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
+                market.chosenSubCategory = market.SubCategoryNames[(int)market.categoryToDisplay].ElementAt((int)market.subCategoryToDisplay);
+            }
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            
+           
+           // market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
             School school = db.Schools.Where(d => d.object_id == user.school_id).First();
             if (Session["Color"] == null)
                 Session["Color"] = school.main_hex_color;
@@ -109,102 +139,158 @@ namespace CampusNabber.Controllers
 
 
 
-        public JsonResult GetPostItemData(jQueryDataTableParamModel param, string Category, string Search = "", string FromPrice = "0", string ToPrice = "1000000000", bool HasImage = false)
+        public JsonResult GetPostItemData(jQueryDataTableParamModel param, String school_names, String user_name, string Category,
+            string SubCategory, string Search = "", string FromPrice = "0", string ToPrice = "1000000000", bool HasImage = false)
         {
             using (var context = new CampusNabberEntities())
             {
-                IQueryable<PostItem> postItems = null;
-                if (!string.IsNullOrEmpty(FromPrice) || !string.IsNullOrEmpty(ToPrice))
-                {
-                    if (FromPrice.Equals(""))
-                        FromPrice = "0";
-                    if (ToPrice.Equals(""))
-                        ToPrice = "1000000000";
-                    int fromPrice = Int32.Parse(FromPrice);
-                    int toPrice = Int32.Parse(ToPrice);
-                    if (Category.Equals("All Categories"))
-                    {
-                        postItems = context.PostItems.Where(d =>
-                                                      d.price >= fromPrice &&
-                                                      d.price <= toPrice);
-                    }
-                    else
-                    {
-                        postItems = context.PostItems.Where(d =>
-                                                      d.category == Category &&
-                                                      d.price >= fromPrice &&
-                                                      d.price <= toPrice);
-                    }
-                                
-                }
-                else
-                {
-                    if (Category.Equals("All Categories"))
-                        postItems = context.PostItems;
-                    else
-                        postItems = context.PostItems.Where(d =>
-                                                    d.category == Category);
-                }
-                if (HasImage)
-                {
-                    postItems = postItems.Where(d => d.photo_path_id.HasValue);
-                }
-
-                // Count
-                var count = postItems.Count();
-                var iDisplayRecords = count;
-                var totalRecords = count;
-                
-                // Search
-                if (!string.IsNullOrEmpty(Search))
-                {
-                    postItems = postItems.Where(s =>
-                                            s.title.Contains(Search) ||
-                                            s.description.Contains(Search)
-                        );
-                }
-
-                
-
-                // Order
-                var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
-                Expression<Func<PostItem, int>> intOrdering = (sortInteger => sortInteger.price);
-                Expression<Func<PostItem, DateTime>> dateOrdering = (sortDate => sortDate.post_date);
-
-                
-                var sortDirection = Request["sSortDir_0"]; // asc or desc
-                if (sortColumnIndex == 2)
-                {
-                    if (sortDirection == "asc")
-                    {
-                        postItems = postItems.OrderBy(intOrdering);
-                    }
-                    else
-                    {
-                        postItems = postItems.OrderByDescending(intOrdering);
-                    }
-                }
-                else
-                {
-                    postItems = postItems.OrderBy(dateOrdering);
-                }
-
-                var result = new List<PostItemTableModel>();
-
-
-                // Project
-                result.AddRange(postItems
-                                    .ToList()
-                                    .Select(d => new PostItemTableModel
+                String[] schools = school_names.Split(',');
+                Guid[] schoolIDS = new Guid[schools.Count()];
+                School school = null;
+                Guid schoolID;
+                String schoolName;
+                                for (int i = 0; i < schools.Count(); i++)
                                     {
-                                        PhotoPath = PostItemService.GetFirstPhotoPath(d),
-                                        Title = d.title.ToString(),
-                                        Price = d.price.ToString(),
-                                        Username = d.username,
-                                    })
-                                    .ToList()
-                                );
+                    schoolName = schools[i];
+                                        while (schoolName.ElementAt(0) == ' ')
+                                           {
+                         schoolName = schoolName.Substring(1);
+                                            }
+                    IQueryable < School > schoo = db.Schools.Where(d => d.school_name == schoolName);
+                    school = schoo.First();
+                    schoolIDS[i] = school.object_id;
+                                    }
+                
+                                 IQueryable < PostItem > postItems = null;
+                IQueryable < PostItem > temp = null;
+                var totalRecords = 0;
+                var result = new List<PostItemTableModel>();
+                var iDisplayRecords = 0;
+                for (int i = 0; i < schoolIDS.Count(); i++)
+                {
+                    schoolID = schoolIDS[i];
+                    //  IQueryable<PostItem> postItems = null;
 
+
+                    if (!string.IsNullOrEmpty(FromPrice) || !string.IsNullOrEmpty(ToPrice))
+                    {
+                        if (FromPrice.Equals(""))
+                            FromPrice = "0";
+                        if (ToPrice.Equals(""))
+                            ToPrice = "1000000000";
+                        int fromPrice = Int32.Parse(FromPrice);
+                        int toPrice = Int32.Parse(ToPrice);
+                        if (Category.Equals("All Categories"))
+                        {
+                            postItems = context.PostItems.Where(d =>
+                                                          d.price >= fromPrice &&
+                                                          d.price <= toPrice &&
+                                                          d.username != user_name &&
+                                                          d.school_id == schoolID);
+                        }
+                        else
+                        {
+                            postItems = context.PostItems.Where(d =>
+                                                          d.price >= fromPrice &&
+                                                          d.price <= toPrice &&
+                                                          d.price <= toPrice &&
+                                                          d.username != user_name &&
+                                                          d.school_id == schoolID);
+                        }
+
+                    }
+                    else
+                    {
+                        if (Category.Equals("All Categories"))
+                            postItems = context.PostItems;
+                        else
+                            postItems = context.PostItems.Where(d =>
+                                                         d.username != user_name &&
+                                                         d.school_id == schoolID);
+                    }
+                    if (HasImage)
+                    {
+                        postItems = postItems.Where(d => d.photo_path_id.HasValue);
+                    }
+
+                    
+
+                    // Count
+                    var count = postItems.Count();
+                    iDisplayRecords += count;
+                    totalRecords += count;
+
+                    // Search
+                    if (!string.IsNullOrEmpty(Search))
+                    {
+                        postItems = postItems.Where(s =>
+                                                s.title.Contains(Search) ||
+                                                s.description.Contains(Search)
+                            );
+                    }
+                    List<PostItemModel> models = new List<PostItemModel>();
+                    foreach (PostItem post in postItems)
+                    {
+                        models.Add(PostItemModel.bindToModel(post));
+                    }
+                    //only search based off of our category
+                    if (SubCategory.Length < 1)
+                    {
+                        models = models.Where(d => d.category == Category).ToList();
+
+                    }
+                    //search off category & subcategory
+                    else
+                    {
+                        models = models.Where(d => d.category == Category && d.subCategory == SubCategory).ToList();
+                    }
+
+                    postItems = null;
+                    List < PostItem > pi = new List<PostItem>();
+                    foreach(PostItemModel post in models)
+                    {
+                        pi.Add(post.bindToPostItem());
+                    }
+                    postItems = pi.AsQueryable();
+                    // Order
+                    var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
+                    Expression<Func<PostItem, int>> intOrdering = (sortInteger => sortInteger.price);
+                    Expression<Func<PostItem, DateTime>> dateOrdering = (sortDate => sortDate.post_date);
+
+
+                    var sortDirection = Request["sSortDir_0"]; // asc or desc
+                    if (sortColumnIndex == 2)
+                    {
+                        if (sortDirection == "asc")
+                        {
+                            postItems = postItems.OrderBy(intOrdering);
+                        }
+                        else
+                        {
+                            postItems = postItems.OrderByDescending(intOrdering);
+                        }
+                    }
+                    else
+                    {
+                        postItems = postItems.OrderBy(dateOrdering);
+                    }
+
+
+
+
+                    // Project
+                    result.AddRange(postItems
+                                        .ToList()
+                                        .Select(d => new PostItemTableModel
+                                        {
+                                            PhotoPath = PostItemService.GetFirstPhotoPath(d),
+                                            Title = d.title.ToString(),
+                                            Price = d.price.ToString(),
+                                            Username = d.username,
+                                        })
+                                        .ToList()
+                                    );
+                }
                 return Json(new
                 {
                     sEcho = param.sEcho,

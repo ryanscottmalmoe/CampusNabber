@@ -5,12 +5,29 @@
 
 
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-2">
 
-            <h2>Start Nabbin'</h2>
+            <h3>Start Nabbin'</h3>
         </div>
-        <div class="col-md-3">
-            <h2><a href="@Url.Action("Create", "PostItems", new { userId = Model.user_name})" >Create Post</a></h2>
+        <div class="col-md-8">
+            @using (Html.BeginForm("AddAdditionalSchools", "MarketPlace", FormMethod.Post, new { @id = "nonHover" }))
+            {
+
+
+                for (int i = 0; i < Model.selectSchool.Count(); i++)
+                {
+                    @Html.CheckBoxFor(model => model.selectSchool[i])
+                    @Html.DisplayFor(model => Model.otherSchools[i])
+
+                }
+
+                <input type="submit" value="Submit" />
+
+
+            }
+        </div>
+        <div class="col-md-2">
+            <h3><a href="@Url.Action("Create", "PostItems", new { userId = Model.user_name})" >Create Post</a></h3>
         </div>
     </div>
 
@@ -30,25 +47,6 @@
 
 
 <div class="row">
-
-    <div class="col-md-2">
-        @using (Html.BeginForm("AddAdditionalSchools", "MarketPlace", FormMethod.Post, new {@id = "nonHover" }))
-        {
-
-
-            for(int i =0; i < Model.selectSchool.Count() ; i++)
-            {
-                @Html.CheckBoxFor(model=> model.selectSchool[i])
-                @Html.DisplayFor(model => Model.otherSchools[i])
-                
-            }
-
-            <input type="submit" value="Submit" />
-
-
-        }
-
-    </div>
     <div class="col-md-2">
         @{ 
             var schoolnames = "";
@@ -62,23 +60,27 @@
 
         }
         <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
-                                 {
-                                     Categories = Model.Categories,
-                                     Posts = Model.Posts,
-                                     CategoryNames = Model.CategoryNames,
-                                     numPosts = Model.numPosts,
-                                     displayRange = Model.displayRange,
-                                     rangeFrom = Model.rangeFrom,
-                                     rangeTo = Model.rangeTo,
-                                     school_id = Model.school_id,
-                                     schools= schoolnames,
-                                     user_name = Model.user_name,
-                                     userId = Model.userId,
-                                     categoryToDisplay = 0,
-                                     otherSchools = Model.otherSchools,
-                                     school_names = Model.school_names
+                                 {Categories = Model.Categories,
+                                             Posts = Model.Posts,
+                                             CategoryNames = Model.CategoryNames,
+                                             numPosts = Model.numPosts,
+                                             displayRange = Model.displayRange,
+                                             rangeFrom = Model.rangeFrom,
+                                             rangeTo = Model.rangeTo,
+                                             school_id = Model.school_id,
+                                             schools = schoolnames,
+                                     selectSchool = Model.selectSchool,
+                                     secondary_schools_to_display=Model.secondary_schools_to_display,
+                                             user_name = Model.user_name,
+                                             userId = Model.userId,
+                                             categoryToDisplay = 0,
+                                             otherSchools = Model.otherSchools,
+                                     school_names = Model.school_names,
+                                     subCategoryToDisplay=Model.subCategoryToDisplay
+
 
                                  })">
+
     @Model.CategoryNames[0]
 
 </a>
@@ -86,14 +88,16 @@
             <tbody>
                 @{
                     int j = 1;
-                    for (int i = 0; i < Model.CategoriesToDisplay[0].Count; i++)
+                    for (int i = 0; i < Model.SubCategoryNames[0].Count; i++)
                     {
-                        var element = Model.CategoriesToDisplay[0][i];
+                        //    var element = Model.SubCategoryNames[0][i];
                         <tr>
                             <td>
-                                <a class ="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[0]@j">
+                                @*<a class ="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[0]@j">
 
-                                </a>
+    </a>
+                                *@
+                                @Model.SubCategoryNames[0].ElementAt(i)
                             </td>
                         </tr>
                         j++;
@@ -111,8 +115,7 @@
 
             <div class="col-md-2">
                 <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
-                                         {
-                                             Categories = Model.Categories,
+                                         {Categories = Model.Categories,
                                              Posts = Model.Posts,
                                              CategoryNames = Model.CategoryNames,
                                              numPosts = Model.numPosts,
@@ -121,11 +124,15 @@
                                              rangeTo = Model.rangeTo,
                                              school_id = Model.school_id,
                                              schools = schoolnames,
+                                     selectSchool = Model.selectSchool,
+                                     secondary_schools_to_display=Model.secondary_schools_to_display,
                                              user_name = Model.user_name,
                                              userId = Model.userId,
                                              categoryToDisplay = 1,
                                              otherSchools = Model.otherSchools,
-                                     school_names = Model.school_names
+                                     school_names = Model.school_names,
+                                     subCategoryToDisplay=Model.subCategoryToDisplay
+                                             
                 })">
                     @Model.CategoryNames[1]
                 </a>
@@ -133,14 +140,15 @@
                     <tbody>
                         @{
                             j = 1;
-                            for (int i = 0; i < Model.CategoriesToDisplay[1].Count; i++)
+                            for (int i = 0; i < Model.SubCategoryNames[1].Count; i++)
                             {
-                                var element = Model.CategoriesToDisplay[1][i];
+                                //var element = Model.CategoriesToDisplay[1][i];
                                 <tr>
                                     <td>
-                                        <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[1]@j">
+                                        @*<a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[1]@j">
 
-                                        </a>
+    </a>*@
+                                        @Model.SubCategoryNames[1].ElementAt(i)
                                     </td>
                                 </tr>
                                 j++;
@@ -163,12 +171,15 @@
                         rangeFrom = Model.rangeFrom,
                         rangeTo = Model.rangeTo,
                         school_id = Model.school_id,
+                        secondary_schools_to_display=Model.secondary_schools_to_display,
+                        selectSchool = Model.selectSchool,
                         schools= schoolnames,
                         user_name = Model.user_name,
                         userId = Model.userId,
                         categoryToDisplay = 2,
                         otherSchools = Model.otherSchools,
-                                     school_names = Model.school_names
+                                     school_names = Model.school_names,
+                                     subCategoryToDisplay=Model.subCategoryToDisplay
                 })">
             @Model.CategoryNames[2]
         </a>
@@ -177,14 +188,16 @@
             <tbody>
                 @{
                     j = 1;
-                    for (int i = 0; i < Model.CategoriesToDisplay[2].Count; i++)
+                    for (int i = 0; i < Model.SubCategoryNames[2].Count; i++)
                     {
-                        var element = Model.CategoriesToDisplay[2][i];
+                        //var element = Model.CategoriesToDisplay[2][i];
                         <tr>
                             <td>
-                                <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[2]@j">
+                                @*
+    <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[2]@j">
 
-                                </a>
+    </a>*@
+                                @Model.SubCategoryNames[2].ElementAt(i)
                             </td>
                         </tr>
                         j++;
@@ -212,9 +225,12 @@
                                              schools= schoolnames,
                                              user_name = Model.user_name,
                                              userId = Model.userId,
+                                            secondary_schools_to_display=Model.secondary_schools_to_display,
                                              categoryToDisplay = 3,
                                              otherSchools = Model.otherSchools,
-                                     school_names = Model.school_names
+                                     school_names = Model.school_names,
+                                     selectSchool = Model.selectSchool,
+                                     subCategoryToDisplay=Model.subCategoryToDisplay
                                          })">
                     @Model.CategoryNames[3]
                 </a>
@@ -222,14 +238,15 @@
                     <tbody>
                         @{
                             j = 1;
-                            for (int i = 0; i < Model.CategoriesToDisplay[3].Count; i++)
+                            for (int i = 0; i < Model.SubCategoryNames[3].Count; i++)
                             {
-                                var element = Model.CategoriesToDisplay[3][i];
+                                //var element = Model.CategoriesToDisplay[3][i];
                                 <tr>
                                     <td>
-                                        <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[3]@j">
+                                      @*  <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[3]@j">
 
-                                        </a>
+    </a>*@
+                                        @Model.SubCategoryNames[3].ElementAt(i)
                                     </td>
                                 </tr>
                                 j++;
@@ -240,50 +257,100 @@
                 </table>
 
             </div>
-    <div class="col-md-2 addSpace">
-        
-    </div>
 
+    <div class="col-md-2">
+        <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
+                                         {
+                                             Categories = Model.Categories,
+                                             Posts = Model.Posts,
+                                             CategoryNames = Model.CategoryNames,
+                                             numPosts = Model.numPosts,
+                                             displayRange = Model.displayRange,
+                                             rangeFrom = Model.rangeFrom,
+                                             rangeTo = Model.rangeTo,
+                                             school_id = Model.school_id,
+                                             schools= schoolnames,
+                                             user_name = Model.user_name,
+                                             userId = Model.userId,
+                                             categoryToDisplay = 4,
+                                             secondary_schools_to_display=Model.secondary_schools_to_display,
+                                             otherSchools = Model.otherSchools,
+                                     school_names = Model.school_names,
+                                     selectSchool = Model.selectSchool,
+                                     subCategoryToDisplay=Model.subCategoryToDisplay
+                                         })">
+            @Model.CategoryNames[4]
+            </a>
+
+        <table class="table table-borderless" id="displayTable">
+            <tbody>
+                @{
+                    j = 1;
+                    for (int i = 0; i < Model.SubCategoryNames[4].Count; i++)
+                    {
+                        //var element = Model.CategoriesToDisplay[4][i];
+                        <tr>
+                            <td>
+                                @*
+                                <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[4]@j">
+
+                                </a>*@
+                                @Model.SubCategoryNames[4].ElementAt(i)
+                            </td>
+                        </tr>
+                        j++;
+                    }
+
+                }
+            </tbody>
+        </table>
 
 </div>
 
+    <div class="col-md-2 addSpace">
+        
+    </div>
+    
 
-<script>
-    var data = function () { return @Html.Raw(Json.Encode(Model)); }();
-    for(var i = 0; i < 4; i ++)
-    {
-        for(var j = 0; j < data.CategoriesToDisplay[i].length; j ++)
+</div>
+
+@*
+    <script>
+        var data = function () { return @Html.Raw(Json.Encode(Model)); }();
+        for(var i = 0; i < 4; i ++)
         {
-            var element = data.CategoriesToDisplay[i][j];
-            // alert(element.title + " " + element.price);
-            debugger;
-            var tar = $('#' + data.CategoryNames[i]+(j+1));
-            var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
-            $(tar).attr("href", url);
-            $(tar).text(setTag(element.school_name) + element.title + " $" + element.price);
+            for(var j = 0; j < data.CategoriesToDisplay[i].length; j ++)
+            {
+                var element = data.CategoriesToDisplay[i][j];
+                // alert(element.title + " " + element.price);
+                debugger;
+                var tar = $('#' + data.CategoryNames[i]+(j+1));
+                var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
+                $(tar).attr("href", url);
+                $(tar).text(setTag(element.school_name) + element.title + " $" + element.price);
+
+
+            }
 
 
         }
 
-
-    }
-
-    function setTag(school_name)
-    {
-        var token = "";
-        if (school_name === "Eastern Washington University")
-            token += "[EWU]";
-        else if (school_name === "Washington State University")
-            token += "[WSU]";
-        else if (school_name === "Gonzaga")
-            token += "[GU]";
-        else if (school_name === "Whitworth")
-            token += "[WU]";
-        return token;
-    }
+        function setTag(school_name)
+        {
+            var token = "";
+            if (school_name === "Eastern Washington University")
+                token += "[EWU]";
+            else if (school_name === "Washington State University")
+                token += "[WSU]";
+            else if (school_name === "Gonzaga")
+                token += "[GU]";
+            else if (school_name === "Whitworth")
+                token += "[WU]";
+            return token;
+        }
 
 
-
+*@
 
 
 </script>
