@@ -61,12 +61,7 @@ namespace CampusNabber.Controllers
 
         public ActionResult Details(AdModel adModel)
         {
-            //if(id == null)
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //Ad ad = db.Ads.Where(x => x.object_id == id).First();
-            //if(ad == null)
-            //    return HttpNotFound();
-            //AdModel adModel = AdModel.BindToAdModel(ad);
+            ViewBag.firstPhotoPath = AdService.GetFirstPhotoPath(adModel.BindAd());
             return View(adModel);
         }
 
