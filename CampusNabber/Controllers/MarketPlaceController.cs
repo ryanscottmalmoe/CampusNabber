@@ -152,7 +152,7 @@ namespace CampusNabber.Controllers
 
                 // Count
                 var count = postItems.Count();
-                var iDisplayRecords = count;
+                var iDisplayRecords = param.iDisplayLength;
                 var totalRecords = count;
                 
                 // Search
@@ -191,12 +191,17 @@ namespace CampusNabber.Controllers
 
                 var result = new List<PostItemTableModel>();
 
+                // Skip and take
+                postItems = postItems
+                            .Skip(param.iDisplayStart)
+                            .Take(param.iDisplayLength);
 
                 // Project
                 result.AddRange(postItems
                                     .ToList()
                                     .Select(d => new PostItemTableModel
                                     {
+                                        PostItemID = d.object_id,
                                         PhotoPath = PostItemService.GetFirstPhotoPath(d),
                                         Title = d.title.ToString(),
                                         Price = d.price.ToString(),
@@ -204,6 +209,7 @@ namespace CampusNabber.Controllers
                                     })
                                     .ToList()
                                 );
+
 
                 return Json(new
                 {

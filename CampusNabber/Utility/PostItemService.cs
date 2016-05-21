@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,15 +19,35 @@ namespace CampusNabber.Utility
 {
     abstract class PostItemService
     {
-        private static readonly string _awsAccessKey = "AKIAJ4CAE6M72TYTV2KA";
-        private static readonly string _awsSecretKey = "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";
+        private static string _awsAccessKey = "";
+        private static string _awsSecretKey = "";
         private static readonly string _bucketName = "campusnabberphotos";
 
         private static CampusNabberEntities db = new CampusNabberEntities();
 
+        public static void getAWSCreds()
+        {
+            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            try
+            {   // Open the text file using a stream reader.
+                using (StreamReader sr = new StreamReader(desktop + "awscreds.txt"))
+                {
+                    // Read the stream to a string, and write the string to the console.
+                    String line = sr.ReadToEnd();
+                    _awsAccessKey = sr.ReadLine();
+                    _awsSecretKey = sr.ReadLine();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The file could not be read:");
+                Console.WriteLine(e.Message);
+            }
+        }
 
         public static void DeleteS3Photos(PostItemModel postItem)
         {
+            getAWSCreds();
             List<string> photoStrings = GetS3Photos(postItem);
             foreach (string photo in photoStrings)
             {
@@ -53,6 +74,7 @@ namespace CampusNabber.Utility
         /// </summary>
         public static string GetFirstPhotoPath(PostItem postItem)
         {
+            getAWSCreds();
             if (!postItem.photo_path_id.HasValue)
                 return "/Content/images/Lloyd_Gibson_aka_pedo.jpg";
             try
@@ -73,6 +95,7 @@ namespace CampusNabber.Utility
         /// </summary>
         public static List<string> GetS3Photos(PostItemModel postItem)
         {
+            getAWSCreds();
             PostItemPhotos photos = db.PostItemPhotos.Find(postItem.photo_path_id);
             List<string> photosList = new List<string>();
             if (photos.num_photos == 0)
@@ -90,6 +113,7 @@ namespace CampusNabber.Utility
         /// <param name="postItemID"> This associates this posting to the current user</param>
         public static void StoreS3Photos(HttpPostedFileBase[] images, PostItem postItem)
         {
+            getAWSCreds();
             PostItemPhotos itemPhotos = new PostItemPhotos();
             itemPhotos.object_id = (Guid)postItem.photo_path_id;
             int imageCounter = 1;
@@ -234,20 +258,5 @@ namespace CampusNabber.Utility
                
             }
         }
-
-        /*
-        public static void setMissingFields(PostItem postItem, ApplicationUserManager userManager)
-        {
-            if(postItem.username == null)
-            {
-                throw new Exception();
-            }
-            postItem.post_date = System.DateTime.Today;
-            var user = userManager.FindByName(postItem.username).school_name;
-            postItem.school_id = userManager.FindByName(postItem.username).school_name;
-            postItem.object_id = Guid.NewGuid();
-            postItem.photo_path_id = Guid.NewGuid();
-        }
-        */
     }
 }

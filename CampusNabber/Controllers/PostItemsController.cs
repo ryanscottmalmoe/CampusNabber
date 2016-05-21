@@ -28,11 +28,6 @@ namespace CampusNabber.Controllers
     [Authorize]
     public class PostItemsController : Controller
     {
-
-
-
-
-
         ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
         {
