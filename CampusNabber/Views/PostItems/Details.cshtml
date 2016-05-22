@@ -52,6 +52,8 @@
                 <dd> @Html.DisplayFor(model => model.price) </dd>
                 <dt> Category </dt>
                 <dd> @Html.DisplayFor(model => model.category) </dd>
+                <dt> Sub Category </dt>
+                <dd> @Html.DisplayFor(model => model.subCategory) </dd>
                 <dt> Description </dt>
                 <dd> @Html.DisplayFor(model => model.description) </dd>
 
@@ -64,7 +66,9 @@
         </div>
 
         <div class="col-md-4">
-            @if (ViewBag.HASPHOTO)
+            @if (ViewBag.HASPHOTO != null)
+            { 
+            if (ViewBag.HASPHOTO)
             {
                 <div id="myCarousel" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
@@ -118,7 +122,7 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-                                }
+                                    } }
         </div>
                             <div class="col-md-2 addSpace red">
 
