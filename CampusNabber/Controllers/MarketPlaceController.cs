@@ -162,7 +162,7 @@ namespace CampusNabber.Controllers
                                     }
                 
                                  IQueryable < PostItem > postItems = null;
-                IQueryable < PostItem > temp = null;
+                //IQueryable < PostItem > temp = null;
                 var totalRecords = 0;
                 var result = new List<PostItemTableModel>();
                 var iDisplayRecords = 0;

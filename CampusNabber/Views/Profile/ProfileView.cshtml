@@ -57,6 +57,7 @@
                     <th>Title</th>
                     <th>Price</th>
                     <th>Category</th>
+                    <th>Sub Category</th>
                     <th>Post Date</th>
                 </tr>
             </thead>
@@ -67,14 +68,18 @@
                         <td>
                             <a href="@Url.Action("Edit", "PostItems", new { id = element.object_id })">
                                 Edit
+                                </a>
                                 <a href="@Url.Action("Delete", "PostItems", new { id = element.object_id})">
                                     Delete
+                                    </a>
                                     <a href="@Url.Action("Details", "PostItems", new { id = element.object_id})">
                                         View
+                                        </a>
                         </td>
                         <td>@Html.DisplayFor(m => element.title)</td>
                         <td>$@Html.DisplayFor(m => element.price)</td>
                         <td>@Html.DisplayFor(m => element.category)</td>
+                        <td>@Html.DisplayFor(m => element.subCategory)</td>
                         <td>@Html.DisplayFor(m => element.post_date)</td>
                     </tr>
                 }
