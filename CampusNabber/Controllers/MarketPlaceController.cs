@@ -283,6 +283,7 @@ namespace CampusNabber.Controllers
                                         .ToList()
                                         .Select(d => new PostItemTableModel
                                         {
+                                            PostItemID = d.object_id,
                                             PhotoPath = PostItemService.GetFirstPhotoPath(d),
                                             Title = d.title.ToString(),
                                             Price = d.price.ToString(),
