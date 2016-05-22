@@ -1,8 +1,16 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    
 }
 
+a{
+    color:black;
+}
+
+a:hover{
+    color:black;
+}
 /* Ad side banner*/
 .banner {
     float: right;
