@@ -4,6 +4,69 @@
 }
 
 
+@helper createLinkTo(int? category, int? subCategory, String schoolnames)
+    {
+if(subCategory == null)
+{ 
+    <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
+                                 {Categories = Model.Categories,
+                                             Posts = Model.Posts,
+                                             CategoryNames = Model.CategoryNames,
+                                             numPosts = Model.numPosts,
+                                             displayRange = Model.displayRange,
+                                             rangeFrom = Model.rangeFrom,
+                                             rangeTo = Model.rangeTo,
+                                             school_id = Model.school_id,
+                                             schools = schoolnames,
+                                     selectSchool = Model.selectSchool,
+                                     secondary_schools_to_display=Model.secondary_schools_to_display,
+                                             user_name = Model.user_name,
+                                             userId = Model.userId,
+                                             categoryToDisplay = (int)category,
+                                             otherSchools = Model.otherSchools,
+                                     school_names = Model.school_names,
+                                     subCategoryToDisplay=Model.subCategoryToDisplay
+
+
+                                 })">
+
+        @Model.CategoryNames[(int)category]
+
+    </a>
+}
+else
+{
+        <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
+                                 {Categories = Model.Categories,
+                                             Posts = Model.Posts,
+                                             CategoryNames = Model.CategoryNames,
+                                             numPosts = Model.numPosts,
+                                             displayRange = Model.displayRange,
+                                             rangeFrom = Model.rangeFrom,
+                                             rangeTo = Model.rangeTo,
+                                             school_id = Model.school_id,
+                                             schools = schoolnames,
+                                     selectSchool = Model.selectSchool,
+                                     secondary_schools_to_display=Model.secondary_schools_to_display,
+                                             user_name = Model.user_name,
+                                             userId = Model.userId,
+                                             categoryToDisplay = (int)category,
+                                             subCategoryToDisplay = (int)subCategory,
+                                             otherSchools = Model.otherSchools,
+                                     school_names = Model.school_names
+                                     
+
+
+                                 })">
+
+            @Model.SubCategoryNames[(int)category].ElementAt((int)subCategory)
+
+        </a>
+
+}
+
+}
+
     <div class="row">
         <div class="col-md-2">
 
@@ -48,9 +111,10 @@
 
 <div class="row">
     <div class="col-md-2">
-        @{ 
+
+        @{
             var schoolnames = "";
-            for(int i =0; i < Model.school_names.Count; i ++)
+            for (int i = 0; i < Model.school_names.Count; i++)
             {
                 schoolnames += Model.school_names[i];
                 if (i + 1 != Model.school_names.Count)
@@ -59,31 +123,8 @@
             }
 
         }
-        <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
-                                 {Categories = Model.Categories,
-                                             Posts = Model.Posts,
-                                             CategoryNames = Model.CategoryNames,
-                                             numPosts = Model.numPosts,
-                                             displayRange = Model.displayRange,
-                                             rangeFrom = Model.rangeFrom,
-                                             rangeTo = Model.rangeTo,
-                                             school_id = Model.school_id,
-                                             schools = schoolnames,
-                                     selectSchool = Model.selectSchool,
-                                     secondary_schools_to_display=Model.secondary_schools_to_display,
-                                             user_name = Model.user_name,
-                                             userId = Model.userId,
-                                             categoryToDisplay = 0,
-                                             otherSchools = Model.otherSchools,
-                                     school_names = Model.school_names,
-                                     subCategoryToDisplay=Model.subCategoryToDisplay
-
-
-                                 })">
-
-    @Model.CategoryNames[0]
-
-</a>
+        
+        @createLinkTo(0, null, schoolnames)
         <table class="table table-borderless" id="displayTable">
             <tbody>
                 @{
@@ -97,7 +138,8 @@
 
     </a>
                                 *@
-                                @Model.SubCategoryNames[0].ElementAt(i)
+                                @createLinkTo(0, i, schoolnames)
+                                
                             </td>
                         </tr>
                         j++;
@@ -114,28 +156,7 @@
 
 
             <div class="col-md-2">
-                <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
-                                         {Categories = Model.Categories,
-                                             Posts = Model.Posts,
-                                             CategoryNames = Model.CategoryNames,
-                                             numPosts = Model.numPosts,
-                                             displayRange = Model.displayRange,
-                                             rangeFrom = Model.rangeFrom,
-                                             rangeTo = Model.rangeTo,
-                                             school_id = Model.school_id,
-                                             schools = schoolnames,
-                                     selectSchool = Model.selectSchool,
-                                     secondary_schools_to_display=Model.secondary_schools_to_display,
-                                             user_name = Model.user_name,
-                                             userId = Model.userId,
-                                             categoryToDisplay = 1,
-                                             otherSchools = Model.otherSchools,
-                                     school_names = Model.school_names,
-                                     subCategoryToDisplay=Model.subCategoryToDisplay
-                                             
-                })">
-                    @Model.CategoryNames[1]
-                </a>
+                @createLinkTo(1, null, schoolnames)
                 <table class="table table-borderless" id="displayTable">
                     <tbody>
                         @{
@@ -148,7 +169,7 @@
                                         @*<a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[1]@j">
 
     </a>*@
-                                        @Model.SubCategoryNames[1].ElementAt(i)
+                                        @createLinkTo(1, i, schoolnames)
                                     </td>
                                 </tr>
                                 j++;
@@ -161,28 +182,7 @@
 
             </div>
     <div class="col-md-2">
-        <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
-                    {
-                        Categories = Model.Categories,
-                        Posts = Model.Posts,
-                        CategoryNames = Model.CategoryNames,
-                        numPosts = Model.numPosts,
-                        displayRange = Model.displayRange,
-                        rangeFrom = Model.rangeFrom,
-                        rangeTo = Model.rangeTo,
-                        school_id = Model.school_id,
-                        secondary_schools_to_display=Model.secondary_schools_to_display,
-                        selectSchool = Model.selectSchool,
-                        schools= schoolnames,
-                        user_name = Model.user_name,
-                        userId = Model.userId,
-                        categoryToDisplay = 2,
-                        otherSchools = Model.otherSchools,
-                                     school_names = Model.school_names,
-                                     subCategoryToDisplay=Model.subCategoryToDisplay
-                })">
-            @Model.CategoryNames[2]
-        </a>
+        @createLinkTo(2, null, schoolnames)
 
         <table class="table table-borderless" id="displayTable">
             <tbody>
@@ -197,7 +197,7 @@
     <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[2]@j">
 
     </a>*@
-                                @Model.SubCategoryNames[2].ElementAt(i)
+                                @createLinkTo(2, i, schoolnames)
                             </td>
                         </tr>
                         j++;
@@ -212,28 +212,7 @@
 
 
             <div class="col-md-2">
-                <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
-                                         {
-                                             Categories = Model.Categories,
-                                             Posts = Model.Posts,
-                                             CategoryNames = Model.CategoryNames,
-                                             numPosts = Model.numPosts,
-                                             displayRange = Model.displayRange,
-                                             rangeFrom = Model.rangeFrom,
-                                             rangeTo = Model.rangeTo,
-                                             school_id = Model.school_id,
-                                             schools= schoolnames,
-                                             user_name = Model.user_name,
-                                             userId = Model.userId,
-                                            secondary_schools_to_display=Model.secondary_schools_to_display,
-                                             categoryToDisplay = 3,
-                                             otherSchools = Model.otherSchools,
-                                     school_names = Model.school_names,
-                                     selectSchool = Model.selectSchool,
-                                     subCategoryToDisplay=Model.subCategoryToDisplay
-                                         })">
-                    @Model.CategoryNames[3]
-                </a>
+                @createLinkTo(3, null, schoolnames)
                 <table class="table table-borderless" id="displayTable">
                     <tbody>
                         @{
@@ -246,7 +225,7 @@
                                       @*  <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[3]@j">
 
     </a>*@
-                                        @Model.SubCategoryNames[3].ElementAt(i)
+                                        @createLinkTo(3, i, schoolnames)
                                     </td>
                                 </tr>
                                 j++;
@@ -259,28 +238,7 @@
             </div>
 
     <div class="col-md-2">
-        <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
-                                         {
-                                             Categories = Model.Categories,
-                                             Posts = Model.Posts,
-                                             CategoryNames = Model.CategoryNames,
-                                             numPosts = Model.numPosts,
-                                             displayRange = Model.displayRange,
-                                             rangeFrom = Model.rangeFrom,
-                                             rangeTo = Model.rangeTo,
-                                             school_id = Model.school_id,
-                                             schools= schoolnames,
-                                             user_name = Model.user_name,
-                                             userId = Model.userId,
-                                             categoryToDisplay = 4,
-                                             secondary_schools_to_display=Model.secondary_schools_to_display,
-                                             otherSchools = Model.otherSchools,
-                                     school_names = Model.school_names,
-                                     selectSchool = Model.selectSchool,
-                                     subCategoryToDisplay=Model.subCategoryToDisplay
-                                         })">
-            @Model.CategoryNames[4]
-            </a>
+        @createLinkTo(4, null, schoolnames)
 
         <table class="table table-borderless" id="displayTable">
             <tbody>
@@ -295,7 +253,7 @@
                                 <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[4]@j">
 
                                 </a>*@
-                                @Model.SubCategoryNames[4].ElementAt(i)
+                                @createLinkTo(4, i, schoolnames)
                             </td>
                         </tr>
                         j++;
