@@ -1,24 +1,18 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    
+
     <ul class="nav navbar-nav navbar-right">
+
+        @if (User.IsInRole("Admin"))
+        {
+            <li>@Html.ActionLink("Admin Tools", "AdminTools", "Admin")</li>
+        }
+        <li>@Html.ActionLink("Profile", "ProfileView", "Profile", new { failedPost = "false" }, null)</li>
+        <li>@Html.ActionLink("About", "About", "Home")</li>
+        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
         <li>
-
-            @using (Html.BeginForm("CategoryView", "MarketPlace",  FormMethod.Post, new { @class = "navbar-form", @id = "searchForm" }))
-            {
-
-                <div class="input-group" id="setWidth">
-                    @Html.TextBox("Search", null , new { @class = "form-control text-box searchBarCustomWidth", @placeholder="Search The MarketPlace"})
-                    <span class="input-group-btn">
-                        <input class="btn btn-default" id="buttonText" type="submit" value="Search">
-                    </span>
-                </div>
-
-            }
-        </li>
-        <li>
-            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class= "formFix pull-right" }))
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "formFix pull-right" }))
 
             {
                 @Html.AntiForgeryToken()
@@ -27,14 +21,16 @@
 
             }
         </li>
-        </ul>
+
+    </ul>
 
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("About", "About", "Home")</li>
+        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }
-

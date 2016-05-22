@@ -29,7 +29,7 @@ namespace CampusNabber.Controllers
 
         public ActionResult Index()
         {
-            /*
+            
             if(User.Identity.IsAuthenticated && Session["Color"] == null)
             {
                 ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
@@ -37,7 +37,7 @@ namespace CampusNabber.Controllers
                 Session["Color"] = school.main_hex_color;
 
             }
-            */
+            
             return View();
         }
 

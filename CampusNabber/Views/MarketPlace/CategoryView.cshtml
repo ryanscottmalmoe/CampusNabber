@@ -12,6 +12,16 @@
 
 <script type="text/javascript" src="~/Scripts/MarketView.js"></script>
 
+@{
+    var schoolnames = "";
+    for (int i = 0; i < Model.school_names.Count; i++)
+    {
+        schoolnames += Model.school_names[i];
+        if (i + 1 != Model.school_names.Count)
+        { schoolnames += ","; }
+
+    }
+}
 
 <body>
 
@@ -99,13 +109,17 @@
 
 
         <script>
+
+           // alert(schoolnames);
             function SearchPostItems() {
                 oTable.fnReloadAjax();
             }
+          
 
 
             var oTable;
             $(function () {
+               // debugger;
                 oTable = $('#PostItemTable').dataTable({
                     "sPaginationType": "full_numbers",
                     "bInfo": true,
@@ -128,7 +142,11 @@
                     "bInfo": false,
                     "sAjaxSource": "@Url.Action("GetPostItemData", "MarketPlace")",
                     "fnServerParams": function (aoData) {
-                        aoData.push({ name: "Category", value: '@Model.chosenCategory' },
+                        aoData.push(
+                            { name: "school_names", value: '@Model.schools' },
+                            { name: "user_name", value: '@Model.user_name' },
+                            { name: "Category", value: '@Model.chosenCategory' },
+                            { name: "SubCategory", value:'@Model.chosenSubCategory' },
                             { name: "Search", value: $('#searchInput').val() },
                             { name: "FromPrice", value: $('#fromPriceInput').val() },
                             { name: "ToPrice", value: $('#toPriceInput').val() },
@@ -165,7 +183,7 @@
             });
 
             function postItemSelected(id) {
-
+                debugger;
                var link = '@Url.Action("Details", "PostItems", new { id = "-1" })';
                 link = link.replace("-1", id);
                 window.location.href = link;

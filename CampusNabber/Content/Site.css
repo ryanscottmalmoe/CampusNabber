@@ -89,6 +89,10 @@ textarea {
      padding-left:25%;
  }
 
+ #nonHover:hover{
+
+ }
+
 
 
   @media (max-width: 1370px) {
