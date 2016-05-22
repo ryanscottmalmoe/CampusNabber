@@ -581,7 +581,6 @@ C:\Users\-Sapphire-\Desktop\CampusNabber\New folder\CampusNabber\CampusNabber\bi
 C:\Users\-Sapphire-\Desktop\CampusNabber\New folder\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csprojResolveAssemblyReference.cache
 C:\Users\-Sapphire-\Desktop\CampusNabber\New folder\CampusNabber\CampusNabber\obj\Debug\CampusNabber.dll
 C:\Users\-Sapphire-\Desktop\CampusNabber\New folder\CampusNabber\CampusNabber\obj\Debug\CampusNabber.pdb
-C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csprojResolveAssemblyReference.cache
 C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\bin\ApplicationInsights.config
 C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\bin\roslyn\csc.exe
 C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\bin\roslyn\csc.exe.config
@@ -682,3 +681,4 @@ C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\bin\Microsoft
 C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\obj\Debug\CampusNabber.dll
 C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\obj\Debug\CampusNabber.pdb
+C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csprojResolveAssemblyReference.cache

@@ -124,6 +124,7 @@ namespace CampusNabber.Controllers
                     categoriesDropdown = PostItemService.generateSubCategoryList("On Campus");
                     break;
             }
+
             return Json(new SelectList(categoriesDropdown, "Value", "Text"));
         }
 
@@ -156,7 +157,9 @@ namespace CampusNabber.Controllers
 
         //Post /PostItems/Create
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,category,subCategory")] PostItemModel postItemModel, HttpPostedFileBase[] images)
+        public ActionResult Create([Bind(Include = 
+        "object_id,username,school_name,post_date,price,title,description,photo_path_id,category,subCategory,social_flag")]
+        PostItemModel postItemModel, HttpPostedFileBase[] images)
         {
             PostItem postItem = null;
             if (ModelState.IsValid)
