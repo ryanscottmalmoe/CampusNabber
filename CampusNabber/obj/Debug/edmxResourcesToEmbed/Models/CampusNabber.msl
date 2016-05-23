@@ -124,5 +124,14 @@
         <ScalarProperty Name="Id" ColumnName="RoleId" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="CampusNabberModel.Category">
+        <MappingFragment StoreEntitySet="Categories">
+          <ScalarProperty Name="sub_category_name" ColumnName="sub_category_name" />
+          <ScalarProperty Name="category_name" ColumnName="category_name" />
+          <ScalarProperty Name="object_id" ColumnName="object_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

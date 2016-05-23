@@ -5,11 +5,12 @@ using System.Linq;
 using System.Web;
 using CampusNabber.Validation;
 
+
 namespace CampusNabber.Models
 {
     public class ProfileModel
     {
-        public virtual List<PostItem> Posts { get; set; }
+        public virtual List<PostItemModel> Posts { get; set; }
         public virtual ApplicationUser user { get; set; }
         public virtual string school_name { get; set; }
         public virtual Guid school_id { get; set; }
@@ -25,7 +26,12 @@ namespace CampusNabber.Models
 
         public void getProfilePosts(ApplicationUser user)
         {
-           Posts = db.PostItems.Where(p => p.username == user.UserName).ToList<PostItem>();
+           List<PostItem> _posts = db.PostItems.Where(p => p.username == user.UserName).ToList<PostItem>();
+            Posts = new List<PostItemModel>();
+            foreach(PostItem post in _posts)
+            {
+                Posts.Add(PostItemModel.bindToModel(post));
+            }
         }
 
 

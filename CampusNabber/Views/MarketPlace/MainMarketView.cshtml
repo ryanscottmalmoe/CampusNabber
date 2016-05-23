@@ -4,13 +4,93 @@
 }
 
 
-    <div class="row">
-        <div class="col-md-9">
+@helper createLinkTo(int? category, int? subCategory, String schoolnames)
+    {
+if(subCategory == null)
+{ 
+    <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
+                                 {Categories = Model.Categories,
+                                             Posts = Model.Posts,
+                                             CategoryNames = Model.CategoryNames,
+                                             numPosts = Model.numPosts,
+                                             displayRange = Model.displayRange,
+                                             rangeFrom = Model.rangeFrom,
+                                             rangeTo = Model.rangeTo,
+                                             school_id = Model.school_id,
+                                             schools = schoolnames,
+                                     selectSchool = Model.selectSchool,
+                                     secondary_schools_to_display=Model.secondary_schools_to_display,
+                                             user_name = Model.user_name,
+                                             userId = Model.userId,
+                                             categoryToDisplay = (int)category,
+                                             otherSchools = Model.otherSchools,
+                                     school_names = Model.school_names,
+                                     subCategoryToDisplay=Model.subCategoryToDisplay
 
-            <h2>Start Nabbin'      [@Model.SchoolToken]</h2>
+
+                                 })">
+
+        @Model.CategoryNames[(int)category]
+
+    </a>
+}
+else
+{
+        <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
+                                 {Categories = Model.Categories,
+                                             Posts = Model.Posts,
+                                             CategoryNames = Model.CategoryNames,
+                                             numPosts = Model.numPosts,
+                                             displayRange = Model.displayRange,
+                                             rangeFrom = Model.rangeFrom,
+                                             rangeTo = Model.rangeTo,
+                                             school_id = Model.school_id,
+                                             schools = schoolnames,
+                                     selectSchool = Model.selectSchool,
+                                     secondary_schools_to_display=Model.secondary_schools_to_display,
+                                             user_name = Model.user_name,
+                                             userId = Model.userId,
+                                             categoryToDisplay = (int)category,
+                                             subCategoryToDisplay = (int)subCategory,
+                                             otherSchools = Model.otherSchools,
+                                     school_names = Model.school_names
+                                     
+
+
+                                 })">
+
+            @Model.SubCategoryNames[(int)category].ElementAt((int)subCategory)
+
+        </a>
+
+}
+
+}
+
+    <div class="row">
+        <div class="col-md-2">
+
+            <h3>Start Nabbin'</h3>
         </div>
-        <div class="col-md-3">
-            <h2><a href="@Url.Action("Create", "PostItems", new { userId = Model.user_name})" >Create Post</a></h2>
+        <div class="col-md-8">
+            @using (Html.BeginForm("AddAdditionalSchools", "MarketPlace", FormMethod.Post, new { @id = "nonHover" }))
+            {
+
+
+                for (int i = 0; i < Model.selectSchool.Count(); i++)
+                {
+                    @Html.CheckBoxFor(model => model.selectSchool[i])
+                    @Html.DisplayFor(model => Model.otherSchools[i])
+
+                }
+
+                <input type="submit" value="Submit" />
+
+
+            }
+        </div>
+        <div class="col-md-2">
+            <h3><a href="@Url.Action("Create", "PostItems", new { userId = Model.user_name})" >Create Post</a></h3>
         </div>
     </div>
 
@@ -18,6 +98,7 @@
 @Html.EditorForModel()
     @section Scripts {
     <script type="text/javascript">
+        
        // var mainColor = '@Model.mainSchoolColor';
 
 
@@ -29,41 +110,36 @@
 
 
 <div class="row">
-
-    <div class="col-md-2 red">
-
-    </div>
     <div class="col-md-2">
 
-        <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
-                    {
-                        Categories = Model.Categories,
-                        Posts = Model.Posts,
-                        CategoryNames = Model.CategoryNames,
-                        numPosts = Model.numPosts,
-                        displayRange = Model.displayRange,
-                        rangeFrom = Model.rangeFrom,
-                        rangeTo = Model.rangeTo,
-                        school_id = Model.school_id,
-                        school_name = Model.school_name,
-                        user_name = Model.user_name,
-                        categoryToDisplay = 0
-                })">
-    @Model.CategoryNames[0]
+        @{
+            var schoolnames = "";
+            for (int i = 0; i < Model.school_names.Count; i++)
+            {
+                schoolnames += Model.school_names[i];
+                if (i + 1 != Model.school_names.Count)
+                { schoolnames += ","; }
 
-</a>
+            }
+
+        }
+        
+        @createLinkTo(0, null, schoolnames)
         <table class="table table-borderless" id="displayTable">
             <tbody>
                 @{
                     int j = 1;
-                    for (int i = 0; i < Model.Categories[0].Count; i++)
+                    for (int i = 0; i < Model.SubCategoryNames[0].Count; i++)
                     {
-                        var element = Model.Categories[0][i];
+                        //    var element = Model.SubCategoryNames[0][i];
                         <tr>
                             <td>
-                                <a class ="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[0]@j">
+                                @*<a class ="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[0]@j">
 
-                                </a>
+    </a>
+                                *@
+                                @createLinkTo(0, i, schoolnames)
+                                
                             </td>
                         </tr>
                         j++;
@@ -80,34 +156,20 @@
 
 
             <div class="col-md-2">
-                <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
-                    {
-                        Categories = Model.Categories,
-                        Posts = Model.Posts,
-                        CategoryNames = Model.CategoryNames,
-                        numPosts = Model.numPosts,
-                        displayRange = Model.displayRange,
-                        rangeFrom = Model.rangeFrom,
-                        rangeTo = Model.rangeTo,
-                        school_id = Model.school_id,
-                        school_name = Model.school_name,
-                        user_name = Model.user_name,
-                        categoryToDisplay = 1
-                })">
-                    @Model.CategoryNames[1]
-                </a>
+                @createLinkTo(1, null, schoolnames)
                 <table class="table table-borderless" id="displayTable">
                     <tbody>
                         @{
                             j = 1;
-                            for (int i = 0; i < Model.Categories[1].Count; i++)
+                            for (int i = 0; i < Model.SubCategoryNames[1].Count; i++)
                             {
-                                var element = Model.Categories[1][i];
+                                //var element = Model.CategoriesToDisplay[1][i];
                                 <tr>
                                     <td>
-                                        <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[1]@j">
+                                        @*<a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[1]@j">
 
-                                        </a>
+    </a>*@
+                                        @createLinkTo(1, i, schoolnames)
                                     </td>
                                 </tr>
                                 j++;
@@ -120,35 +182,22 @@
 
             </div>
     <div class="col-md-2">
-        <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
-                    {
-                        Categories = Model.Categories,
-                        Posts = Model.Posts,
-                        CategoryNames = Model.CategoryNames,
-                        numPosts = Model.numPosts,
-                        displayRange = Model.displayRange,
-                        rangeFrom = Model.rangeFrom,
-                        rangeTo = Model.rangeTo,
-                        school_id = Model.school_id,
-                        school_name = Model.school_name,
-                        user_name = Model.user_name,
-                        categoryToDisplay = 2
-                })">
-            @Model.CategoryNames[2]
-        </a>
+        @createLinkTo(2, null, schoolnames)
 
         <table class="table table-borderless" id="displayTable">
             <tbody>
                 @{
                     j = 1;
-                    for (int i = 0; i < Model.Categories[2].Count; i++)
+                    for (int i = 0; i < Model.SubCategoryNames[2].Count; i++)
                     {
-                        var element = Model.Categories[2][i];
+                        //var element = Model.CategoriesToDisplay[2][i];
                         <tr>
                             <td>
-                                <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[2]@j">
+                                @*
+    <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[2]@j">
 
-                                </a>
+    </a>*@
+                                @createLinkTo(2, i, schoolnames)
                             </td>
                         </tr>
                         j++;
@@ -163,34 +212,20 @@
 
 
             <div class="col-md-2">
-                <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
-                    {
-                        Categories = Model.Categories,
-                        Posts = Model.Posts,
-                        CategoryNames = Model.CategoryNames,
-                        numPosts = Model.numPosts,
-                        displayRange = Model.displayRange,
-                        rangeFrom = Model.rangeFrom,
-                        rangeTo = Model.rangeTo,
-                        school_id = Model.school_id,
-                        school_name = Model.school_name,
-                        user_name = Model.user_name,
-                        categoryToDisplay = 3
-                })">
-                    @Model.CategoryNames[3]
-                </a>
+                @createLinkTo(3, null, schoolnames)
                 <table class="table table-borderless" id="displayTable">
                     <tbody>
                         @{
                             j = 1;
-                            for (int i = 0; i < Model.Categories[3].Count; i++)
+                            for (int i = 0; i < Model.SubCategoryNames[3].Count; i++)
                             {
-                                var element = Model.Categories[3][i];
+                                //var element = Model.CategoriesToDisplay[3][i];
                                 <tr>
                                     <td>
-                                        <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[3]@j">
+                                      @*  <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[3]@j">
 
-                                        </a>
+    </a>*@
+                                        @createLinkTo(3, i, schoolnames)
                                     </td>
                                 </tr>
                                 j++;
@@ -201,50 +236,79 @@
                 </table>
 
             </div>
-    <div class="col-md-2 red addSpace">
-        
-    </div>
 
+    <div class="col-md-2">
+        @createLinkTo(4, null, schoolnames)
+
+        <table class="table table-borderless" id="displayTable">
+            <tbody>
+                @{
+                    j = 1;
+                    for (int i = 0; i < Model.SubCategoryNames[4].Count; i++)
+                    {
+                        //var element = Model.CategoriesToDisplay[4][i];
+                        <tr>
+                            <td>
+                                @*
+                                <a class="tenPoint" href="@Url.Action("Details", "PostItems", new { id = element.object_id })" id="@Model.CategoryNames[4]@j">
+
+                                </a>*@
+                                @createLinkTo(4, i, schoolnames)
+                            </td>
+                        </tr>
+                        j++;
+                    }
+
+                }
+            </tbody>
+        </table>
 
 </div>
 
+    <div class="col-md-2 addSpace">
+        
+    </div>
+    
 
-<script>
-    var data = function () { return @Html.Raw(Json.Encode(Model)); }();
-    for(var i = 0; i < 4; i ++)
-    {
-        for(var j = 0; j < data.Categories[i].length; j ++)
+</div>
+
+@*
+    <script>
+        var data = function () { return @Html.Raw(Json.Encode(Model)); }();
+        for(var i = 0; i < 4; i ++)
         {
-            var element = data.CategoriesToDisplay[i][j];
-            // alert(element.title + " " + element.price);
+            for(var j = 0; j < data.CategoriesToDisplay[i].length; j ++)
+            {
+                var element = data.CategoriesToDisplay[i][j];
+                // alert(element.title + " " + element.price);
+                debugger;
+                var tar = $('#' + data.CategoryNames[i]+(j+1));
+                var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
+                $(tar).attr("href", url);
+                $(tar).text(setTag(element.school_name) + element.title + " $" + element.price);
 
-            var tar = $('#' + data.CategoryNames[i]+(j+1));
-            var url = '@Url.Action("Details", "PostItems")?id=' + element.object_id;
-            $(tar).attr("href", url);
-            $(tar).text(setTag(element.school_name) + element.title + " $" + element.price);
-            
+
+            }
+
 
         }
 
-
-    }
-
-    function setTag(schoolName)
-    {
-        var token = "";
-        if (school_name.defaultValue === "Eastern Washington University")
-            token += "[EWU]";
-        else if (school_name.defaultValue === "Washington State University")
-            token += "[WSU]";
-        else if (school_name.defaultValue === "Gonzaga")
-            token += "[GU]";
-        else if (school_name.defaultValue === "Whitworth")
-            token += "[WU]";
-        return token;
-    }
+        function setTag(school_name)
+        {
+            var token = "";
+            if (school_name === "Eastern Washington University")
+                token += "[EWU]";
+            else if (school_name === "Washington State University")
+                token += "[WSU]";
+            else if (school_name === "Gonzaga")
+                token += "[GU]";
+            else if (school_name === "Whitworth")
+                token += "[WU]";
+            return token;
+        }
 
 
-
+*@
 
 
 </script>

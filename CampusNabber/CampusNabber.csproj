@@ -258,6 +258,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CampusNabber.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Category.cs">
+      <DependentUpon>CampusNabber.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
