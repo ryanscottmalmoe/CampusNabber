@@ -7,13 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-
-public partial class C__MigrationHistory1
+namespace CampusNabber.Models
 {
-    public string MigrationId { get; set; }
-    public string ContextKey { get; set; }
-    public byte[] Model { get; set; }
-    public string ProductVersion { get; set; }
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class C__MigrationHistory1
+    {
+        public string MigrationId { get; set; }
+        public string ContextKey { get; set; }
+        public byte[] Model { get; set; }
+        public string ProductVersion { get; set; }
+    }
 }

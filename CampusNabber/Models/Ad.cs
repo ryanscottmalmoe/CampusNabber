@@ -7,15 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-
-public partial class Ad
+namespace CampusNabber.Models
 {
-    public System.Guid object_id { get; set; }
-    public string company_name { get; set; }
-    public string photo_path_160x600 { get; set; }
-    public string photo_path_468x60 { get; set; }
-    public string photo_path_728x90 { get; set; }
-    public string photo_link { get; set; }
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class Ad
+    {
+        public System.Guid object_id { get; set; }
+        public string company_name { get; set; }
+        public string photo_path_160x600 { get; set; }
+        public string photo_path_468x60 { get; set; }
+        public string photo_path_728x90 { get; set; }
+        public string photo_link { get; set; }
+    }
 }

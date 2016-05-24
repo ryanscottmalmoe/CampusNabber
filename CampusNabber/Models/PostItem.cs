@@ -7,19 +7,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-
-public partial class PostItem
+namespace CampusNabber.Models
 {
-    public System.Guid object_id { get; set; }
-    public string username { get; set; }
-    public System.DateTime post_date { get; set; }
-    public short price { get; set; }
-    public string title { get; set; }
-    public string description { get; set; }
-    public string category { get; set; }
-    public Nullable<System.Guid> school_id { get; set; }
-    public Nullable<System.Guid> photo_path_id { get; set; }
-    public bool social_flag { get; set; }
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class PostItem
+    {
+        public System.Guid object_id { get; set; }
+        public string username { get; set; }
+        public System.DateTime post_date { get; set; }
+        public short price { get; set; }
+        public string title { get; set; }
+        public string description { get; set; }
+        public string category { get; set; }
+        public Nullable<System.Guid> school_id { get; set; }
+        public Nullable<System.Guid> photo_path_id { get; set; }
+        public bool social_flag { get; set; }
+    }
 }

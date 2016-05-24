@@ -19,7 +19,8 @@
         <AssociationConnector Association="CampusNabberModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="CampusNabberModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="CampusNabberModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="CampusNabberModel.Ad" Width="1.5" PointX="9.75" PointY="0.875" />
+        <EntityTypeShape EntityType="CampusNabberModel.Ad" Width="1.5" PointX="10" PointY="1.75" />
+        <EntityTypeShape EntityType="CampusNabberModel.Category" Width="1.5" PointX="0.75" PointY="4.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

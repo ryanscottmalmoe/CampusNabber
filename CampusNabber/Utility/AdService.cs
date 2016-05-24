@@ -1,5 +1,6 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
+using Amazon.S3.Util;
 using CampusNabber.Models;
 using DatabaseCode.CNQueryFolder;
 using Microsoft.Ajax.Utilities;
@@ -77,8 +78,7 @@ namespace CampusNabber.Utility
             getAWSCreds();
             try
             {
-                TestAmazonImageBucket();
-                return "https://campusnabberphotos.s3.amazonaws.com/adphotos/" + ad.photo_path_160x600;
+                return "https://s3.amazonaws.com/adphotos/" + ad.photo_path_160x600;
             }
             catch
             {
@@ -93,9 +93,9 @@ namespace CampusNabber.Utility
         {
             getAWSCreds();
             List<string> photosList = new List<string>();
-            photosList.Add("https://s3-us-west-2.amazonaws.com/adphotos/" + ad.photo_path_160x600);
-            photosList.Add("https://s3-us-west-2.amazonaws.com/adphotos/" + ad.photo_path_468x60);
-            photosList.Add("https://s3-us-west-2.amazonaws.com/adphotos/" + ad.photo_path_728x90);
+            photosList.Add("https://s3.amazonaws.com/adphotos/" + ad.photo_path_160x600);
+            photosList.Add("https://s3.amazonaws.com/adphotos/" + ad.photo_path_468x60);
+            photosList.Add("https://s3.amazonaws.com/adphotos/" + ad.photo_path_728x90);
             return photosList;
         }
 

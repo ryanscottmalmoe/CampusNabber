@@ -7,11 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-
-public partial class PostItemPhotos
+namespace CampusNabber.Models
 {
-    public System.Guid object_id { get; set; }
-    public short num_photos { get; set; }
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class PostItemPhotos
+    {
+        public System.Guid object_id { get; set; }
+        public short num_photos { get; set; }
+    }
 }

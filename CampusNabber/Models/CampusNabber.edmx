@@ -89,6 +89,14 @@
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="object_id" />
+          </Key>
+          <Property Name="object_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="category_name" Type="nvarchar(max)" />
+          <Property Name="sub_category_name" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="FlagPosts">
           <Key>
             <PropertyRef Name="object_id" />
@@ -210,6 +218,7 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FlagPosts" EntityType="Self.FlagPosts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PostItemPhotos" EntityType="Self.PostItemPhotos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PostItems" EntityType="Self.PostItems" Schema="dbo" store:Type="Tables" />
@@ -293,6 +302,7 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="Ads" EntityType="CampusNabberModel.Ad" />
+          <EntitySet Name="Categories" EntityType="CampusNabberModel.Category" />
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
@@ -438,6 +448,14 @@
           <Property Name="photo_path_728x90" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="photo_link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="object_id" />
+          </Key>
+          <Property Name="object_id" Type="Guid" Nullable="false" />
+          <Property Name="category_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sub_category_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -575,6 +593,15 @@
                 <ScalarProperty Name="photo_path_468x60" ColumnName="photo_path_468x60" />
                 <ScalarProperty Name="photo_path_160x600" ColumnName="photo_path_160x600" />
                 <ScalarProperty Name="company_name" ColumnName="company_name" />
+                <ScalarProperty Name="object_id" ColumnName="object_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="CampusNabberModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="sub_category_name" ColumnName="sub_category_name" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
                 <ScalarProperty Name="object_id" ColumnName="object_id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -53,6 +53,7 @@
       <End Role="AspNetRole" EntitySet="AspNetRoles" />
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
     </AssociationSet>
+    <EntitySet Name="Ads" EntityType="CampusNabberModel.Ad" />
     <EntitySet Name="Categories" EntityType="CampusNabberModel.Category" />
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
@@ -188,6 +189,17 @@
     <End Type="CampusNabberModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
     <End Type="CampusNabberModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
   </Association>
+  <EntityType Name="Ad">
+    <Key>
+      <PropertyRef Name="object_id" />
+    </Key>
+    <Property Name="object_id" Type="Guid" Nullable="false" />
+    <Property Name="company_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="photo_path_160x600" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="photo_path_468x60" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="photo_path_728x90" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="photo_link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="Category">
     <Key>
       <PropertyRef Name="object_id" />
