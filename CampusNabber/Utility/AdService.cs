@@ -22,7 +22,7 @@ namespace CampusNabber.Utility
     {
         private static string _awsAccessKey = "";
         private static string _awsSecretKey = "";
-        private static readonly string _bucketName = "adphotos";
+        private static readonly string _bucketName = "campusnabberadphotos";
 
         private static CampusNabberEntities db = new CampusNabberEntities();
         public static void getAWSCreds()
@@ -30,13 +30,12 @@ namespace CampusNabber.Utility
             string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             try
             {   // Open the text file using a stream reader.
-                using (StreamReader sr = new StreamReader(desktop + "\\awscreds.txt"))
+                using (StreamReader sr = new StreamReader(desktop + "awscreds.txt"))
                 {
                     // Read the stream to a string, and write the string to the console.
                     String line = sr.ReadToEnd();
-                    String[] results = line.Split(new String[]{"\r\n"}, StringSplitOptions.None);
-                    _awsAccessKey = results[0];
-                    _awsSecretKey = results[1];
+                    _awsAccessKey = sr.ReadLine();
+                    _awsSecretKey = sr.ReadLine();
                 }
             }
             catch (Exception e)
@@ -78,7 +77,7 @@ namespace CampusNabber.Utility
             getAWSCreds();
             try
             {
-                return "https://s3.amazonaws.com/adphotos/" + ad.photo_path_160x600;
+                return "https://s3-us-west-2.amazonaws.com/campusnabberadphotos/" + ad.photo_path_160x600;
             }
             catch
             {
@@ -93,9 +92,9 @@ namespace CampusNabber.Utility
         {
             getAWSCreds();
             List<string> photosList = new List<string>();
-            photosList.Add("https://s3.amazonaws.com/adphotos/" + ad.photo_path_160x600);
-            photosList.Add("https://s3.amazonaws.com/adphotos/" + ad.photo_path_468x60);
-            photosList.Add("https://s3.amazonaws.com/adphotos/" + ad.photo_path_728x90);
+            photosList.Add("https://s3-us-west-2.amazonaws.com/campusnabberadphotos/" + ad.photo_path_160x600);
+            photosList.Add("https://s3-us-west-2.amazonaws.com/campusnabberadphotos/" + ad.photo_path_468x60);
+            photosList.Add("https://s3-us-west-2.amazonaws.com/campusnabberadphotos/" + ad.photo_path_728x90);
             return photosList;
         }
 
@@ -140,67 +139,13 @@ namespace CampusNabber.Utility
                     };
                     client.PutObject(request);
                 }
-                ad.photo_path_160x600 = "https://campusnabberphotos.amazonaws.com/adphotos/" + ad.object_id.ToString() + "/160x600";
-                ad.photo_path_468x60 = "https://campusnabberphotos.amazonaws.com/adphotos/" + ad.object_id.ToString() + "/468x60";
-                ad.photo_path_728x90 = "https://campusnabberphotos.amazonaws.com/adphotos/" + ad.object_id.ToString() + "/728x90";
+                ad.photo_path_160x600 = ad.object_id.ToString() + "/160x600";
+                ad.photo_path_468x60 = ad.object_id.ToString() + "/468x60";
+                ad.photo_path_728x90 = ad.object_id.ToString() + "/728x90";
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }
-        }
-        public static void TestAmazonImageBucket()
-        {
-            getAWSCreds();
-            IAmazonS3 client;
-            client = new AmazonS3Client(Amazon.RegionEndpoint.USWest2);
-            try
-            {
-                ListObjectsRequest request = new ListObjectsRequest
-                {
-                    BucketName = _bucketName,
-                    MaxKeys = 2
-                };
-                do
-                {
-                    ListObjectsResponse response = client.ListObjects(request);
-
-                    // Process response.
-                    foreach (S3Object entry in response.S3Objects)
-                    {
-                        Console.WriteLine("key = {0} size = {1}",
-                            entry.Key, entry.Size);
-                    }
-
-                    // If response is truncated, set the marker to get the next 
-                    // set of keys.
-                    if (response.IsTruncated)
-                    {
-                        request.Marker = response.NextMarker;
-                    }
-                    else
-                    {
-                        request = null;
-                    }
-                } while (request != null);
-            }
-            catch (AmazonS3Exception amazonS3Exception)
-            {
-                if (amazonS3Exception.ErrorCode != null &&
-                    (amazonS3Exception.ErrorCode.Equals("InvalidAccessKeyId")
-                    ||
-                    amazonS3Exception.ErrorCode.Equals("InvalidSecurity")))
-                {
-                    Console.WriteLine("Check the provided AWS Credentials.");
-                    Console.WriteLine(
-                    "To sign up for service, go to http://aws.amazon.com/s3");
-                }
-                else
-                {
-                    Console.WriteLine(
-                     "Error occurred. Message:'{0}' when listing objects",
-                     amazonS3Exception.Message);
-                }
             }
         }
     }
