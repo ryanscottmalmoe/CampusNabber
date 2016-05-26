@@ -61,7 +61,13 @@ namespace CampusNabber.Controllers
 
         public ActionResult Details(AdModel adModel)
         {
-            ViewBag.firstPhotoPath = AdService.GetFirstPhotoPath(adModel.BindAd());
+            List<string> imageURLs = AdService.GetS3Photos(adModel);
+            if(imageURLs.Count >= 3)
+            {
+                ViewBag.firstPhotoPath = imageURLs.ElementAt(0);
+                ViewBag.secondPhotoPath = imageURLs.ElementAt(1);
+                ViewBag.thirdPhotoPath = imageURLs.ElementAt(2);
+            } 
             return View(adModel);
         }
 
@@ -74,6 +80,12 @@ namespace CampusNabber.Controllers
             Ad ad = null;
             if (ModelState.IsValid)
             {
+                if(image1 == null || image2 == null || image3 == null || 1 == 1)
+                {
+                    ViewBag.errorTitle = "File Not Found";
+                    ViewBag.errorMsg = "One or more of the submitted photos were not uploaded properly.";
+                    return View("~/Views/Admin/AdminError.cshtml");
+                }
                 adModel.object_id = Guid.NewGuid();
                 adModel.photo_path_160x600 = adModel.object_id.ToString() + "/160x600";
                 adModel.photo_path_468x60 = adModel.object_id.ToString() + "/468x60";
@@ -91,6 +103,25 @@ namespace CampusNabber.Controllers
             }
             return View(ad);
         }
+
+        // POST: PostItems/Delete
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Guid id)
+        {
+            Ad adTemp = db.Ads.Find(id);
+            AdModel ad = AdModel.BindToAdModel(adTemp);
+
+            db.Ads.Remove(adTemp);
+
+            //Delete AWS Photos    
+            AdService.DeleteS3Photos(ad);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
 
     }
 }

@@ -4,26 +4,35 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Ad Details</h2>
+<div class="container row">
+    <h2>Ad Details<a class="btn btn-default pull-right" href="@Url.Action("AdminTools", "Admin")">Back to Admin Tools</a></h2>
+</div>
 <hr/>
 <div class="container">
     <div class="row">
-        <h4>@Model.company_name</h4>
-        <h4>@Model.photo_link</h4>
+        <dl>
+            <dt>Company Name </dt>
+            <dd> @Model.company_name </dd>
+            <dt>Redirect URL</dt>
+            <dd>@Model.photo_link</dd>
+        </dl>
     </div>
     <div class="row">
         <div class="col-md-4">
+            <label>Ad Image - 160x600</label>
             <img src="@ViewBag.firstPhotoPath" />
         </div>
         <div class="col-md-4">
-            <img src="@Model.photo_path_468x60" />
+            <label>Ad Image - 468x60</label>
+            <img src="@ViewBag.secondPhotoPath" />
         </div>
         <div class="col-md-4">
-            <img src="@Model.photo_path_728x90" />
+            <label>Ad Image - 728x90</label>
+            <img src="@ViewBag.thirdPhotoPath" />
         </div>
     </div>
 </div>
+<a class="btn btn-danger pull-right" href="@Url.Action("AdminTools", "Admin")">Delete Ad</a>
 
 
-<a class="btn btn-default" href="@Url.Action("AdminTools", "Admin")">Back to Admin Tools</a>
 

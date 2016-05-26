@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.errorTitle</h2>
+<h4>@ViewBag.errorMsg</h4>
+<a class="btn btn-default" href="@Url.Action("AdminTools", "Admin")">Back to Admin Tools</a>
+
