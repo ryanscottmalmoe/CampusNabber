@@ -48,8 +48,11 @@
                 <dd> @Html.DisplayFor(model => model.school_name) </dd>
                 <dt> Date Posted </dt>
                 <dd> @Html.DisplayFor(model => model.post_date) </dd>
+                @if (!Model.social_flag)
+                {
                 <dt> Price </dt>
                 <dd> @Html.DisplayFor(model => model.price) </dd>
+                }
                 <dt> Category </dt>
                 <dd> @Html.DisplayFor(model => model.category) </dd>
                 <dt> Sub Category </dt>
