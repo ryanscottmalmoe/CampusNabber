@@ -8,9 +8,20 @@ a{
     color:black;
 }
 
+
+
 a:hover{
     color:black;
 }
+
+a:active{
+    color:black;
+}
+
+a:visited{
+    color:black;
+}
+
 /* Ad side banner*/
 .banner {
     float: right;
