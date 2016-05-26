@@ -8,7 +8,8 @@
 @Html.HiddenFor(model => model.Categories)
 @Html.HiddenFor(model => model.Posts)
 @Html.HiddenFor(model => model.numPosts)
-@Html.HiddenFor(model => model.school_name)
+@Html.HiddenFor(model => Model.schools)
+@Html.HiddenFor(model => model.school_names)
 @Html.HiddenFor(model => model.school_id)
 @Html.HiddenFor(model => model.user_name)
 @Html.HiddenFor(model => model.rangeFrom)
@@ -17,9 +18,12 @@
 @Html.HiddenFor(model => model.chosenCategory)
 @Html.HiddenFor(model => model.mainSchoolColor)
 @Html.HiddenFor(model => model.userId)
+@Html.HiddenFor(model => model.selectSchool)
 @Html.HiddenFor(model => model.SchoolToken)
-
-        
+@Html.HiddenFor(model => model.secondary_schools_to_display)
+@Html.HiddenFor(model => model.categoryToDisplay)
+@Html.HiddenFor(model => model.subCategoryToDisplay)
+@Html.HiddenFor(model => model.otherSchools)
         
        
      

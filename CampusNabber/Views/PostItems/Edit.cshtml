@@ -8,16 +8,6 @@
 
 
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-
-    <script type="text/javascript">
-        var mainColor = '@(ViewBag.main_color)';
-        var secondaryColor = '@(ViewBag.secondary_color)';
-
-    </script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
-}
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
 
 <div class="container">
@@ -31,11 +21,12 @@ new { enctype = "multipart/form-data" }))
 
                 <div class="form-horizontal">
                     <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
                     @Html.HiddenFor(model => model.object_id)
                     @Html.HiddenFor(model => model.school_name)
                     @Html.HiddenFor(model => model.post_date)
                     @Html.HiddenFor(model => model.username)
+                    @Html.HiddenFor(model => model.social_flag)
 
                     <div class="form-group">
                         <label class="control-label col-md-2">Title</label>
@@ -66,7 +57,19 @@ new { enctype = "multipart/form-data" }))
                     <div class="form-group">
                         <label class="control-label col-md-2">Category</label>
                         <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.category, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
+                            @Html.DropDownListFor(model => model.category, (SelectList)ViewBag.selectCategory, "Select Category",
+                            new { style = "height: 40px;" })
+                            @Html.ValidationMessageFor(model => model.category, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="subCategoryDiv" >
+
+                        <label class="control-label col-md-2">Sub Category</label>
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(n => n.subCategory, new SelectList(string.Empty, "Value", "Text"),
+                       "Select Sub Category", new { style = "height: 40px;" })
+                            @Html.ValidationMessageFor(model => model.subCategory, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -88,7 +91,7 @@ new { enctype = "multipart/form-data" }))
             }
         </div>
 
-        <div class="col-md4">
+        <div class="col-md6">
             <style>
                 div.img {
                     margin: 5px;
@@ -155,10 +158,10 @@ new { enctype = "multipart/form-data" }))
 
 
         </div>
-        <div class="col-md-2 addSpace red pull-right">
+        @*<div class="col-md-2 addSpace red pull-right">
 
 
-        </div>
+    </div>*@
 
             </div>
 
@@ -169,3 +172,143 @@ new { enctype = "multipart/form-data" }))
 
     </div>
 
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        var mainColor = '@(ViewBag.main_color)';
+        var secondaryColor = '@(ViewBag.secondary_color)';
+
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/SchoolColor.js")"></script>
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+
+            setSubCategory();
+
+
+            $("#category").change(function () {
+                var element = $('#category');
+              //  alert(element.val());
+                if (element.val().length > 0) {
+
+                    if (element.val() === 'Eats and Drinks' || element.val() === 'On Campus' || element.val() === 'Jobs') {
+                        $('#priceDiv').hide();
+                        document.getElementById('social_flag').value = true;
+                        //alert(document.getElementById('social_flag').value)
+                    }
+                    else {
+                        $('#priceDiv').show();
+                        document.getElementById('social_flag').value = false;
+                        //alert(document.getElementById('social_flag').value)
+                    }
+                    $('#subCategoryDiv').show();
+                    $("#subCategory").empty();
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetSubCategory")', // we are calling json method
+
+                        dataType: 'json',
+
+                        data: { category: $("#category").val() },
+                        // here we are get value of selected country and passing same value
+                        //as inputto json method GetStates.
+
+                        success: function (subCategory) {
+                            // states contains the JSON formatted list
+                            // of states passed from the controller
+
+                            $.each(subCategory, function (i, subCategory) {
+                                $("#subCategory").append('<option value="' + subCategory.Value + '">' +
+                                     subCategory.Text + '</option>');
+                                // here we are adding option for States
+
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed to retrieve states.' + ex);
+                        }
+                    });
+                    return false;
+                }
+                else {
+                    $("#subCategory").empty();
+                    $('#subCategoryDiv').hide();
+
+                }
+            })
+
+            $("#subCategory").change(function () {
+                var sc = $('#subCategory');
+                var c = $('#category');
+                if(c.val() ==='For Sale')
+                    if(sc.val() === 'Free')
+                    {
+                        $('#priceDiv').hide();
+
+                    }
+            })
+
+        });
+
+        function setSubCategory(){
+            var element = $('#category');
+           // alert(element.val());
+            if (element.val().length > 0) {
+
+                if (element.val() === 'Eats and Drinks' || element.val() === 'On Campus' || element.val() === 'Jobs') {
+                    $('#priceDiv').hide();
+                    document.getElementById('social_flag').value = true;
+                    //alert(document.getElementById('social_flag').value)
+                }
+                else {
+                    $('#priceDiv').show();
+                    document.getElementById('social_flag').value = false;
+                    //alert(document.getElementById('social_flag').value)
+                }
+                $('#subCategoryDiv').show();
+                $("#subCategory").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetSubCategory")', // we are calling json method
+
+                    dataType: 'json',
+
+                    data: { category: $("#category").val() },
+                    // here we are get value of selected country and passing same value
+                    //as inputto json method GetStates.
+
+                    success: function (subCategory) {
+                        // states contains the JSON formatted list
+                        // of states passed from the controller
+
+                        $.each(subCategory, function (i, subCategory) {
+                            $("#subCategory").append('<option value="' + subCategory.Value + '">' +
+                                 subCategory.Text + '</option>');
+                            // here we are adding option for States
+
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve states.' + ex);
+                    }
+                });
+                return false;
+            }
+            else {
+                $("#subCategory").empty();
+                $('#subCategoryDiv').hide();
+
+            }
+        }
+    </script>
+
+
+
+
+}

@@ -9,14 +9,14 @@
     <link rel="shortcut icon" href="~/favicon.ico" />
 
     <script type="text/javascript" src="@Url.Content("/Scripts/jquery-2.2.1.min.js")"></script>
-     @RenderSection("JavaScript", required: false)
+    @RenderSection("JavaScript", required: false)
 
 
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            
+
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -24,29 +24,40 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <a class="navbar-brand" rel="home" href="/" title="">               
-                    <img id="navBarLogo" src="../../Content/images/Transparent_logo_grey.png" onmouseover="this.src = '../../Content/images/Transparent_logo_white.png'" onmouseout="this.src = '../../Content/images/Transparent_logo_grey.png'" />                 
+                <a class="navbar-brand" rel="home" href="/" title="">
+                    <img id="navBarLogo" src="../../Content/images/Transparent_logo_grey.png" onmouseover="this.src = '../../Content/images/Transparent_logo_white.png'" onmouseout="this.src = '../../Content/images/Transparent_logo_grey.png'" />
                 </a>
                 @Html.ActionLink("Campus Nabber", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                
+
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
                     @{
                         bool val1 = (System.Web.HttpContext.Current.User != null) && System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
                         if (val1)
                         {
+
                             <li>@Html.ActionLink("Market", "MainMarketView", "MarketPlace")</li>
-                            <li>@Html.ActionLink("Profile", "ProfileView", "Profile", new { failedPost = "false" }, null)</li>
+                            <li>
+
+                                @using (Html.BeginForm("CategoryView", "MarketPlace", FormMethod.Post, new { @class = "navbar-form", @id = "searchForm" }))
+                                {
+
+                                    <div class="input-group" id="setWidth">
+                                        @Html.TextBox("Search", null, new { @class = "form-control text-box searchBarCustomWidth", @placeholder = "Search The MarketPlace" })
+                                        <span class="input-group-btn">
+                                            <input class="btn btn-default" id="buttonText" type="submit" value="Search">
+                                        </span>
+                                    </div>
+
+                                }
+                            </li>
+
                         }
                     }
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li>@Html.ActionLink("Admin Tools", "AdminTools","Admin")</li>
-                    }
-                    
+
+
 
                 </ul>
                 @if (val1)
