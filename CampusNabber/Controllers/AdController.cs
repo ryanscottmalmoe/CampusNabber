@@ -67,7 +67,9 @@ namespace CampusNabber.Controllers
 
         //Post /PostItems/Create
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create([Bind(Include = "object_id,company_name,photo_link")] AdModel adModel, HttpPostedFileBase image160x600, HttpPostedFileBase image468x60, HttpPostedFileBase image728x90)
+        [HttpPost]
+        public ActionResult Create([Bind(Include = "object_id,company_name,photo_link")] AdModel adModel, HttpPostedFileBase image1, 
+            HttpPostedFileBase image2, HttpPostedFileBase image3)
         {
             Ad ad = null;
             if (ModelState.IsValid)
@@ -79,7 +81,7 @@ namespace CampusNabber.Controllers
                 ad = adModel.BindAd();
 
                 //****AWS Portion**************
-                AdService.StoreS3Photos(image160x600, image468x60, image728x90, ad);
+                AdService.StoreS3Photos(image1, image2, image3, ad);
                 //******************************
 
                 db.Ads.Add(ad);
