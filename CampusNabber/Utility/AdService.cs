@@ -30,12 +30,13 @@ namespace CampusNabber.Utility
             string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             try
             {   // Open the text file using a stream reader.
-                using (StreamReader sr = new StreamReader(desktop + "awscreds.txt"))
+                using (StreamReader sr = new StreamReader(desktop + "\\awscreds.txt"))
                 {
                     // Read the stream to a string, and write the string to the console.
-                    String line = sr.ReadToEnd();
-                    _awsAccessKey = sr.ReadLine();
-                    _awsSecretKey = sr.ReadLine();
+                    string line = sr.ReadToEnd();
+                    string[] results = line.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                    _awsAccessKey = results[0];
+                    _awsSecretKey = results[1];
                 }
             }
             catch (Exception e)
@@ -52,7 +53,7 @@ namespace CampusNabber.Utility
             foreach (string photo in photoStrings)
             {
                 IAmazonS3 client;
-                client = new AmazonS3Client(Amazon.RegionEndpoint.USWest2);
+                client = new AmazonS3Client(_awsAccessKey, _awsSecretKey, Amazon.RegionEndpoint.USWest2);
 
                 DeleteObjectRequest deleteObjectRequest =
                     new DeleteObjectRequest

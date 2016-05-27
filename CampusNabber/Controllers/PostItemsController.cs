@@ -264,7 +264,7 @@ namespace CampusNabber.Controllers
             {
                 return HttpNotFound();
             }
-            return View(postItem);
+            return View(PostItemModel.bindToModel(postItem));
         }
 
         // POST: PostItems/Delete

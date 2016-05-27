@@ -31,8 +31,11 @@
             <img src="@ViewBag.thirdPhotoPath" />
         </div>
     </div>
+    <div class="row">
+            <a class="btn btn-danger pull-right" href="@Url.Action("Delete", "Ad", new { id = Model.object_id })">Delete Ad</a>
+    </div>
 </div>
-<a class="btn btn-danger pull-right" href="@Url.Action("AdminTools", "Admin")">Delete Ad</a>
+
 
 
 

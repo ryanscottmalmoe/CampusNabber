@@ -105,9 +105,7 @@ namespace CampusNabber.Controllers
         }
 
         // POST: PostItems/Delete
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(Guid? id)
         {
             Ad adTemp = db.Ads.Find(id);
             AdModel ad = AdModel.BindToAdModel(adTemp);
