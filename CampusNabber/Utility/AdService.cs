@@ -49,12 +49,14 @@ namespace CampusNabber.Utility
         public static void DeleteS3Photos(AdModel ad)
         {
             getAWSCreds();
-            List<string> photoStrings = GetS3Photos(ad);
+            List<string> photoStrings = new List<string>();
+            photoStrings.Add(ad.photo_path_160x600);
+            photoStrings.Add(ad.photo_path_468x60);
+            photoStrings.Add(ad.photo_path_728x90);
             foreach (string photo in photoStrings)
             {
                 IAmazonS3 client;
                 client = new AmazonS3Client(_awsAccessKey, _awsSecretKey, Amazon.RegionEndpoint.USWest2);
-
                 DeleteObjectRequest deleteObjectRequest =
                     new DeleteObjectRequest
                     {
@@ -63,7 +65,7 @@ namespace CampusNabber.Utility
                     };
 
                 using (client = Amazon.AWSClientFactory.CreateAmazonS3Client(
-                     _awsAccessKey, _awsSecretKey))
+                     _awsAccessKey, _awsSecretKey, Amazon.RegionEndpoint.USWest2))
                 {
                     client.DeleteObject(deleteObjectRequest);
                 }
