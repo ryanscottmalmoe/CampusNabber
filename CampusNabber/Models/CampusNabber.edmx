@@ -15,6 +15,17 @@
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
+        <EntityType Name="Ads">
+          <Key>
+            <PropertyRef Name="object_id" />
+          </Key>
+          <Property Name="object_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="company_name" Type="nvarchar(max)" />
+          <Property Name="photo_path_160x600" Type="nvarchar(max)" />
+          <Property Name="photo_path_468x60" Type="nvarchar(max)" />
+          <Property Name="photo_path_728x90" Type="nvarchar(max)" />
+          <Property Name="photo_link" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -200,6 +211,7 @@
         </Association>
         <EntityContainer Name="CampusNabberModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ads" EntityType="Self.Ads" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -289,6 +301,7 @@
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="Ads" EntityType="CampusNabberModel.Ad" />
           <EntitySet Name="Categories" EntityType="CampusNabberModel.Category" />
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
@@ -424,6 +437,17 @@
           <End Type="CampusNabberModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="CampusNabberModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
+        <EntityType Name="Ad">
+          <Key>
+            <PropertyRef Name="object_id" />
+          </Key>
+          <Property Name="object_id" Type="Guid" Nullable="false" />
+          <Property Name="company_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="photo_path_160x600" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="photo_path_468x60" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="photo_path_728x90" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="photo_link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="object_id" />
@@ -561,6 +585,18 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Ads">
+            <EntityTypeMapping TypeName="CampusNabberModel.Ad">
+              <MappingFragment StoreEntitySet="Ads">
+                <ScalarProperty Name="photo_link" ColumnName="photo_link" />
+                <ScalarProperty Name="photo_path_728x90" ColumnName="photo_path_728x90" />
+                <ScalarProperty Name="photo_path_468x60" ColumnName="photo_path_468x60" />
+                <ScalarProperty Name="photo_path_160x600" ColumnName="photo_path_160x600" />
+                <ScalarProperty Name="company_name" ColumnName="company_name" />
+                <ScalarProperty Name="object_id" ColumnName="object_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="CampusNabberModel.Category">
               <MappingFragment StoreEntitySet="Categories">

@@ -115,15 +115,50 @@ namespace CampusNabber.Controllers
         }
 
 
-        public ActionResult AddCategory()
-        {
-            return View();
-        }
 
+
+        public ActionResult ManageSchools()
+        {
+            var schools = db.Schools.AsEnumerable();
+            List<SchoolModel> schoolModels = new List<SchoolModel>();
+            foreach(School s in schools)
+            {
+                schoolModels.Add(SchoolModel.bindToSchoolModel(s));
+            }
+            return View(schoolModels.AsEnumerable());
+        }
 
         public ActionResult AddSchool()
         {
             return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreateSchool([Bind(Include = "object_id,school_name,address,school_tag,main_hex_color,secondary_hex_color")] SchoolModel schoolModel)
+        {
+            if (ModelState.IsValid)
+            {
+                IEnumerable<School> existingSchools = db.Schools.Where(school => school.school_name == schoolModel.school_name).AsEnumerable();
+                if(existingSchools.Count() > 0)
+                {
+                    ViewBag.school_name = schoolModel.school_name;
+                    return View("SchoolExists");
+                }
+                School newSchool = new School();
+                newSchool.address = "TempAddress";
+                newSchool.school_name = schoolModel.school_name;
+                newSchool.school_tag = schoolModel.school_tag;
+                newSchool.main_hex_color = schoolModel.main_hex_color;
+                newSchool.secondary_hex_color = schoolModel.secondary_hex_color;
+                newSchool.object_id = Guid.NewGuid();
+                db.Schools.Add(newSchool);
+                db.SaveChanges();
+                return View();
+            }
+            else
+            {
+                return View("AdminTools");
+            }
         }
 
         public ActionResult ManageAdmins()

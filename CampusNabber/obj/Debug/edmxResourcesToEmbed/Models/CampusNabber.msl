@@ -124,6 +124,18 @@
         <ScalarProperty Name="Id" ColumnName="RoleId" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="Ads">
+      <EntityTypeMapping TypeName="CampusNabberModel.Ad">
+        <MappingFragment StoreEntitySet="Ads">
+          <ScalarProperty Name="photo_link" ColumnName="photo_link" />
+          <ScalarProperty Name="photo_path_728x90" ColumnName="photo_path_728x90" />
+          <ScalarProperty Name="photo_path_468x60" ColumnName="photo_path_468x60" />
+          <ScalarProperty Name="photo_path_160x600" ColumnName="photo_path_160x600" />
+          <ScalarProperty Name="company_name" ColumnName="company_name" />
+          <ScalarProperty Name="object_id" ColumnName="object_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Categories">
       <EntityTypeMapping TypeName="CampusNabberModel.Category">
         <MappingFragment StoreEntitySet="Categories">

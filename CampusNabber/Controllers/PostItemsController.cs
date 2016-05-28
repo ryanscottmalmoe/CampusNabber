@@ -81,16 +81,26 @@ namespace CampusNabber.Controllers
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             if(postItem.photo_path_id.HasValue)
             {
-                PostItemPhotos postItemPhotos = db.PostItemPhotos.Where(d => d.object_id == postItem.photo_path_id).First();
-                //*******AWS Portion *********************
-                List<string> photoList = PostItemService.GetS3Photos(postItem);
-                if (photoList != null && photoList.Count > 0)
+                //Check to see whether the PostItemPhotos are stored in the database. This shouldn't happen in the future, but
+                //there are a couple of currently broken posts.
+                List<PostItemPhotos> queryResult = db.PostItemPhotos.Where(d => d.object_id == postItem.photo_path_id).ToList();
+                if (queryResult.Count > 0)
                 {
-                    ViewBag.RESULTS = photoList;
-                    ViewBag.FIRSTPHOTO = photoList[0];
-                    ViewBag.HASPHOTO = true;
+                    PostItemPhotos postItemPhotos = queryResult.First();
+                    //*******AWS Portion *********************
+                    List<string> photoList = PostItemService.GetS3Photos(postItem);
+                    if (photoList != null && photoList.Count > 0)
+                    {
+                        ViewBag.RESULTS = photoList;
+                        ViewBag.FIRSTPHOTO = photoList[0];
+                        ViewBag.HASPHOTO = true;
+                    }
+                    //******************************************
                 }
-                //******************************************
+                else
+                {
+                    ViewBag.HASPHOTO = false;
+                }
             }
             else
             {
@@ -264,7 +274,7 @@ namespace CampusNabber.Controllers
             {
                 return HttpNotFound();
             }
-            return View(postItem);
+            return View(PostItemModel.bindToModel(postItem));
         }
 
         // POST: PostItems/Delete
