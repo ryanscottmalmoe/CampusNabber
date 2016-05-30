@@ -15,6 +15,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+// --------------------------------------------
+// PURPOSE :
+//  The purpose of this class is act as a service or utility 
+//  to provide ease of interacting with the PostItem class.
+// --------------------------------------------
+
 namespace CampusNabber.Utility
 {
     abstract class PostItemService

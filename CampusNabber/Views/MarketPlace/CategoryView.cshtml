@@ -18,7 +18,9 @@
     {
         schoolnames += Model.school_names[i];
         if (i + 1 != Model.school_names.Count)
-        { schoolnames += ","; }
+        {
+            schoolnames += ",";
+        }
 
     }
 }
@@ -109,8 +111,6 @@
 
 
         <script>
-
-           // alert(schoolnames);
             function SearchPostItems() {
                 oTable.fnReloadAjax();
             }
@@ -119,7 +119,6 @@
 
             var oTable;
             $(function () {
-               // debugger;
                 oTable = $('#PostItemTable').dataTable({
                     "sPaginationType": "full_numbers",
                     "bInfo": true,
@@ -164,7 +163,7 @@
                         {
                             "mDataProp": "PhotoPath", "sWidth": "10px",
                             "render": function (mDataProp, type, row) {
-                                return '<img src="' + mDataProp + '"style="width=10px;height=10px;" />';
+                                return '<img src="' + mDataProp + '" alt="Image not found" onError="this.src="~/Content/images/Transparent_logo_black.png" style="width=10px;height=10px;" />';
                         }
                         },
                         { "mDataProp": "Title", "sWidth": "100px", "sClass": "alignCenter" },
