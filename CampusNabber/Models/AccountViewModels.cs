@@ -66,6 +66,7 @@ namespace CampusNabber.Models
 
     public class RegisterViewModel
     {
+        private CampusNabberEntities db = new CampusNabberEntities();
         public SelectList selectSchools { get; set; }
 
         [Required]
@@ -91,10 +92,10 @@ namespace CampusNabber.Models
         public void generateSchoolsList()
         {
             List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem { Text = "Eastern Washington University", Value = "Eastern Washington University", Selected = true });
-            list.Add(new SelectListItem { Text = "Washington State University", Value = "Washington State University" });
-            list.Add(new SelectListItem { Text = "Gonzaga", Value = "Gonzaga" });
-            list.Add(new SelectListItem { Text = "Whitworth", Value = "Whitworth" });
+            foreach(School s in db.Schools)
+            {
+                list.Add(new SelectListItem { Text = s.school_name, Value = s.school_name });
+            }
 
             selectSchools = new SelectList(list, "Text", "Value", 1);
         }
@@ -102,6 +103,7 @@ namespace CampusNabber.Models
 
     public class RegisterAdminViewModel
     {
+        private CampusNabberEntities db = new CampusNabberEntities();
         public SelectList selectSchools { get; set; }
 
         [Required]
@@ -127,10 +129,10 @@ namespace CampusNabber.Models
         public void generateSchoolsList()
         {
             List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem { Text = "Eastern Washington University", Value = "Eastern Washington University", Selected = true });
-            list.Add(new SelectListItem { Text = "Washington State University", Value = "Washington State University" });
-            list.Add(new SelectListItem { Text = "Gonzaga", Value = "Gonzaga" });
-            list.Add(new SelectListItem { Text = "Whitworth", Value = "Whitworth" });
+            foreach (School s in db.Schools)
+            {
+                list.Add(new SelectListItem { Text = s.school_name, Value = s.school_name });
+            }
 
             selectSchools = new SelectList(list, "Text", "Value", 1);
         }

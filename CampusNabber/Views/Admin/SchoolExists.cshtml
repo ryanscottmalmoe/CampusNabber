@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "School Already Exists";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add a School</h2>
+<hr/>
+<h4>The school @ViewBag.school_name already exists in the database.</h4>
+
+<a class="btn btn-default" href="@Url.Action("AdminTools", "Admin")">Back to Admin Tools</a>
+

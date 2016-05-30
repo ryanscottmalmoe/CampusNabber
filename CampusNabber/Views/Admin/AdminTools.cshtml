@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-2 text-center">
-            <a class="btn btn-primary" href="@Url.Action("UnblockUser", "Admin")" style="width: 160px; margin: 10px">Manage Site Ads</a>
+            <a class="btn btn-primary" href="@Url.Action("Index", "Ad")" style="width: 160px; margin: 10px">Manage Site Ads</a>
         </div>
         <div class="col-md-2"></div>
         <div class="col-md-2 text-center">
@@ -32,23 +32,25 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-2 text-center">
-            <a class="btn btn-primary" href="@Url.Action("AddCategory", "Admin")" style="width:160px;margin:10px;">Manage Categories</a>
-        </div>
-        <div class="col-md-2"></div>
-        <div class="col-md-2 text-center">
-            <a class="btn btn-primary" href="@Url.Action("AddSchool", "Admin")" style="width:160px;margin:10px;">Add a School</a> 
-        </div> 
-        <div class="col-md-3"></div>
-    </div>
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-2 text-center">
             <a class="btn btn-primary text-center" href="@Url.Action("ManageAdmins", "Admin")" style="width:160px;margin:10px;">Manage Admin Roles</a>
         </div>
         <div class="col-md-2"></div>
         <div class="col-md-2 text-center">
+            <a class="btn btn-primary" href="@Url.Action("ManageSchools", "Admin")" style="width:160px;margin:10px;">Manage Schools</a>
         </div>
         <div class="col-md-3"></div>
     </div>
+
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-2"></div>
+        <div class="col-md-2 text-center">
+            <a class="btn btn-primary text-center" href="@Url.Action("ManageAdPosts", "Admin")" style="width:160px;margin:10px;">Manage Ad Posts</a>
+        </div>
+
+        <div class="col-md-3"></div>
+    </div>
+
+
 </div>
 
