@@ -1,0 +1,39 @@
+﻿@model IEnumerable<CampusNabber.Models.AdModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Rotating Ads</h2>
+<hr/>
+<table class="table">
+<thead>
+    <tr>
+        <th>
+            Company Name
+        </th>
+        <th>
+            Ad URL
+        </th>
+    </tr>
+</thead>
+    <tbody>
+        @foreach(CampusNabber.Models.AdModel ad in Model)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("Details","Ad", ad)">
+                        @ad.company_name
+                    </a>
+                </td>
+                <td>
+                    @ad.photo_link
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-default" href="@Url.Action("AdminTools", "Admin")">Back to Admin Tools</a>
+<a class="btn btn-default" href="@Url.Action("Create", "Ad")">Create a New Ad</a>
+

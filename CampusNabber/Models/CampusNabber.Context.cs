@@ -35,8 +35,13 @@ namespace CampusNabber.Models
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+<<<<<<< HEAD
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<AdPostItem> AdPostItems { get; set; }
         public virtual DbSet<Ad> Ads { get; set; }
+=======
+        public virtual DbSet<Ad> Ads { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+>>>>>>> refs/remotes/origin/master
     }
 }

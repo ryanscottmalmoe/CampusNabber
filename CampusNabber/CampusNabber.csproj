@@ -212,6 +212,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\FlagController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -233,6 +234,7 @@
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AdPostItemViewModel.cs" />
+    <Compile Include="Models\AdModel.cs" />
     <Compile Include="Models\AspNetRole.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
@@ -300,6 +302,7 @@
     <Compile Include="QueryClasses%28Depricated%29\FactoryFiles\ContextFactory.cs" />
     <Compile Include="QueryClasses%28Depricated%29\FactoryFiles\EntityFactory.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utility\AdService.cs" />
     <Compile Include="Utility\PostItemService.cs" />
     <Compile Include="Validation\ExistingEmailValidator.cs" />
     <Compile Include="Validation\ExistingUsernameValidator.cs" />
@@ -427,6 +430,7 @@
     <Content Include="Content\PostFlagTable.css" />
     <Content Include="Content\PostItem.css" />
     <Content Include="Content\School.css" />
+    <Content Include="Content\spectrum.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1257,6 +1261,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\spectrum.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1322,14 +1327,20 @@
     <Content Include="Views\Admin\UnblockUser.cshtml" />
     <Content Include="Views\Admin\FindUserToUnblock.cshtml" />
     <Content Include="Views\Admin\UnlockSuccess.cshtml" />
-    <Content Include="Views\Admin\AddCategory.cshtml" />
-    <Content Include="Views\Admin\AddSchool.cshtml" />
+    <Content Include="Views\Admin\ManageSchools.cshtml" />
     <Content Include="Views\Admin\ManageAdmins.cshtml" />
     <Content Include="Views\Account\RegisterAdmin.cshtml" />
     <Content Include="Views\Account\FindUser.cshtml" />
     <Content Include="Views\Account\UserResult.cshtml" />
     <Content Include="Views\Admin\SuccessfulRoleChange.cshtml" />
     <Content Include="Views\Admin\ManageAdPosts.cshtml" />
+    <Content Include="Views\Admin\AddSchool.cshtml" />
+    <Content Include="Views\Admin\SchoolExists.cshtml" />
+    <Content Include="Views\Admin\CreateSchool.cshtml" />
+    <Content Include="Views\Ad\Create.cshtml" />
+    <Content Include="Views\Ad\Index.cshtml" />
+    <Content Include="Views\Ad\Details.cshtml" />
+    <Content Include="Views\Admin\AdminError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

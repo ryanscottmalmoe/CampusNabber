@@ -1,69 +1,69 @@
-﻿using DatabaseCode.CNObjectFolder;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
-using System.Linq;
+
 
 namespace CampusNabber.Models
 {
-    public class SchoolModel
+    public class AdModel
     {
-
         public System.Guid object_id { get; set; }
-        public string school_name { get; set; }
-        public string address { get; set; }
-        public string main_hex_color { get; set; }
-        public string secondary_hex_color { get; set; }
-        public string school_tag { get; set; }
+        public string company_name { get; set; }
+        public string photo_path_160x600 { get; set; }
+        public string photo_path_468x60 { get; set; }
+        public string photo_path_728x90 { get; set; }
+        public string photo_link { get; set; }
 
-        public SchoolModel()
+        public AdModel()
         {
 
         }
 
-        public School bindSchool()
+        public Ad BindAd()
         {
-            School school = new School();
-            school.object_id = this.object_id;
-            school.school_name = this.school_name;
-            school.address = this.address;
-            school.main_hex_color = this.main_hex_color;
-            school.secondary_hex_color = this.secondary_hex_color;
-            school.school_tag = this.school_tag;
-            return school;
+            Ad ad = new Ad();
+            ad.object_id = this.object_id;
+            ad.company_name = this.company_name;
+            ad.photo_path_160x600 = this.photo_path_160x600;
+            ad.photo_path_468x60 = this.photo_path_468x60;
+            ad.photo_path_728x90 = this.photo_path_728x90;
+            ad.photo_link = this.photo_link;
+            return ad;
         }
 
-        public static SchoolModel bindToSchoolModel(School school)
+        public static AdModel BindToAdModel(Ad ad)
         {
-            return new SchoolModel
+            return new AdModel
             {
-                object_id = school.object_id,
-                school_name = school.school_name,
-                address = school.address,
-                main_hex_color = school.main_hex_color,
-                secondary_hex_color = school.secondary_hex_color,
-                school_tag = school.school_tag
+                object_id = ad.object_id,
+                company_name = ad.company_name,
+                photo_path_160x600 = ad.photo_path_160x600,
+                photo_path_468x60 = ad.photo_path_468x60,
+                photo_path_728x90 = ad.photo_path_728x90,
+                photo_link = ad.photo_link
             };
         }
 
-        public SchoolModel(string school_name, string school_tag, string main_hex_color, string secondary_hex_color)
+        public AdModel(string company_name, string photo_path_160x600, string photo_path_468x60, string photo_path_728x90, string photo_link)
         {
-            object_id = Guid.NewGuid();
-            address = "TempAddress";
-            this.school_name = school_name;
-            this.school_tag = school_tag;
-            this.main_hex_color = main_hex_color;
-            this.secondary_hex_color = secondary_hex_color;
+            this.object_id = Guid.NewGuid();
+            this.company_name = company_name;
+            this.photo_path_160x600 = photo_path_160x600;
+            this.photo_path_468x60 = photo_path_468x60;
+            this.photo_path_728x90 = photo_path_728x90;
+            this.photo_link = photo_link;
         }
 
-        public void deleteEntity(School school)
+        public void DeleteEntity(Ad ad)
         {
             //Creates new context and deletes local variable to server
             using (var context = new CampusNabberEntities())
             {
-                context.Schools.Remove(school);
+                context.Ads.Remove(ad);
                 try
                 {
                     context.SaveChanges();
@@ -92,18 +92,19 @@ namespace CampusNabber.Models
             }
         }
 
-
-        public void updateEntity()
+        public void UpdateEntity()
         {
             //Creates new context and saves local variable to server
             using (var context = new CampusNabberEntities())
             {
-                School school = (from o in context.Schools
+                Ad ad = (from o in context.Ads
                                  where o.object_id.Equals(object_id)
                                  select o).First();
 
-                school.school_name = school_name;
-                school.address = address;
+                ad.photo_link = photo_link;
+                ad.photo_path_160x600 = photo_path_160x600;
+                ad.photo_path_468x60 = photo_path_468x60;
+                ad.photo_path_728x90 = photo_path_728x90;
 
                 try
                 {
@@ -133,12 +134,12 @@ namespace CampusNabber.Models
             }
         }
 
-        public void createEntity(School school)
+        public void CreateEntity(Ad ad)
         {
             //Creates new context and saves local variable to server
             using (var context = new CampusNabberEntities())
             {
-                context.Schools.Add(school);
+                context.Ads.Add(ad);
                 try
                 {
                     context.SaveChanges();
