@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CampusNabber.Models;
+using System.Linq.Expressions;
+using CampusNabber.Utility;
 
 namespace CampusNabber.Controllers
 {
@@ -77,6 +79,101 @@ namespace CampusNabber.Controllers
         public ActionResult UnblockUser()
         {
             return View();
+        }
+
+        public ActionResult ManageAdPosts()
+        {
+            AdPostItemViewModel adPostItemViewModel = new AdPostItemViewModel();
+            SelectList selectCategory = PostItemService.generateCategoryList();
+            ViewBag.selectCategory = selectCategory;
+            String[] categories = db.Categories.Select(d => d.category_name).Distinct().ToArray();
+            ViewBag.categories = categories;
+            adPostItemViewModel.generateSchoolsList();
+
+            return View(adPostItemViewModel);
+        }
+
+        public JsonResult GetAdPosts(jQueryDataTableParamModel param)
+        {
+            using (var context = new CampusNabberEntities())
+            {
+                IQueryable<AdPostItem> adPostItems = db.AdPostItems;
+
+                var totalRecords = 0;
+                var result = new List<AdPostItemViewModel>();
+                var iDisplayRecords = 0;
+
+
+                    // Count
+                    var count = adPostItems.Count();
+                    iDisplayRecords += count;
+                    totalRecords += count;
+
+                // Search
+                /*
+                if (!string.IsNullOrEmpty(Search))
+                    {
+                        adPostItems = adPostItems.Where(s =>
+                                                s.title.Contains(Search) ||
+                                                s.description.Contains(Search)
+                            );
+                    }
+                   */
+
+                // Order
+                var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
+                Expression<Func<AdPostItem, DateTime?>> dateOrdering = (sortDate => sortDate.post_date);
+
+                adPostItems = adPostItems.OrderBy(dateOrdering);
+
+                // Project
+                result.AddRange(adPostItems
+                                    .ToList()
+                                    .Select(d => new AdPostItemViewModel
+                                    {
+                                        company_name = d.company_name,
+                                        category = d.category,
+                                        sub_category = d.sub_category,
+                                        title = d.title,
+                                        school_name = db.Schools.Where(s => s.object_id == d.school_id).First().school_name,
+                                        })
+                                        .ToList()
+                                    );
+               
+                return Json(new
+                {
+                    sEcho = param.sEcho,
+                    iTotalRecords = totalRecords,
+                    iTotalDisplayRecords = iDisplayRecords,
+                    aaData = result
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult GetSubCategory(string category)
+        {
+            String[] categories = db.Categories.Select(d => d.category_name).Distinct().ToArray();
+            SelectList categoriesDropdown = null;
+            switch (category)
+            {
+                case "Eats and Drinks":
+                    categoriesDropdown = PostItemService.generateSubCategoryList("Eats and Drinks");
+                    break;
+                case "For Sale":
+                    categoriesDropdown = PostItemService.generateSubCategoryList("For Sale");
+                    break;
+                case "Housing":
+                    categoriesDropdown = PostItemService.generateSubCategoryList("Housing");
+                    break;
+                case "Jobs":
+                    categoriesDropdown = PostItemService.generateSubCategoryList("Jobs");
+                    break;
+                case "On Campus":
+                    categoriesDropdown = PostItemService.generateSubCategoryList("On Campus");
+                    break;
+            }
+
+            return Json(new SelectList(categoriesDropdown, "Value", "Text"));
         }
 
         [Authorize(Roles="Admin")]

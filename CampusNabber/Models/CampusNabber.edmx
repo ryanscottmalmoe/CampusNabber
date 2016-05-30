@@ -15,6 +15,20 @@
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
+        <EntityType Name="AdPostItems">
+          <Key>
+            <PropertyRef Name="object_id" />
+          </Key>
+          <Property Name="object_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="company_name" Type="nvarchar(max)" />
+          <Property Name="post_date" Type="datetime" />
+          <Property Name="title" Type="nvarchar(max)" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="category" Type="nvarchar(max)" />
+          <Property Name="sub_category" Type="nvarchar(max)" />
+          <Property Name="school_id" Type="uniqueidentifier" />
+        </EntityType>
+
         <EntityType Name="Ads">
           <Key>
             <PropertyRef Name="object_id" />
@@ -211,6 +225,7 @@
         </Association>
         <EntityContainer Name="CampusNabberModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AdPostItems" EntityType="Self.AdPostItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ads" EntityType="Self.Ads" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -303,6 +318,7 @@
           </AssociationSet>
           <EntitySet Name="Ads" EntityType="CampusNabberModel.Ad" />
           <EntitySet Name="Categories" EntityType="CampusNabberModel.Category" />
+          <EntitySet Name="AdPostItems" EntityType="CampusNabberModel.AdPostItem" />
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
@@ -456,6 +472,19 @@
           <Property Name="category_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="sub_category_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="AdPostItem">
+          <Key>
+            <PropertyRef Name="object_id" />
+          </Key>
+          <Property Name="object_id" Type="Guid" Nullable="false" />
+          <Property Name="company_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="post_date" Type="DateTime" Precision="3" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sub_category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="school_id" Type="Guid" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -602,6 +631,32 @@
               <MappingFragment StoreEntitySet="Categories">
                 <ScalarProperty Name="sub_category_name" ColumnName="sub_category_name" />
                 <ScalarProperty Name="category_name" ColumnName="category_name" />
+                <ScalarProperty Name="object_id" ColumnName="object_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdPostItems">
+            <EntityTypeMapping TypeName="CampusNabberModel.AdPostItem">
+              <MappingFragment StoreEntitySet="AdPostItems">
+                <ScalarProperty Name="school_id" ColumnName="school_id" />
+                <ScalarProperty Name="sub_category" ColumnName="sub_category" />
+                <ScalarProperty Name="category" ColumnName="category" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="post_date" ColumnName="post_date" />
+                <ScalarProperty Name="company_name" ColumnName="company_name" />
+                <ScalarProperty Name="object_id" ColumnName="object_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ads">
+            <EntityTypeMapping TypeName="CampusNabberModel.Ad">
+              <MappingFragment StoreEntitySet="Ads">
+                <ScalarProperty Name="photo_link" ColumnName="photo_link" />
+                <ScalarProperty Name="photo_path_728x90" ColumnName="photo_path_728x90" />
+                <ScalarProperty Name="photo_path_468x60" ColumnName="photo_path_468x60" />
+                <ScalarProperty Name="photo_path_160x600" ColumnName="photo_path_160x600" />
+                <ScalarProperty Name="company_name" ColumnName="company_name" />
                 <ScalarProperty Name="object_id" ColumnName="object_id" />
               </MappingFragment>
             </EntityTypeMapping>

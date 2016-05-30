@@ -30,6 +30,7 @@ namespace CampusNabber.Models
         public string subCategory { get; set; }
         [Required]
         public bool social_flag { get; set; }
+        public List<string> photoPaths { get; set; }
 
         public PostItem bindToPostItem()
         {
@@ -67,6 +68,7 @@ namespace CampusNabber.Models
             postItemModel.photo_path_id = postItem.photo_path_id;
             
             postItemModel.school_name = db.Schools.Where(d => d.object_id == postItem.school_id).First().school_name;
+            Guid guid = new Guid(postItem.category);
             Category cat = db.Categories.Where(d => d.object_id == new Guid(postItem.category)).First();
 
             postItemModel.category = cat.category_name;

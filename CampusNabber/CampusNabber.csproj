@@ -220,6 +220,7 @@
     <Compile Include="Controllers\MarketPlaceController.cs" />
     <Compile Include="Controllers\PostItemsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\SchoolController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -230,6 +231,10 @@
     <Compile Include="Models\Ad.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdPostItem.cs">
+      <DependentUpon>CampusNabber.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdPostItemViewModel.cs" />
     <Compile Include="Models\AdModel.cs" />
     <Compile Include="Models\AspNetRole.cs">
       <DependentUpon>CampusNabber.tt</DependentUpon>
@@ -304,6 +309,7 @@
     <Compile Include="Validation\ExistingUsernameValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AdminPostsSheet.css" />
     <Content Include="Content\banners\160x600.png" />
     <Content Include="Content\banners\468x60.png" />
     <Content Include="Content\banners\728x90.png" />
@@ -417,6 +423,7 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\image-picker.css" />
     <Content Include="Content\images\Lloyd_Gibson_aka_pedo.jpg" />
     <Content Include="Content\images\logo-placeholder.jpg" />
     <Content Include="Content\images\Transparent_logo_grey.png" />
@@ -479,6 +486,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\image-picker.js" />
     <Content Include="Scripts\MarketView.js" />
     <Content Include="Scripts\PostFlagTable.js" />
     <Content Include="Scripts\ProfileView.js" />
@@ -1326,6 +1334,7 @@
     <Content Include="Views\Account\FindUser.cshtml" />
     <Content Include="Views\Account\UserResult.cshtml" />
     <Content Include="Views\Admin\SuccessfulRoleChange.cshtml" />
+    <Content Include="Views\Admin\ManageAdPosts.cshtml" />
     <Content Include="Views\Admin\AddSchool.cshtml" />
     <Content Include="Views\Admin\SchoolExists.cshtml" />
     <Content Include="Views\Admin\CreateSchool.cshtml" />
@@ -1336,6 +1345,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\School\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

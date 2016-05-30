@@ -1,0 +1,269 @@
+﻿@model CampusNabber.Models.AdPostItemViewModel
+@{
+    ViewBag.Title = "Admin Tools";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/CategorySheet.css">
+<link rel="stylesheet" type="text/css" href="~/Content/AdminPostsSheet.css">
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="~/Scripts/MarketView.js"></script>
+
+<div class="row">
+   
+
+    <h2>Admin Tools <button type="button" class="btn btn-primary btn-lg" style="float:right; margin-right:30px;" data-toggle="modal" data-target="#myModal">+ Ad Post</button>
+</h2>
+
+</div>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+</head>
+<body>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"  aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center" >
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Add An Ad Posting</h4>
+
+                    </div>
+
+                    <div class="modal-body" style="height:80%;">
+                        <div class="box">
+                            <div class="box-content padded" style="float:left">
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Category</label>
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(n => n.category, (SelectList)ViewBag.selectCategory, "Select Category",
+                                new { style = "height: 40px;" })
+                                        @Html.ValidationMessageFor(model => model.category, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="subCategoryDiv">
+
+                                    <label class="control-label col-md-2">Sub Category</label>
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(n => n.sub_category, new SelectList(string.Empty, "Value", "Text"),
+                           "Select Sub Category", new { style = "height: 40px;" })
+                                        @Html.ValidationMessageFor(model => model.sub_category, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.school_name, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(n => n.school_name, Model.schools, "Please select your school", new { style = "height: 40px;" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="box">
+                            <div class="box-content padded" style="float:right">
+                                <div class="form-group">
+
+
+                                    <label class="control-label col-md-4">Title</label>
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-4">Description</label>
+                                    <div class="col-md-8">
+
+                                        @Html.TextAreaFor(model => model.description, new { @rows = "5", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                       </div>
+
+                                
+
+                            </div>
+                            <div class="modal-footer" style="bottom:10px;">
+                                <button type="button" class="btn btn-default" style="margin-bottom:0px" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+
+        <div class="container" id="customContainer">
+            <div class="col-md-12">
+                <div class="panel-group" id="adPostsSection" style="">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2>Ad Posts</h2>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-md-12">
+                                <div class="box">
+                                    <div class="box-content padded">
+                                        <form method="Post" id="Detail1Validate">
+                                            <div id="dataTables">
+                                                <table id="AdTable" align="right" cellpadding="0" cellspacing="20px" border="0" style="font-size: 18px; width:auto; border: 0px solid #d9d9d9">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="font-weight: bold; text-align:center">Company Name</th>  
+                                                            <th style="font-weight: bold; text-align:center">Title</th>
+                                                            <th style="font-weight: bold; text-align:center">Category</th>
+                                                            <th style="font-weight: bold; text-align:center">Sub Category</th>
+                                                            <th style="font-weight: bold; text-align:center">School</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                            <br />
+                                            <br />
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+
+</body>
+</html>
+
+<script>
+
+    function addPosts() {
+        $('#orderModal').modal('show');
+    }
+
+            function SearchPostItems() {
+                adTable.fnReloadAjax();
+            }
+
+            var adTable;
+            $(function () {
+                adTable = $('#AdTable').dataTable({
+                    "sPaginationType": "full_numbers",
+                    "bInfo": true,
+                    "bScrollCollapse": true,
+                    "bPaginate": true,
+                    "bServerSide": true,
+                    "iDisplayLength": 10,
+                    "scrollCallapse": true,
+                    "oLanguage": {    "sLengthMenu": "_MENU_ records per page",
+                        "oPaginate": {
+                            "sPrevious": "Prev",
+                            "sNext": "Next"
+                        }
+                    },
+                    "scrollY": '50vh',
+                    "bFilter": false,
+                    "bInfo": false,
+                    "sAjaxSource": "@Url.Action("GetAdPosts", "Admin")",
+                    "fnServerParams": function (aoData) {
+
+                    },
+                    "bProcessing": true,
+                    "aoColumns": [
+                        { "mDataProp": "company_name", "bSortable": false, "sWidth": "100px", "sClass": "alignCenter" },
+                        { "mDataProp": "title", "bSortable": false, "sWidth": "100px", "sClass": "alignCenter" },
+                        { "mDataProp": "category", "bSortable": false, "sWidth": "100px", "sClass": "alignCenter" },
+                        { "mDataProp": "sub_category", "bSortable": false, "sWidth": "100px", "sClass": "alignCenter" },
+                        { "mDataProp": "school_name", "bSortable": false, "sWidth": "100px", "sClass": "alignCenter" },
+
+                    ],
+                    "fnDrawCallback": function (oSettings) {
+                        $('#AdTable tbody tr').click(function () {
+                            var postItemID = $(this).attr('id');
+                            postItemSelected(postItemID);
+                        }).css('cursor', 'pointer');
+                    },
+                    "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                        $(nRow).attr('id', aData.PostItemID);
+                    }
+                });
+            });
+
+            function postItemSelected(id) {
+               var link = '@Url.Action("Details", "PostItems", new { id = "-1" })';
+                link = link.replace("-1", id);
+                window.location.href = link;
+            }
+
+
+
+        $(document).ready(function () {
+
+            $("#category").change(function () {
+                var element = $('#category');
+                if (element.val().length > 0) {
+
+                    $('#subCategoryDiv').show();
+                    $("#sub_category").empty();
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetSubCategory")', // we are calling json method
+
+                        dataType: 'json',
+
+                        data: { category: $("#category").val() },
+                        // here we are get value of selected country and passing same value
+                        //as inputto json method GetStates.
+
+                        success: function (subCategory) {
+                            // states contains the JSON formatted list
+                            // of states passed from the controller
+
+                            $.each(subCategory, function (i, subCategory) {
+                                $("#sub_category").append('<option value="' + subCategory.Value + '">' +
+                                     subCategory.Text + '</option>');
+                                // here we are adding option for States
+
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed to retrieve states.' + ex);
+                        }
+                    });
+                    return false;
+                }
+                else {
+                    $("#sub_category").empty();
+                    $('#subCategoryDiv').hide();
+
+                }
+            })
+
+            $("#sub_category").change(function () {
+                var sc = $('#sub_category');
+                var c = $('#category');
+
+            })
+
+        });
+
+</script>

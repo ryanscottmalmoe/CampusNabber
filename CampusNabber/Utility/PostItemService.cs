@@ -15,6 +15,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+// --------------------------------------------
+// PURPOSE :
+//  The purpose of this class is act as a service or utility 
+//  to provide ease of interacting with the PostItem class.
+// --------------------------------------------
+
 namespace CampusNabber.Utility
 {
     abstract class PostItemService
@@ -196,10 +202,10 @@ namespace CampusNabber.Utility
         public static SelectList generateSchoolsList()
         {
             List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem { Text = "Eastern Washington University", Value = "Eastern Washington University", Selected = true });
-            list.Add(new SelectListItem { Text = "Washington State University", Value = "Washington State University" });
-            list.Add(new SelectListItem { Text = "Gonzaga", Value = "Gonzaga" });
-            list.Add(new SelectListItem { Text = "Whitworth", Value = "Whitworth" });
+            foreach(School s in db.Schools)
+            {
+                list.Add(new SelectListItem { Text = s.school_name, Value = s.school_name });
+            }
 
             return new SelectList(list, "Text", "Value", 1);
         }
