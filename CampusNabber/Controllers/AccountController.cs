@@ -196,7 +196,7 @@ namespace CampusNabber.Controllers
 
                     }
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "<h2>Thank you for signing up with Campus Nabber!</h2>Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     ViewBag.Message = "An email with your validation link has been sent to the address you provided. You must confirm you email address before logging in.";
                     //return RedirectToAction("Index", "Home");
                     return View("ValidationInstructions");

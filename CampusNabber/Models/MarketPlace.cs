@@ -108,15 +108,16 @@ namespace CampusNabber.Models
         public void setSchoolToken(String school_name)
         {
             String token = "";
-                        if (school_name.Equals("Eastern Washington University"))
-                            token += "[EWU]";
-                        else if (school_name.Equals("Washington State University"))
-                            token += "[WSU]";
-                        else if (school_name.Equals("Gonzaga"))
-                            token += "[GU]";
-                        else if (school_name.Equals("Whitworth"))
-                            token += "[WU]";
-                        SchoolToken = token;
+            List<School> results = db.Schools.Where(school => school.school_name == school_name).ToList();
+            if (results.Count > 0)
+            {
+                token = results.First().school_tag;
+                SchoolToken = "[" + token + "]";
+            }
+            else
+            {
+                SchoolToken = "";
+            }
         }
 
         public void setList()
