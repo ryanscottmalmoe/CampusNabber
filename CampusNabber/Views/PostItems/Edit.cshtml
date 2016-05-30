@@ -4,11 +4,13 @@
     ViewBag.Title = "Edit";
 }
 
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+@*<script src="~/Scripts/image-picker.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/image-picker.css">*@
+
 <h2>Edit Post</h2>
 
 
-
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
 
 <div class="container">
     <div class="row">
@@ -56,12 +58,14 @@ new { enctype = "multipart/form-data" }))
 
                     <div class="form-group">
                         <label class="control-label col-md-2">Category</label>
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.category, (SelectList)ViewBag.selectCategory, "Select Category",
-                            new { style = "height: 40px;" })
+                        <div class="col-md-10">   
+                            @Html.DropDownListFor(n => n.category, (SelectList)ViewBag.selectCategory, "Select Category",
+                            new { style = "height: 40px;"})
                             @Html.ValidationMessageFor(model => model.category, "", new { @class = "text-danger" })
                         </div>
                     </div>
+
+
 
                     <div class="form-group" id="subCategoryDiv" >
 
@@ -75,11 +79,14 @@ new { enctype = "multipart/form-data" }))
 
                     <div class="form-group">
                         <label class="control-label col-md-2">Images</label>
-                        <div class="col-md-10">
-                            <form action="demo_form.asp">
-                                <input type="file" name="images" accept="image/*" multiple>
-                            </form>
-                        </div>
+                        <form action="demo_form.asp">
+                            <div class="col-md-8">
+
+                                <input type="file" name="image1" accept="image/*">
+                                <input type="file" name="image2" accept="image/*">
+                                <input type="file" name="image3" accept="image/*">
+                            </div>
+                        </form>
                     </div>
 
                     <div class="form-group">
@@ -117,17 +124,29 @@ new { enctype = "multipart/form-data" }))
             </style>
 
 
-            <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                            <img src="" class="imagepreview" style="width: 100%;">
-                        </div>
-                    </div>
-                </div>
-            </div>
 
+
+            @*
+            <select id="selectImage" class="image-picker" name="imagePicker" multiple="multiple">
+                <option data-img-src="@Model.photoPaths.ElementAt(0)" input type="text" name="img" value="1">1</option>
+                <option data-img-src="@Model.photoPaths.ElementAt(1)" input type="text" name="img" value="2">2</option>
+                <option data-img-src="@Model.photoPaths.ElementAt(2)" input type="text" name="img" value="3">3</option>
+            </select>
+
+            <script>
+                $("select").imagepicker()
+            </script>
+
+            <style>
+                .thumbnail > img {
+                    max-width: 150px;
+                }
+
+                
+            </style>
+                *@
+
+         
             <div ng-app="app">
                 <div ng-controller="CarouselDemoCtrl" id="slides_control">
                     <div ng-init="slides = @ViewBag.RESULTS">
@@ -146,22 +165,30 @@ new { enctype = "multipart/form-data" }))
                 .controller('CarouselDemoCtrl', function ($scope) {
                     $scope.myInterval = 3000;
                     $scope.slides = null;
-                });
+            });
 
                 $(function () {
                     $('.pop').on('click', function () {
                         $('.imagepreview').attr('src', $(this).find('img').attr('src'));
                         $('#imagemodal').modal('show');
-                    });
                 });
+            });
             </script>
 
-
+           <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <img src="" class="imagepreview" style="width: 100%;">
+                    </div>
+                </div>
+            </div>
         </div>
-        @*<div class="col-md-2 addSpace red pull-right">
+                  
 
 
-    </div>*@
+</div>
 
             </div>
 
@@ -312,3 +339,4 @@ new { enctype = "multipart/form-data" }))
 
 
 }
+

@@ -149,19 +149,19 @@ namespace CampusNabber.Controllers
                 School school = null;
                 Guid schoolID;
                 String schoolName;
-                                for (int i = 0; i < schools.Count(); i++)
-                                    {
-                    schoolName = schools[i];
-                                        while (schoolName.ElementAt(0) == ' ')
-                                           {
+                for (int i = 0; i < schools.Count(); i++)
+                 {
+                   schoolName = schools[i];
+                   while (schoolName.ElementAt(0) == ' ')
+                      {
                          schoolName = schoolName.Substring(1);
-                                            }
+                      }
                     IQueryable < School > schoo = db.Schools.Where(d => d.school_name == schoolName);
                     school = schoo.First();
                     schoolIDS[i] = school.object_id;
-                                    }
+                 }
                 
-                                 IQueryable < PostItem > postItems = null;
+                  IQueryable < PostItem > postItems = null;
                 //IQueryable < PostItem > temp = null;
                 var totalRecords = 0;
                 var result = new List<PostItemTableModel>();
@@ -259,7 +259,7 @@ namespace CampusNabber.Controllers
 
 
                     var sortDirection = Request["sSortDir_0"]; // asc or desc
-                    if (sortColumnIndex == 2)
+                    if (sortColumnIndex == 3)
                     {
                         if (sortDirection == "asc")
                         {

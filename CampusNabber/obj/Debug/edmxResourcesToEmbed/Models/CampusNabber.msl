@@ -133,5 +133,31 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="AdPostItems">
+      <EntityTypeMapping TypeName="CampusNabberModel.AdPostItem">
+        <MappingFragment StoreEntitySet="AdPostItems">
+          <ScalarProperty Name="school_id" ColumnName="school_id" />
+          <ScalarProperty Name="sub_category" ColumnName="sub_category" />
+          <ScalarProperty Name="category" ColumnName="category" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="post_date" ColumnName="post_date" />
+          <ScalarProperty Name="company_name" ColumnName="company_name" />
+          <ScalarProperty Name="object_id" ColumnName="object_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ads">
+      <EntityTypeMapping TypeName="CampusNabberModel.Ad">
+        <MappingFragment StoreEntitySet="Ads">
+          <ScalarProperty Name="photo_link" ColumnName="photo_link" />
+          <ScalarProperty Name="photo_path_728x90" ColumnName="photo_path_728x90" />
+          <ScalarProperty Name="photo_path_468x60" ColumnName="photo_path_468x60" />
+          <ScalarProperty Name="photo_path_160x600" ColumnName="photo_path_160x600" />
+          <ScalarProperty Name="company_name" ColumnName="company_name" />
+          <ScalarProperty Name="object_id" ColumnName="object_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -159,14 +159,16 @@ namespace CampusNabber.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([Bind(Include = 
         "object_id,username,school_name,post_date,price,title,description,photo_path_id,category,subCategory,social_flag")]
-        PostItemModel postItemModel, HttpPostedFileBase[] images)
+        PostItemModel postItemModel, HttpPostedFileBase image1, HttpPostedFileBase image2, HttpPostedFileBase image3)
         {
             PostItem postItem = null;
             if (ModelState.IsValid)
             {
                 School school = db.Schools.Where(d => d.school_name == postItemModel.school_name).First();
 
-
+                HttpPostedFileBase[] images = { image1, image2, image3 };
+                images = images.Where(d => d != null).ToArray();
+                  
                 //Sets the school_name here
                 ApplicationUser user = UserManager.FindByName(postItemModel.username);
                 postItemModel.school_name = school.school_name;
@@ -185,7 +187,7 @@ namespace CampusNabber.Controllers
 
                 db.PostItems.Add(postItem);
                 db.SaveChanges();
-
+                
                 return RedirectToAction("MainMarketView", "MarketPlace");
             }
             return View(postItem);
@@ -220,11 +222,17 @@ namespace CampusNabber.Controllers
                 List<string> photoList = PostItemService.GetS3Photos(postItem);
                 if (photoList != null && photoList.Count > 0)
                 {
+                    postItem.photoPaths = new List<string>();
                     List<dynamic> photoPaths = new List<dynamic>();
+                    List<string> stringPhotoPaths = new List<string>();
                     foreach (var photo in photoList)
+                    {
                         photoPaths.Add(new { image = photo.ToString() });
+                        stringPhotoPaths.Add(photo.ToString());
+                    }
                     var results = JsonConvert.SerializeObject(photoPaths);
                     ViewBag.RESULTS = results;
+                    postItem.photoPaths = stringPhotoPaths;
                 }
                 //******************************************
             }
@@ -237,11 +245,34 @@ namespace CampusNabber.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [ValidateAntiForgeryToken]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,tags,category")] PostItem postItem, HttpPostedFileBase[] images)
+        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,tags,category")] PostItemModel postItemModel, HttpPostedFileBase image1, HttpPostedFileBase image2, HttpPostedFileBase image3)
         {
+            PostItem postItem = null;
             if (ModelState.IsValid)
             {
-                postItem.photo_path_id = Guid.NewGuid();
+                //New images
+                HttpPostedFileBase[] images = { image1, image2, image3 };
+                images = images.Where(d => d != null).ToArray();
+
+                //-------------------------------
+
+                //Store new images---------------
+                if (images.Count() > 0)
+                {
+                    //Remove old images/photo path reference
+                    PostItemService.DeleteS3Photos(postItemModel);
+                    PostItemPhotos postItemPhoto = db.PostItemPhotos.Where(d => d.object_id.Equals(postItemModel.photo_path_id)).First();
+                    db.PostItemPhotos.Remove(postItemPhoto);
+                    postItemModel.photo_path_id = Guid.NewGuid();
+                }
+                postItem = postItemModel.bindToPostItem();
+                
+
+                //****AWS Portion**************
+                if (images.Count() > 0)
+                    PostItemService.StoreS3Photos(images, postItem);
+                //******************************
+
                 db.Set<PostItem>().Attach(postItem);
                 db.Entry(postItem).State = EntityState.Modified;
                 db.SaveChanges();
