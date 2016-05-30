@@ -22,6 +22,17 @@ a:visited{
     color:black;
 }
 
+
+#schoolOverFlowTable{
+    height:200px;
+    overflow:auto;
+}
+
+.jumbotron{
+    margin-bottom:0px;
+    padding-bottom:0px;
+}
+
 /* Ad side banner*/
 .banner {
     float: right;
