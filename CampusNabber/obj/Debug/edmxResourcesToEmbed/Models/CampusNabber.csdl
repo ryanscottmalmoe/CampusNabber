@@ -56,7 +56,6 @@
     <EntitySet Name="Ads" EntityType="CampusNabberModel.Ad" />
     <EntitySet Name="Categories" EntityType="CampusNabberModel.Category" />
     <EntitySet Name="AdPostItems" EntityType="CampusNabberModel.AdPostItem" />
-    <EntitySet Name="Ads" EntityType="CampusNabberModel.Ad" />
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -222,16 +221,5 @@
     <Property Name="category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="sub_category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="school_id" Type="Guid" />
-  </EntityType>
-  <EntityType Name="Ad">
-    <Key>
-      <PropertyRef Name="object_id" />
-    </Key>
-    <Property Name="object_id" Type="Guid" Nullable="false" />
-    <Property Name="company_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="photo_path_160x600" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="photo_path_468x60" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="photo_path_728x90" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="photo_link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>
