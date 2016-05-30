@@ -37,6 +37,11 @@ namespace CampusNabber.Controllers
                 Session["Color"] = school.main_hex_color;
 
             }
+                List<string> schools = db.Schools.Select(d => d.school_name).ToList();
+            schools.Sort();
+            string[] schoolsArr = schools.ToArray();
+            ViewData["schools"] = schoolsArr;
+            
             
             return View();
         }

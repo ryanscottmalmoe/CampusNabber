@@ -7,28 +7,29 @@
 @helper createLinkTo(int? category, int? subCategory, String schoolnames)
     {
 if(subCategory == null)
-{ 
+{
     <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
-                                 {Categories = Model.Categories,
-                                             Posts = Model.Posts,
-                                             CategoryNames = Model.CategoryNames,
-                                             numPosts = Model.numPosts,
-                                             displayRange = Model.displayRange,
-                                             rangeFrom = Model.rangeFrom,
-                                             rangeTo = Model.rangeTo,
-                                             school_id = Model.school_id,
-                                             schools = schoolnames,
-                                     selectSchool = Model.selectSchool,
-                                     secondary_schools_to_display=Model.secondary_schools_to_display,
-                                             user_name = Model.user_name,
-                                             userId = Model.userId,
-                                             categoryToDisplay = (int)category,
-                                             otherSchools = Model.otherSchools,
-                                     school_names = Model.school_names,
-                                     subCategoryToDisplay=Model.subCategoryToDisplay
+                             { Categories = Model.Categories,
+                                 Posts = Model.Posts,
+                                 CategoryNames = Model.CategoryNames,
+                                 numPosts = Model.numPosts,
+                                 displayRange = Model.displayRange,
+                                 rangeFrom = Model.rangeFrom,
+                                 rangeTo = Model.rangeTo,
+                                 school_id = Model.school_id,
+                                 schools = schoolnames,
+                                 selectSchool = Model.selectSchool,
+                                 secondary_schools_to_display = Model.secondary_schools_to_display,
+                                 user_name = Model.user_name,
+                                 userId = Model.userId,
+                                 categoryToDisplay = (int)category,
+                                 otherSchools = Model.otherSchools,
+                                 school_names = Model.school_names,
+                                 subCategoryToDisplay = Model.subCategoryToDisplay,
+                                 primarySchool = Model.primarySchool
 
 
-                                 })">
+                             })">
 
         @Model.CategoryNames[(int)category]
 
@@ -37,27 +38,28 @@ if(subCategory == null)
 else
 {
         <a class="sixteenPoint" href="@Url.Action("CategoryView", "MarketPlace", new
-                                 {Categories = Model.Categories,
-                                             Posts = Model.Posts,
-                                             CategoryNames = Model.CategoryNames,
-                                             numPosts = Model.numPosts,
-                                             displayRange = Model.displayRange,
-                                             rangeFrom = Model.rangeFrom,
-                                             rangeTo = Model.rangeTo,
-                                             school_id = Model.school_id,
-                                             schools = schoolnames,
+                                 { Categories = Model.Categories,
+                                     Posts = Model.Posts,
+                                     CategoryNames = Model.CategoryNames,
+                                     numPosts = Model.numPosts,
+                                     displayRange = Model.displayRange,
+                                     rangeFrom = Model.rangeFrom,
+                                     rangeTo = Model.rangeTo,
+                                     school_id = Model.school_id,
+                                     schools = schoolnames,
                                      selectSchool = Model.selectSchool,
-                                     secondary_schools_to_display=Model.secondary_schools_to_display,
-                                             user_name = Model.user_name,
-                                             userId = Model.userId,
-                                             categoryToDisplay = (int)category,
-                                             subCategoryToDisplay = (int)subCategory,
-                                             otherSchools = Model.otherSchools,
-                                     school_names = Model.school_names
-                                     
+                                     secondary_schools_to_display = Model.secondary_schools_to_display,
+                                     user_name = Model.user_name,
+                                     userId = Model.userId,
+                                     categoryToDisplay = (int)category,
+                                     subCategoryToDisplay = (int)subCategory,
+                                     otherSchools = Model.otherSchools,
+                                     school_names = Model.school_names,
+                                     primarySchool = Model.primarySchool
 
 
-                                 })">
+
+})">
 
             @Model.SubCategoryNames[(int)category].ElementAt((int)subCategory)
 
@@ -81,16 +83,19 @@ else
                 {
                     @Html.CheckBoxFor(model => model.selectSchool[i])
                     @Html.DisplayFor(model => Model.otherSchools[i])
+                    @Html.HiddenFor(model=> model.categoryToDisplay)
+                    @Html.HiddenFor(model=> model.subCategoryToDisplay)
 
                 }
 
                 <input type="submit" value="Submit" />
-
+                //@Session["addSchoolView"] = "MainMarket";
 
             }
         </div>
         <div class="col-md-2">
-            <h3><a href="@Url.Action("Create", "PostItems", new { userId = Model.user_name})" >Create Post</a></h3>
+            <h3><a href="@Url.Action("Create", "PostItems",
+                        new { userId = Model.user_name})" class="btn-default btn" >Create Post</a></h3>
         </div>
     </div>
 

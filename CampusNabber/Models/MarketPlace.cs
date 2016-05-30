@@ -31,6 +31,7 @@ namespace CampusNabber.Models
         public string userId { get; set; }
         public String SchoolToken { get; set; }
         public string searchString { get; set; }
+        public string primarySchool { get; set; }
         public String schools { get; set; }
         public List<String> otherSchools { get; set; }
         public Boolean[] selectSchool { get; set; }
@@ -55,7 +56,8 @@ namespace CampusNabber.Models
             //might want to change this to a school object in the future //Christian
             //School school = db.Schools.Where(d => d.object_id == user.school_id).First();
             school_id = user.school_id;
-            school_names.Add((db.Schools.Where(d => d.object_id == user.school_id).First().school_name));
+            primarySchool = db.Schools.Where(d => d.object_id == user.school_id).First().school_name;
+            school_names.Add(primarySchool);
             List<School> temp = db.Schools.Where(d => d.object_id != user.school_id).ToList();
             foreach(School sc in temp)
             {
@@ -69,8 +71,24 @@ namespace CampusNabber.Models
    //         SchoolToken = setSchoolToken();
         }
 
-
-
+        public void setOtherSchools()
+        {
+            var schools = db.Schools.Where(d => d.school_name != primarySchool).Select(d => d.school_name).ToList();
+            //   var list = from s in school_names
+            //            where schools.Contains(s)
+            //          select s;
+            // otherSchools = schools.Except(school_names).ToList();
+            otherSchools = schools;
+            selectSchool = new bool[schools.Count()];
+            for(int i = 0; i < selectSchool.Count(); i ++)
+            {
+                if (school_names.Contains(schools.ElementAt(i)))
+                    selectSchool[i] = true;
+                else
+                    selectSchool[i] = false;
+            }
+        }
+        
         public MarketPlace()
         {
            

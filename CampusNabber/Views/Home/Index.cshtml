@@ -11,39 +11,95 @@
         <p class="lead">For Students by Students</p>
 
         <!--Added a conditional statement so that users that are already logged in aren't prompted to register or log in. - ahenry -->
+            @{ 
+                bool loggedIn = true;
+            }
             @if (User.Identity.Name == "")
             {
                 <b><a href="/Account/Register/" class="btn btn-primary btn-lg">Register Now! &raquo;</a>             <a href="/Account/Login/" class="btn btn-primary btn-lg">Login! &raquo;</a></b>
+                loggedIn = false;
             }
         </div>
     </div>
 
-    
-    <div class="col-md-2 addSpace">
-        <div class="col-md-2">
+    @*
+        <div class="col-md-2 addSpace">
             <div class="col-md-2">
+                <div class="col-md-2">
 
-                <div id="sidebar" class="col-md-3 hidden-xs hidden-sm"> 
-                <!--Big Banner on side-->
-                    <div class="banner">
-                        <img src="~/Content/banners/160x600.png">
-                    </div>
-                </div>  <!-- sidebar -->
+                    <div id="sidebar" class="col-md-3 hidden-xs hidden-sm">
+                    <!--Big Banner on side-->
+                        <div class="banner">
+                            <img src="~/Content/banners/160x600.png">
+                        </div>
+                    </div>  <!-- sidebar -->
 
-                <div id="sidebar_mobile_med" class="col-xs-12 hidden-xs hidden-md hidden-lg">
-                    <!--Medium banner on bottom-->
-                    <img style="margin: 20px 0px">
-                    <img src="~/Content/banners/728x90.png">
-                </div>  <!-- sidebar_mobile_med -->
+                    <div id="sidebar_mobile_med" class="col-xs-12 hidden-xs hidden-md hidden-lg">
+                        <!--Medium banner on bottom-->
+                        <img style="margin: 20px 0px">
+                        <img src="~/Content/banners/728x90.png">
+                    </div>  <!-- sidebar_mobile_med -->
 
-                <div id="sidebar_mobile" class="col-xs-12 hidden-sm hidden-md hidden-lg">
-                    <!--Small banner on bottom-->
-                    <img style="margin: 20px 0px">
-                    <img src="~/Content/banners/468x60.png">
-                </div>  <!-- sidebar_mobile -->
+                    <div id="sidebar_mobile" class="col-xs-12 hidden-sm hidden-md hidden-lg">
+                        <!--Small banner on bottom-->
+                        <img style="margin: 20px 0px">
+                        <img src="~/Content/banners/468x60.png">
+                    </div>  <!-- sidebar_mobile -->
 
+                </div> <!--col2-->
             </div> <!--col2-->
-        </div> <!--col2-->
-    </div> <!--col2 addSpace-->
+        </div> <!--col2 addSpace-->
+
+    </div> <!--row-->
+    *@
+
+    @if (!loggedIn) { 
+<div class="row">
+    <div class="col-md-offset-2">
+        <div class="col-md-2">
+            <h4>Nabbing at:</h4>
+        </div>
+        <div id="schoolOverFlowTable" class="col-md-4 col-md-offset-1">
+            <table class="table table-borderless" id="displayTable">
+                <tbody>
+                    @{
+
+                        var schools = (string[])ViewData["schools"];
+                       
+                        if (schools != null)
+                        {
+                            for (int i = 0; i < schools.Count(); i++)
+                            {
+                                if (schools[i] != null)
+                                {
+
+                            <tr>
+                                <td>
+                                    @schools[i];
+                                </td>
+                            </tr>
+                                    }
+                                }
+                            }
+                        }
+                </tbody>
+            </table>
+        </div>
+
+       
+            
+
+    </div>
+   
+    <div class="col-md-offset-1 col-md-3">
+        <h4>Don't See your School?</h4>
+        <br />
+        <h3>
+            <a href="@Url.Action("AddSchool", "Schools",
+                                    null)" class="btn-default btn">Add School</a>
+        </h3>
+      @*  @Html@Action*@
+    </div>
     
-</div> <!--row-->
+</div>
+             }           
