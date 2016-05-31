@@ -106,8 +106,8 @@ namespace CampusNabber.Controllers
 
                     // Count
                     var count = adPostItems.Count();
-                    iDisplayRecords += count;
-                    totalRecords += count;
+                    iDisplayRecords = count;
+                    totalRecords = count;
 
                 // Search
                 /*

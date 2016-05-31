@@ -15,7 +15,6 @@
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
-<<<<<<< HEAD
         <EntityType Name="AdPostItems">
           <Key>
             <PropertyRef Name="object_id" />
@@ -29,8 +28,6 @@
           <Property Name="sub_category" Type="nvarchar(max)" />
           <Property Name="school_id" Type="uniqueidentifier" />
         </EntityType>
-=======
->>>>>>> refs/remotes/origin/master
         <EntityType Name="Ads">
           <Key>
             <PropertyRef Name="object_id" />
@@ -227,10 +224,7 @@
         </Association>
         <EntityContainer Name="CampusNabberModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
-<<<<<<< HEAD
           <EntitySet Name="AdPostItems" EntityType="Self.AdPostItems" Schema="dbo" store:Type="Tables" />
-=======
->>>>>>> refs/remotes/origin/master
           <EntitySet Name="Ads" EntityType="Self.Ads" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -324,7 +318,6 @@
           <EntitySet Name="Ads" EntityType="CampusNabberModel.Ad" />
           <EntitySet Name="Categories" EntityType="CampusNabberModel.Category" />
           <EntitySet Name="AdPostItems" EntityType="CampusNabberModel.AdPostItem" />
-          <EntitySet Name="Ads" EntityType="CampusNabberModel.Ad" />
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
@@ -490,17 +483,6 @@
           <Property Name="category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="sub_category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="school_id" Type="Guid" />
-        </EntityType>
-        <EntityType Name="Ad">
-          <Key>
-            <PropertyRef Name="object_id" />
-          </Key>
-          <Property Name="object_id" Type="Guid" Nullable="false" />
-          <Property Name="company_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="photo_path_160x600" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="photo_path_468x60" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="photo_path_728x90" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="photo_link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
