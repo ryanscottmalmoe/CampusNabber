@@ -28,6 +28,11 @@ a:visited{
     overflow:auto;
 }
 
+#addAdditionalSchools{
+    height:200px;
+    overflow:auto;
+}
+
 .jumbotron{
     margin-bottom:0px;
     padding-bottom:0px;
@@ -88,10 +93,24 @@ textarea {
     font-size:10px;
 }
 
+.btn-primary {
+  color: #FFFFFF;
+  background-color: #708090;
+  border-color: #708090;
+}
+
 #navBarLogo{
     max-width:80px; 
     max-height:20px;
     margin-top: 0px;
+}
+
+.buttonText{
+    font-family: "Verdana", Times, sans-serif;
+    font-weight: bold;
+    font-variant: small-caps;
+    color: #999999;
+    margin-top:10px;
 }
 
 #buttonText{

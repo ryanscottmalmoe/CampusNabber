@@ -28,7 +28,6 @@
           <Property Name="sub_category" Type="nvarchar(max)" />
           <Property Name="school_id" Type="uniqueidentifier" />
         </EntityType>
-
         <EntityType Name="Ads">
           <Key>
             <PropertyRef Name="object_id" />

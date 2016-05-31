@@ -42,30 +42,10 @@
                                     }
                                 </div>
                                 <div class="col-sm-4">
-                                    <form class="block form myForm">
-                                        <div class="input-group" >
-                                            <input type="text" id="searchInput" name="searchInput" value="@Model.searchString" class="form-control text-box customInput " placeholder="Search @Model.chosenCategory" />
-                                            <a id="searchButton" class="btn btn-primary" onclick="SearchPostItems();" href="#">Search</a>
-                                         </div>
-                                    </form>
+                                    
                                 </div>
                                 <div class="col-sm-6">
-                                    @using (Html.BeginForm("AddAdditionalSchools", "MarketPlace", FormMethod.Post, new { @id = "nonHover" }))
-                                    {
-
-
-                                        for (int i = 0; i < Model.selectSchool.Count(); i++)
-                                        {
-                                            @Html.CheckBoxFor(model => model.selectSchool[i])
-                                            @Html.DisplayFor(model => model.otherSchools[i])
-                                            @Html.HiddenFor(model => model.categoryToDisplay)
-                                            @Html.HiddenFor(model => model.subCategoryToDisplay)
-                                        }
-
-                                        <input type="submit" value="Submit" />
-                                        //@Session["addSchoolView"] = "Category";
-
-                                    }
+                                    
                                 </div>
 
                             </div>
@@ -94,6 +74,39 @@
                                         </div>
                                     </form>
                                 </fieldset>
+                                <form class="block form myForm">
+                                    <div class="input-group">
+                                        <input type="text" id="searchInput" name="searchInput" value="@Model.searchString" class="form-control text-box customInput " placeholder="Search @Model.chosenCategory" />
+                                        <a id="searchButton" class="btn btn-primary" onclick="SearchPostItems();" href="#">Search</a>
+                                    </div>
+                                </form>
+
+                                @using (Html.BeginForm("AddAdditionalSchools", "MarketPlace", FormMethod.Post, new { @id = "nonHover" }))
+                                {
+                                    <div id="addAdditionalSchools">
+                                        <h4>Add Schools</h4>
+                                        <table class="table table-borderless" id="displayTable">
+                                            <tbody>
+
+                                                @for (int i = 0; i < Model.selectSchool.Count(); i++)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.CheckBoxFor(model => model.selectSchool[i])
+                                                            @Html.DisplayFor(model => model.otherSchools[i])
+                                                            @Html.HiddenFor(model => model.categoryToDisplay)
+                                                            @Html.HiddenFor(model => model.subCategoryToDisplay)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        
+                                        
+                                    </div>
+                                    <input type="submit" value="Submit" />
+                                }
+
                             </div>
                             <div class="col-sm-10">
 
@@ -163,7 +176,6 @@
                             { 'bSortable': false, 'aTargets': [ 1, 2 ] }
                     ],
                     "bFilter": false,
-                    "bInfo": false,
                     "sAjaxSource": "@Url.Action("GetPostItemData", "MarketPlace")",
                     "fnServerParams": function (aoData) {
                         aoData.push(
