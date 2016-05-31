@@ -59,10 +59,13 @@ namespace CampusNabber.Models
             primarySchool = db.Schools.Where(d => d.object_id == user.school_id).First().school_name;
             school_names.Add(primarySchool);
             List<School> temp = db.Schools.Where(d => d.object_id != user.school_id).ToList();
+            //   temp.Sort();
+       //     temp.Sort((a, b) => a.school_name.CompareTo(b.school_name));
             foreach(School sc in temp)
             {
                 otherSchools.Add(sc.school_name);
             }
+            otherSchools.Sort();
             selectSchool = new Boolean[otherSchools.Count()];
             for (int i = 0; i < selectSchool.Count(); i++)
                 selectSchool[i] = false;
@@ -74,6 +77,7 @@ namespace CampusNabber.Models
         public void setOtherSchools()
         {
             var schools = db.Schools.Where(d => d.school_name != primarySchool).Select(d => d.school_name).ToList();
+            schools.Sort();
             //   var list = from s in school_names
             //            where schools.Contains(s)
             //          select s;
