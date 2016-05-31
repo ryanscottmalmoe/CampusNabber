@@ -2,7 +2,7 @@
 
 
 @{
-    ViewBag.Title = Model.chosenCategory;
+    ViewBag.Title = "CategoryView";
 }
 
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
@@ -18,10 +18,8 @@
     {
         schoolnames += Model.school_names[i];
         if (i + 1 != Model.school_names.Count)
-        {
-            schoolnames += ",";
-        }
-
+        { schoolnames += ","; }
+        Model.schools = schoolnames;
     }
 }
 
@@ -37,6 +35,11 @@
                             <div class="row">
                                 <div class="col-sm-2">
                                     <h2>@Model.chosenCategory</h2>
+                                    @if(Model.chosenSubCategory != null)
+                                    {
+                                        <br />
+                                        <h2>@Model.chosenSubCategory</h2>
+                                    }
                                 </div>
                                 <div class="col-sm-4">
                                     <form class="block form">
@@ -45,6 +48,24 @@
                                             <a id="searchButton" class="btn btn-primary" onclick="SearchPostItems();" href="#">Search</a>
                                          </div>
                                     </form>
+                                </div>
+                                <div class="col-sm-6">
+                                    @using (Html.BeginForm("AddAdditionalSchools", "MarketPlace", FormMethod.Post, new { @id = "nonHover" }))
+                                    {
+
+
+                                        for (int i = 0; i < Model.selectSchool.Count(); i++)
+                                        {
+                                            @Html.CheckBoxFor(model => model.selectSchool[i])
+                                            @Html.DisplayFor(model => model.otherSchools[i])
+                                            @Html.HiddenFor(model => model.categoryToDisplay)
+                                            @Html.HiddenFor(model => model.subCategoryToDisplay)
+                                        }
+
+                                        <input type="submit" value="Submit" />
+                                        //@Session["addSchoolView"] = "Category";
+
+                                    }
                                 </div>
 
                             </div>
@@ -111,6 +132,8 @@
 
 
         <script>
+
+           // alert(schoolnames);
             function SearchPostItems() {
                 oTable.fnReloadAjax();
             }
@@ -119,6 +142,7 @@
 
             var oTable;
             $(function () {
+               // debugger;
                 oTable = $('#PostItemTable').dataTable({
                     "sPaginationType": "full_numbers",
                     "bInfo": true,
@@ -161,9 +185,9 @@
                             "visible": false
                         },
                         {
-                            "mDataProp": "PhotoPath", "sWidth": "20px",
+                            "mDataProp": "PhotoPath", "sWidth": "10px",
                             "render": function (mDataProp, type, row) {
-                                return '<img src="' + mDataProp + '" alt="~/Content/images/Transparent_logo_black.png" style="width=20px;height=20px;" />';
+                                return '<img src="' + mDataProp + '"style="width=10px;height=10px;" />';
                         }
                         },
                         { "mDataProp": "Title", "sWidth": "100px", "sClass": "alignCenter" },
@@ -182,6 +206,7 @@
             });
 
             function postItemSelected(id) {
+              //  debugger;
                var link = '@Url.Action("Details", "PostItems", new { id = "-1" })';
                 link = link.replace("-1", id);
                 window.location.href = link;
