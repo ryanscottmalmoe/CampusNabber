@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using CampusNabber;
 using CampusNabber.Models;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System.Threading.Tasks;
 
 namespace CampusNabber.Controllers
 {
@@ -12,6 +15,18 @@ namespace CampusNabber.Controllers
     public class FlagController : Controller
     {
         private CampusNabberEntities db = new CampusNabberEntities();
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         //
         // GET: /Flag/
         public ActionResult Index()
@@ -29,8 +44,9 @@ namespace CampusNabber.Controllers
             return View(newFlag);
         }
 
+
         [HttpPost]
-        public ActionResult Create(FlagPost newFlag)
+        public async Task<ActionResult> Create(FlagPost newFlag)
         {
             if (ModelState.IsValid)
             {
@@ -38,6 +54,8 @@ namespace CampusNabber.Controllers
                 newFlag.username_of_flagger = User.Identity.Name;
                 newFlag.object_id = Guid.NewGuid();
                 db.FlagPosts.Add(newFlag);
+                UrlHelper u = new UrlHelper(this.ControllerContext.RequestContext);
+                string url = u.Action("Details", "PostItems", new { id = newFlag.flagged_postitem_id });
                 try
                 {
                     db.SaveChanges();
@@ -46,7 +64,7 @@ namespace CampusNabber.Controllers
                 {
                     Console.WriteLine(e.Message);
                 }
-                //probably insert "flag created" view
+                await UserManager.SendEmailAsync("df60a819-7b79-49ee-9b18-7c4f32726115", "Post Flagged as Inappropriate", "<h2>The following post has been flagged as inappropriate.</h2><h4>Please address appropriately.</h4><a href=\"" + url + "\">Link to the Post</a>");
                 return View("SuccessfulCreation");
             }
             return View();
