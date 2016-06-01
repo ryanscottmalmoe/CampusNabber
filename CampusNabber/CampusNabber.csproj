@@ -208,7 +208,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
-    <Compile Include="App_Start\RoleActions.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -424,6 +423,7 @@
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\image-picker.css" />
+    <Content Include="Content\images\campusnabber_altimage.png" />
     <Content Include="Content\images\Lloyd_Gibson_aka_pedo.jpg" />
     <Content Include="Content\images\logo-placeholder.jpg" />
     <Content Include="Content\images\Transparent_logo_grey.png" />

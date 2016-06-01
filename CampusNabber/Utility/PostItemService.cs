@@ -81,8 +81,8 @@ namespace CampusNabber.Utility
         public static string GetFirstPhotoPath(PostItem postItem)
         {
             getAWSCreds();
-            if (!postItem.photo_path_id.HasValue)
-                return "/Content/images/Lloyd_Gibson_aka_pedo.jpg";
+            if (!postItem.photo_path_id.HasValue || postItem.photo_path_id == Guid.Empty)
+                return "/Content/images/campusnabber_altimage.png";
             try
             {
                 PostItemPhotos photos = db.PostItemPhotos.Find(postItem.photo_path_id);
