@@ -255,7 +255,7 @@ namespace CampusNabber.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [ValidateAntiForgeryToken]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,tags,category")] PostItemModel postItemModel, HttpPostedFileBase image1, HttpPostedFileBase image2, HttpPostedFileBase image3)
+        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,tags,category,subCategory")] PostItemModel postItemModel, HttpPostedFileBase image1, HttpPostedFileBase image2, HttpPostedFileBase image3)
         {
             PostItem postItem = null;
             if (ModelState.IsValid)
@@ -288,7 +288,7 @@ namespace CampusNabber.Controllers
                 db.SaveChanges();
 
                 //Instead of taking you back to the index page, the user is now taken back to the Details page of that particular post. - ahenry
-                return RedirectToAction("Details", new { id = postItem.object_id });
+                return RedirectToAction("ProfileView", "Profile", new { failedPost = "false" });
             }
             return View(postItem);
         }
@@ -323,15 +323,17 @@ namespace CampusNabber.Controllers
 
             db.PostItems.Remove(postItemTemp);
             PostItemPhotos postItemPhoto = db.PostItemPhotos.Find(postItem.photo_path_id);
-            db.PostItemPhotos.Remove(postItemPhoto);
+            if (postItemPhoto != null)
+            {
+                db.PostItemPhotos.Remove(postItemPhoto);
 
-            //Delete AWS Photos    
-            PostItemService.DeleteS3Photos(postItem);
-            db.PostItemPhotos.Remove(postItemPhotos);
-
+                //Delete AWS Photos    
+                PostItemService.DeleteS3Photos(postItem);
+                db.PostItemPhotos.Remove(postItemPhotos);
+            }
             db.SaveChanges();
 
-            return RedirectToAction("MainMarketView", "MarketPlace");
+            return RedirectToAction("ProfileView", "Profile");
         }
 
         [Authorize(Roles ="Admin")]
