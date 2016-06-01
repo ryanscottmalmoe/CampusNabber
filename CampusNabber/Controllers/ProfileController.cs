@@ -125,7 +125,8 @@ namespace CampusNabber.Controllers
                 profileModel.school_id = school.object_id;
                 Model.school_id = profileModel.school_id;
                 IdentityResult result = await UserManager.UpdateAsync(Model);
-                if(result.Succeeded)
+                Session["Color"] = school.main_hex_color;
+                if (result.Succeeded)
                 {
                     if (!oldUserName.Equals(profileModel.user.UserName))
                     {
