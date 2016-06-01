@@ -51,15 +51,6 @@ namespace CampusNabber.Models
                     new SelectListItem { Text = d.school_name, Value = d.school_name}
                 );
             this.schools = new SelectList(genSchools.ToList(), "Text", "Value", 1);
-
-            /*
-            list.Add(new SelectListItem { Text = "Eastern Washington University", Value = "Eastern Washington University", Selected = true });
-            list.Add(new SelectListItem { Text = "Washington State University", Value = "Washington State University" });
-            list.Add(new SelectListItem { Text = "Gonzaga", Value = "Gonzaga" });
-            list.Add(new SelectListItem { Text = "Whitworth", Value = "Whitworth" });
-
-            this.schools = new SelectList(list, "Text", "Value", 1);
-            */
         }
 
         public static AdPostItemViewModel bindToModel(AdPostItem adPostItem)

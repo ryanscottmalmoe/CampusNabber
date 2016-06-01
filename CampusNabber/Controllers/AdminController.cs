@@ -10,6 +10,7 @@ using Microsoft.Owin.Security;
 using CampusNabber.Models;
 using System.Linq.Expressions;
 using CampusNabber.Utility;
+using System.Data.Entity;
 
 namespace CampusNabber.Controllers
 {
@@ -93,6 +94,28 @@ namespace CampusNabber.Controllers
             return View(adPostItemViewModel);
         }
 
+        [HttpPost]
+        public ActionResult SaveAdPosts(AdPostItemViewModel adPostModel)
+        {
+            AdPostItem adPostItem = adPostModel.bindToAdPostItem();
+            adPostItem.object_id = Guid.NewGuid();
+            adPostItem.post_date = DateTime.Now;
+            var adPostItemCheck = db.AdPostItems.Where(d =>
+                                                              d.school_id == adPostItem.school_id &&
+                                                              d.category == adPostItem.category &&
+                                                              d.sub_category == adPostItem.sub_category
+                                                              );
+            if (adPostItemCheck.Count() > 0)
+                db.AdPostItems.Remove(adPostItemCheck.First());                                                
+            db.AdPostItems.Add(adPostItem);
+            db.SaveChanges();
+
+            return Json(new
+            {
+                Success = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult GetAdPosts(jQueryDataTableParamModel param)
         {
             using (var context = new CampusNabberEntities())
@@ -110,15 +133,18 @@ namespace CampusNabber.Controllers
                     totalRecords = count;
 
                 // Search
-                /*
-                if (!string.IsNullOrEmpty(Search))
+                if (!string.IsNullOrEmpty(param.sSearch))
                     {
                         adPostItems = adPostItems.Where(s =>
-                                                s.title.Contains(Search) ||
-                                                s.description.Contains(Search)
+                                                s.title.Contains(param.sSearch) ||
+                                                s.description.Contains(param.sSearch) ||
+                                                s.company_name.Contains(param.sSearch) ||
+                                                s.category.Contains(param.sSearch) ||
+                                                s.sub_category.Contains(param.sSearch)
+
                             );
                     }
-                   */
+                  
 
                 // Order
                 var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
