@@ -8,6 +8,10 @@ h2 {
     margin-bottom:10px;
 }
 
+.dataTables_wrapper {
+    margin-top:20px;
+}
+
 
 .container body-content {
     padding-bottom:0px;
