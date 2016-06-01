@@ -31,6 +31,7 @@
             <div class="col-md-10">
                 <div class="panel-group" id="pageWindow">
                     <div class="panel panel-default">
+                        @*
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-sm-2">
@@ -41,17 +42,27 @@
                                         <h2>@Model.chosenSubCategory</h2>
                                     }
                                 </div>
+                                
                                 <div class="col-sm-4">
                                     
                                 </div>
                                 <div class="col-sm-6">
                                     
                                 </div>
+                                   
 
                             </div>
                         </div>
+                            *@
                         <div class="panel-body">
                             <div class="col-sm-2">
+                                <h2>@Model.chosenCategory</h2>
+                                @if (Model.chosenSubCategory != null)
+                                {
+                                    <br />
+                                        <h2>@Model.chosenSubCategory</h2>
+                                }
+
                                 <fieldset id="searchField" class="myfields">
                                     <form class="form myForm">
                                         <div class="input-group">

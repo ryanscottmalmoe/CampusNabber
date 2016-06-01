@@ -304,8 +304,16 @@ namespace CampusNabber.Controllers
 
                     // Count
                     var count = postItems.Count();
-                    iDisplayRecords += count;
+                    iDisplayRecords = count;
                     totalRecords += count;
+
+                    // Skip and take
+                    if (param.iDisplayLength != null && param.iDisplayStart != null)
+                    {
+                        postItems = postItems
+                                    .Skip(param.iDisplayStart)
+                                    .Take(param.iDisplayLength);
+                    }
 
                     // Order
                     var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
