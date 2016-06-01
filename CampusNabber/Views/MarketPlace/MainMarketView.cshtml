@@ -94,7 +94,7 @@ else
         }
     </div>
     *@
-        <div class="col-md-2">
+        <div class="col-md-2 col-md-offset-8">
             <a href="@Url.Action("Create", "PostItems",
                         new { userId = Model.user_name})" class="btn btn-primary buttonText" >Create Post</a>
         </div>
@@ -116,7 +116,7 @@ else
 
 
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-2 col-md-offset-1">
 
         @{
             var schoolnames = "";
@@ -271,9 +271,9 @@ else
 
 </div>
 
-    <div class="col-md-2 addSpace">
-        
-    </div>
+    @*<div class="col-md-2 ">
+
+    </div>*@
     
 
 </div>

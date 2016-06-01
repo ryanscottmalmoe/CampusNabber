@@ -38,6 +38,10 @@ a:visited{
     padding-bottom:0px;
 }
 
+td{
+    border-top:none !important;
+}
+
 /* Ad side banner*/
 .banner {
     float: right;
