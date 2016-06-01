@@ -74,28 +74,29 @@ else
 
             <h3>Start Nabbin'</h3>
         </div>
-        <div class="col-md-8">
-            @using (Html.BeginForm("AddAdditionalSchools", "MarketPlace", FormMethod.Post, new { @id = "nonHover" }))
+      @*  <div class="col-md-8">
+        @using (Html.BeginForm("AddAdditionalSchools", "MarketPlace", FormMethod.Post, new { @id = "nonHover" }))
+        {
+
+
+            for (int i = 0; i < Model.selectSchool.Count(); i++)
             {
-
-
-                for (int i = 0; i < Model.selectSchool.Count(); i++)
-                {
-                    @Html.CheckBoxFor(model => model.selectSchool[i])
-                    @Html.DisplayFor(model => Model.otherSchools[i])
-                    @Html.HiddenFor(model=> model.categoryToDisplay)
-                    @Html.HiddenFor(model=> model.subCategoryToDisplay)
-
-                }
-
-                <input type="submit" value="Submit" />
-                //@Session["addSchoolView"] = "MainMarket";
+                @Html.CheckBoxFor(model => model.selectSchool[i])
+                @Html.DisplayFor(model => Model.otherSchools[i])
+                @Html.HiddenFor(model=> model.categoryToDisplay)
+                @Html.HiddenFor(model=> model.subCategoryToDisplay)
 
             }
-        </div>
+
+            <input type="submit" value="Submit" />
+            //@Session["addSchoolView"] = "MainMarket";
+
+        }
+    </div>
+    *@
         <div class="col-md-2">
-            <h3><a href="@Url.Action("Create", "PostItems",
-                        new { userId = Model.user_name})" class="btn-default btn" >Create Post</a></h3>
+            <a href="@Url.Action("Create", "PostItems",
+                        new { userId = Model.user_name})" class="btn btn-primary buttonText" >Create Post</a>
         </div>
     </div>
 

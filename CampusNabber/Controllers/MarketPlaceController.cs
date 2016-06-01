@@ -105,6 +105,12 @@ namespace CampusNabber.Controllers
                     newMarket.chosenCategory = newMarket.CategoryNames[(int)market.categoryToDisplay];
                     newMarket.chosenSubCategory = newMarket.SubCategoryNames[(int)market.categoryToDisplay].ElementAt((int)market.subCategoryToDisplay);
                 }
+                string searchCondition = (string)Session["searchString"];
+                if (searchCondition != null)
+                {
+                    newMarket.searchString = searchCondition;
+                    //Session.Remove("searchString");
+                }
             }
             for (int i = 0; i < market.selectSchool.Count(); i++)
             {
@@ -139,6 +145,7 @@ namespace CampusNabber.Controllers
             market.mainSchoolColor = school.main_hex_color;
             market.searchString = Search;
             Session["addSchoolView"] = "Category";
+            Session["searchString"] = Search;
             return View(market);
         }
 
@@ -183,7 +190,9 @@ namespace CampusNabber.Controllers
                 School school = null;
                 Guid schoolID;
                 String schoolName;
-                                for (int i = 0; i < schools.Count(); i++)
+                
+                
+                for (int i = 0; i < schools.Count(); i++)
                                     {
                     schoolName = schools[i];
                                         while (schoolName.ElementAt(0) == ' ')
@@ -261,6 +270,7 @@ namespace CampusNabber.Controllers
                                                 s.title.Contains(Search) ||
                                                 s.description.Contains(Search)
                             );
+                        Session["searchString"] = Search;
                     }
                     List<PostItemModel> models = new List<PostItemModel>();
                     foreach (PostItem post in postItems)
