@@ -19,9 +19,9 @@ namespace CampusNabber
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             //Create admin role and user
-            RoleActions roleActions = new RoleActions();
-            roleActions.LoadSchoolsOnFirstBuild();
-            roleActions.AddAdminRoleAndUser();
+            //RoleActions roleActions = new RoleActions();
+            //roleActions.LoadSchoolsOnFirstBuild();
+            //roleActions.AddAdminRoleAndUser();
         }
     }
 }
