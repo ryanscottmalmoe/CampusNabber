@@ -30,7 +30,6 @@ namespace CampusNabber.Controllers
                 _userManager = value;
             }
         }
-        private CampusNabberEntities db = new CampusNabberEntities();
 
         public AdController(ApplicationUserManager _userManager)
         {
@@ -43,13 +42,16 @@ namespace CampusNabber.Controllers
 
         public ActionResult Index()
         {
-            db.Ads.ToList();
-            List<AdModel> adModels = new List<AdModel>();
-            foreach(Ad ad in db.Ads.ToList())
+            using (var context = new CampusNabberEntities())
             {
-                adModels.Add(AdModel.BindToAdModel(ad));
+                context.Ads.ToList();
+                List<AdModel> adModels = new List<AdModel>();
+                foreach (Ad ad in context.Ads.ToList())
+                {
+                    adModels.Add(AdModel.BindToAdModel(ad));
+                }
+                return View(adModels);
             }
-            return View(adModels);
         }
 
         // Get: /PostItems/Create
@@ -77,47 +79,53 @@ namespace CampusNabber.Controllers
         public ActionResult Create([Bind(Include = "object_id,company_name,photo_link")] AdModel adModel, HttpPostedFileBase image1, 
             HttpPostedFileBase image2, HttpPostedFileBase image3)
         {
-            Ad ad = null;
-            if (ModelState.IsValid)
+            using (var context = new CampusNabberEntities())
             {
-                if(image1 == null || image2 == null || image3 == null || 1 == 1)
+                Ad ad = null;
+                if (ModelState.IsValid)
                 {
-                    ViewBag.errorTitle = "File Not Found";
-                    ViewBag.errorMsg = "One or more of the submitted photos were not uploaded properly.";
-                    return View("~/Views/Admin/AdminError.cshtml");
+                    if (image1 == null || image2 == null || image3 == null || 1 == 1)
+                    {
+                        ViewBag.errorTitle = "File Not Found";
+                        ViewBag.errorMsg = "One or more of the submitted photos were not uploaded properly.";
+                        return View("~/Views/Admin/AdminError.cshtml");
+                    }
+                    adModel.object_id = Guid.NewGuid();
+                    adModel.photo_path_160x600 = adModel.object_id.ToString() + "/160x600";
+                    adModel.photo_path_468x60 = adModel.object_id.ToString() + "/468x60";
+                    adModel.photo_path_728x90 = adModel.object_id.ToString() + "/728x90";
+                    ad = adModel.BindAd();
+
+                    //****AWS Portion**************
+                    AdService.StoreS3Photos(image1, image2, image3, ad);
+                    //******************************
+
+                    context.Ads.Add(ad);
+                    context.SaveChanges();
+
+                    return RedirectToAction("AdminTools", "Admin");
                 }
-                adModel.object_id = Guid.NewGuid();
-                adModel.photo_path_160x600 = adModel.object_id.ToString() + "/160x600";
-                adModel.photo_path_468x60 = adModel.object_id.ToString() + "/468x60";
-                adModel.photo_path_728x90 = adModel.object_id.ToString() + "/728x90";
-                ad = adModel.BindAd();
-
-                //****AWS Portion**************
-                AdService.StoreS3Photos(image1, image2, image3, ad);
-                //******************************
-
-                db.Ads.Add(ad);
-                db.SaveChanges();
-
-                return RedirectToAction("AdminTools", "Admin");
+                return View(ad);
             }
-            return View(ad);
         }
 
         // POST: PostItems/Delete
         public ActionResult Delete(Guid? id)
         {
-            Ad adTemp = db.Ads.Find(id);
-            AdModel ad = AdModel.BindToAdModel(adTemp);
+            using (var context = new CampusNabberEntities())
+            {
+                Ad adTemp = context.Ads.Find(id);
+                AdModel ad = AdModel.BindToAdModel(adTemp);
 
-            db.Ads.Remove(adTemp);
+                context.Ads.Remove(adTemp);
 
-            //Delete AWS Photos    
-            AdService.DeleteS3Photos(ad);
+                //Delete AWS Photos    
+                AdService.DeleteS3Photos(ad);
 
-            db.SaveChanges();
+                context.SaveChanges();
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
         }
 
 
