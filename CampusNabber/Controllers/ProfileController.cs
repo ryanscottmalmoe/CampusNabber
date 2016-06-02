@@ -124,7 +124,7 @@ namespace CampusNabber.Controllers
                 Guid oldSchoolID = Model.school_id;
                 Model.Email = profileModel.user.Email;
                 Model.UserName = profileModel.user.UserName;
-                School school = db.Schools.Where(d => d.school_name == profileModel.school_name).First();
+                School school = context.Schools.Where(d => d.school_name == profileModel.school_name).First();
                 profileModel.school_id = school.object_id;
                 Model.school_id = profileModel.school_id;
                 IdentityResult result = await UserManager.UpdateAsync(Model);
