@@ -270,8 +270,10 @@ namespace CampusNabber.Controllers
                                                 s.title.Contains(Search) ||
                                                 s.description.Contains(Search)
                             );
-                        Session["searchString"] = Search;
+                        
                     }
+                    if(Search.Equals(""))
+                        Session["searchString"] = Search;
                     List<PostItemModel> models = new List<PostItemModel>();
                     foreach (PostItem post in postItems)
                     {
@@ -304,7 +306,7 @@ namespace CampusNabber.Controllers
 
                     // Count
                     var count = postItems.Count();
-                    iDisplayRecords = count;
+                    iDisplayRecords += count;
                     totalRecords += count;
 
                     // Skip and take
