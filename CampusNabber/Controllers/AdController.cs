@@ -84,7 +84,7 @@ namespace CampusNabber.Controllers
                 Ad ad = null;
                 if (ModelState.IsValid)
                 {
-                    if (image1 == null || image2 == null || image3 == null || 1 == 1)
+                    if (image1 == null || image2 == null || image3 == null)
                     {
                         ViewBag.errorTitle = "File Not Found";
                         ViewBag.errorMsg = "One or more of the submitted photos were not uploaded properly.";
