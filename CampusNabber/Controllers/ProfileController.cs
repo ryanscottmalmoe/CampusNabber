@@ -118,18 +118,20 @@ namespace CampusNabber.Controllers
             using (var context = new CampusNabberEntities())
             {
                 if (ModelState.IsValid)
+		{
+                ApplicationUser Model = UserManager.FindById(User.Identity.GetUserId());
+                string oldUserName = Model.UserName;
+                Guid oldSchoolID = Model.school_id;
+                Model.Email = profileModel.user.Email;
+                Model.UserName = profileModel.user.UserName;
+                School school = db.Schools.Where(d => d.school_name == profileModel.school_name).First();
+                profileModel.school_id = school.object_id;
+                Model.school_id = profileModel.school_id;
+                IdentityResult result = await UserManager.UpdateAsync(Model);
+                Session["Color"] = school.main_hex_color;
+                if (result.Succeeded)
                 {
-                    ApplicationUser Model = UserManager.FindById(User.Identity.GetUserId());
-                    string oldUserName = Model.UserName;
-                    Guid oldSchoolID = Model.school_id;
-                    Model.Email = profileModel.user.Email;
-                    Model.UserName = profileModel.user.UserName;
-                    School school = context.Schools.Where(d => d.school_name == profileModel.school_name).First();
-                    profileModel.school_id = school.object_id;
-                    Model.school_id = profileModel.school_id;
-                    IdentityResult result = await UserManager.UpdateAsync(Model);
-                    if (result.Succeeded)
-                    {
+
                         if (!oldUserName.Equals(profileModel.user.UserName))
                         {
                             PostItemService.updateAllPostItemsInfo(Model, oldUserName);

@@ -136,7 +136,7 @@
                                         @Html.ValidationMessageFor(model => model.user.Email, "", new { @class = "text-danger" })
                                     </div>
                                     <div id="editSchoolName">
-                                        <label class="control-label">Category</label><br/>
+                                        <label class="control-label">School Name</label><br/>
                                         @Html.DropDownListFor(model => model.school_name, (SelectList)ViewBag.selectCategory, "Select Category", new { style = "height: 40px;" })
                                     </div>
                                     <br/>
