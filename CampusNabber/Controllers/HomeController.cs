@@ -12,7 +12,6 @@ namespace CampusNabber.Controllers
     public class HomeController : Controller
     {
         private ApplicationUserManager _userManager;
-        private static CampusNabberEntities db = new CampusNabberEntities();
 
         public ApplicationUserManager UserManager
         {
@@ -29,21 +28,23 @@ namespace CampusNabber.Controllers
 
         public ActionResult Index()
         {
-            
-            if(User.Identity.IsAuthenticated && Session["Color"] == null)
+            using (var context = new CampusNabberEntities())
             {
-                ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-                School school = db.Schools.Where(d => d.object_id == user.school_id).First();
-                Session["Color"] = school.main_hex_color;
+                if (User.Identity.IsAuthenticated && Session["Color"] == null)
+                {
+                    ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+                    School school = context.Schools.Where(d => d.object_id == user.school_id).First();
+                    Session["Color"] = school.main_hex_color;
 
+                }
+                List<string> schools = context.Schools.Select(d => d.school_name).ToList();
+                schools.Sort();
+                string[] schoolsArr = schools.ToArray();
+                ViewData["schools"] = schoolsArr;
+
+
+                return View();
             }
-                List<string> schools = db.Schools.Select(d => d.school_name).ToList();
-            schools.Sort();
-            string[] schoolsArr = schools.ToArray();
-            ViewData["schools"] = schoolsArr;
-            
-            
-            return View();
         }
 
         public ActionResult About()

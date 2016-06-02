@@ -17,7 +17,6 @@ namespace CampusNabber.Controllers
     public class ProfileController : Controller
     {
         private ApplicationUserManager _userManager;
-        private static CampusNabberEntities db = new CampusNabberEntities();
 
         public ApplicationUserManager UserManager
         {
@@ -49,30 +48,32 @@ namespace CampusNabber.Controllers
 
         public ActionResult ProfileView(string failedPost)
         {
+            using (var context = new CampusNabberEntities())
+            {
+                if (_userManager == null)
+                    _userManager = UserManager;
+                ApplicationUser user = UserManager.FindByName(User.Identity.GetUserName());
 
-            if (_userManager == null)
-                _userManager = UserManager;
-            ApplicationUser user = UserManager.FindByName(User.Identity.GetUserName());
+                ViewBag.userName = user.UserName;
 
-            ViewBag.userName = user.UserName;
+                //Creates profile model and assigns current users posts to the model
+                var profile = new ProfileModel();
+                profile.getProfilePosts(_userManager.FindById(User.Identity.GetUserId()));
+                profile.user = (_userManager.FindById(User.Identity.GetUserId()));
+                School school = context.Schools.Where(d => d.object_id == user.school_id).First();
+                if (Session["Color"] == null)
+                    Session["Color"] = school.main_hex_color;
+                profile.school_name = school.school_name;
+                //Creates school drop down menu
+                SelectList selectCategory = PostItemService.generateSchoolsList();
+                ViewBag.selectCategory = selectCategory;
+                TempData["FailedPost"] = failedPost;
 
-            //Creates profile model and assigns current users posts to the model
-            var profile = new ProfileModel();
-            profile.getProfilePosts(_userManager.FindById(User.Identity.GetUserId()));
-            profile.user = (_userManager.FindById(User.Identity.GetUserId()));
-            School school = db.Schools.Where(d => d.object_id == user.school_id).First();
-            if (Session["Color"] == null)
-                Session["Color"] = school.main_hex_color;
-            profile.school_name = school.school_name;
-            //Creates school drop down menu
-            SelectList selectCategory = PostItemService.generateSchoolsList();
-            ViewBag.selectCategory = selectCategory;
-            TempData["FailedPost"] = failedPost;
+                ViewBag.main_color = school.main_hex_color;
+                ViewBag.secondary_color = school.secondary_hex_color;
 
-            ViewBag.main_color = school.main_hex_color;
-            ViewBag.secondary_color = school.secondary_hex_color;
-
-            return View(profile);
+                return View(profile);
+            }
         }
 
         //Deactivates user and deletes references in all tables.
@@ -114,8 +115,10 @@ namespace CampusNabber.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateUser(ProfileModel profileModel)
         {
-            if (ModelState.IsValid)
+            using (var context = new CampusNabberEntities())
             {
+                if (ModelState.IsValid)
+		{
                 ApplicationUser Model = UserManager.FindById(User.Identity.GetUserId());
                 string oldUserName = Model.UserName;
                 Guid oldSchoolID = Model.school_id;
@@ -128,21 +131,23 @@ namespace CampusNabber.Controllers
                 Session["Color"] = school.main_hex_color;
                 if (result.Succeeded)
                 {
-                    if (!oldUserName.Equals(profileModel.user.UserName))
-                    {
-                        PostItemService.updateAllPostItemsInfo(Model, oldUserName);
-                        //Are we sure we want to log the user off when they change their username?
-                        return RedirectToAction("LogOffWithoutPost", "Account");
-                    }
-                    else if (!oldSchoolID.Equals(profileModel.user.school_id))
-                    {
-                        PostItemService.updateAllPostItemsInfo(Model, oldUserName);
 
+                        if (!oldUserName.Equals(profileModel.user.UserName))
+                        {
+                            PostItemService.updateAllPostItemsInfo(Model, oldUserName);
+                            //Are we sure we want to log the user off when they change their username?
+                            return RedirectToAction("LogOffWithoutPost", "Account");
+                        }
+                        else if (!oldSchoolID.Equals(profileModel.user.school_id))
+                        {
+                            PostItemService.updateAllPostItemsInfo(Model, oldUserName);
+
+                        }
+                        return RedirectToAction("ProfileView", "Profile", new { failedPost = "false" });
                     }
-                    return RedirectToAction("ProfileView", "Profile", new { failedPost = "false" });
                 }
-            } 
-            return RedirectToAction("ProfileView", "Profile", new { failedPost = "true" });
+                return RedirectToAction("ProfileView", "Profile", new { failedPost = "true" });
+            }
         }
 
     }
