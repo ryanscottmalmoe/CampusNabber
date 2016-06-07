@@ -66,55 +66,85 @@ namespace CampusNabber.Controllers
         {
             using (var context = new CampusNabberEntities())
             {
-                if (id == null)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                PostItem postItemTemp = context.PostItems.Find(id);
-                PostItemModel postItem = PostItemModel.bindToModel(postItemTemp);
-                if (postItem == null)
-                {
-                    return HttpNotFound();
-                }
-
-
-                //Builds the school class for create page.
-                School school = context.Schools.Where(d => d.school_name == postItem.school_name).First();
-                ViewBag.main_color = school.main_hex_color;
-                ViewBag.secondary_color = school.secondary_hex_color;
-                ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-                if (postItem.photo_path_id.HasValue)
-                {
-                    //Check to see whether the PostItemPhotos are stored in the database. This shouldn't happen in the future, but
-                    //there are a couple of currently broken posts.
-                    List<PostItemPhotos> queryResult = context.PostItemPhotos.Where(d => d.object_id == postItem.photo_path_id).ToList();
-                    if (queryResult.Count > 0)
+                    if (id == null)
                     {
-                        PostItemPhotos postItemPhotos = queryResult.First();
-                        //*******AWS Portion *********************
-                        List<string> photoList = PostItemService.GetS3Photos(postItem);
-                        if (photoList != null && photoList.Count > 0)
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    PostItem postItemTemp = context.PostItems.Find(id);
+                    PostItemModel postItem = null;
+                    if (postItemTemp == null)
+                    {
+                        AdPostItem adPostItemTemp = context.AdPostItems.Find(id);
+                        postItem = AdPostItemViewModel.bindToPostItemModel(adPostItemTemp);
+                        if (postItem == null)
                         {
-                            ViewBag.RESULTS = photoList;
-                            ViewBag.FIRSTPHOTO = photoList[0];
-                            ViewBag.HASPHOTO = true;
+                            return HttpNotFound();
                         }
-                        //******************************************
+                    }
+                    else
+                    {
+                        postItem = PostItemModel.bindToModel(postItemTemp);
+                    }
+
+                    if (postItem == null)
+                    {
+                        AdPostItem adPostItemTemp = context.AdPostItems.Find(id);
+                        postItem = AdPostItemViewModel.bindToPostItemModel(adPostItemTemp);
+                        if (postItem == null)
+                        {
+                            return HttpNotFound();
+                        }
+                    }
+
+                    //Builds the school class for create page.
+                    School school = context.Schools.Where(d => d.school_name == postItem.school_name).First();
+                    ViewBag.main_color = school.main_hex_color;
+                    ViewBag.secondary_color = school.secondary_hex_color;
+                    ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+                    if (postItem.photo_path_id.HasValue)
+                    {
+                        //Check to see whether the PostItemPhotos are stored in the database. This shouldn't happen in the future, but
+                        //there are a couple of currently broken posts.
+                        List<PostItemPhotos> queryResult = context.PostItemPhotos.Where(d => d.object_id == postItem.photo_path_id).ToList();
+                        if (queryResult.Count > 0)
+                        {
+                            PostItemPhotos postItemPhotos = queryResult.First();
+                            //*******AWS Portion *********************
+                            List<string> photoList = PostItemService.GetS3Photos(postItem);
+                            if (photoList != null && photoList.Count > 0)
+                            {
+                                ViewBag.RESULTS = photoList;
+                                ViewBag.FIRSTPHOTO = photoList[0];
+                                ViewBag.HASPHOTO = true;
+                            }
+                            //******************************************
+                        }
+                        else
+                        {
+                            ViewBag.HASPHOTO = false;
+                        }
                     }
                     else
                     {
                         ViewBag.HASPHOTO = false;
                     }
-                }
-                else
-                {
-                    ViewBag.HASPHOTO = false;
-                }
 
 
-                ViewBag.EMAIL = UserManager.FindByName(postItem.username).Email;
-                return View(postItem);
+
+                    var correspondingUser = UserManager.FindByName(postItem.username);
+                    if (correspondingUser != null)
+                    {
+                        ViewBag.EMAIL = correspondingUser.Email;
+                    }
+                    else
+                    {
+                        ViewBag.EMAIL = "";
+                    }
+                    return View(postItem);
+                }
             }
+
         }
 
         public JsonResult GetSubCategory(string category)

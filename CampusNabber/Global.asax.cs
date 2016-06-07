@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-
 namespace CampusNabber
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -18,10 +17,6 @@ namespace CampusNabber
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //Create admin role and user
-            //RoleActions roleActions = new RoleActions();
-            //roleActions.LoadSchoolsOnFirstBuild();
-            //roleActions.AddAdminRoleAndUser();
         }
     }
 }
