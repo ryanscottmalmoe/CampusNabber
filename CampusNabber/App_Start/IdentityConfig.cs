@@ -18,6 +18,7 @@ namespace CampusNabber
     {
         public Task SendAsync(IdentityMessage message)
         {
+            /*
             // Plug in your email service here to send an email.
             var userName = "campusnabbervalidator@gmail.com";
             var password = "CampusNab";
@@ -29,6 +30,20 @@ namespace CampusNabber
             client.EnableSsl = true;
             client.Credentials = new System.Net.NetworkCredential(userName, password);
             
+
+            var mail = new System.Net.Mail.MailMessage(userName, message.Destination);
+            mail.Subject = message.Subject;
+            mail.Body = message.Body;
+            mail.IsBodyHtml = true;
+            return client.SendMailAsync(mail);
+            */
+            var userName = "admin@campusnabber.com";
+            var password = "CampusNab";
+            System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
+            client.Host = "relay-hosting.secureserver.net";
+            client.Port = 25;
+            client.Credentials = new System.Net.NetworkCredential(userName, password);
+
 
             var mail = new System.Net.Mail.MailMessage(userName, message.Destination);
             mail.Subject = message.Subject;

@@ -681,3 +681,4 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AI.Agent.Interc
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Newtonsoft.Json.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\WebGrease.dll
+C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csprojResolveAssemblyReference.cache
