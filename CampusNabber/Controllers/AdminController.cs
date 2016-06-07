@@ -157,6 +157,7 @@ namespace CampusNabber.Controllers
                                     .ToList()
                                     .Select(d => new AdPostItemViewModel
                                     {
+                                        object_id = d.object_id,
                                         company_name = d.company_name,
                                         category = d.category,
                                         sub_category = d.sub_category,

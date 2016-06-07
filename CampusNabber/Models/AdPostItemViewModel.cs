@@ -72,5 +72,19 @@ namespace CampusNabber.Models
             return adPostItemModel;
         }
 
+        public static PostItemModel bindToPostItemModel(AdPostItem adPostItem)
+        {
+            PostItemModel postItemModel = new PostItemModel();
+            postItemModel.object_id = adPostItem.object_id;
+            postItemModel.post_date = (DateTime)adPostItem.post_date;
+            postItemModel.title = adPostItem.title;
+            postItemModel.description = adPostItem.description;
+            postItemModel.category = adPostItem.category;
+            postItemModel.school_name = db.Schools.Where(d => d.object_id == adPostItem.school_id).First().school_name;
+            postItemModel.username = "N/A";
+            postItemModel.category = adPostItem.company_name;
+            return postItemModel;
+        }
+
     }
 }

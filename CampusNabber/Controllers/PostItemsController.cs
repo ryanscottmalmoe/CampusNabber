@@ -67,10 +67,29 @@ namespace CampusNabber.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             PostItem postItemTemp = db.PostItems.Find(id);
-            PostItemModel postItem = PostItemModel.bindToModel(postItemTemp);
+            PostItemModel postItem = null;
+            if (postItemTemp == null)
+            {
+                AdPostItem adPostItemTemp = db.AdPostItems.Find(id);
+                postItem = AdPostItemViewModel.bindToPostItemModel(adPostItemTemp);
+                if (postItem == null)
+                {
+                    return HttpNotFound();
+                }
+            }
+            else
+            {
+                postItem = PostItemModel.bindToModel(postItemTemp);
+            }
+            
             if (postItem == null)
             {
-                return HttpNotFound();
+                AdPostItem adPostItemTemp = db.AdPostItems.Find(id);
+                postItem = AdPostItemViewModel.bindToPostItemModel(adPostItemTemp);
+                if(postItem == null)
+                {
+                    return HttpNotFound();
+                }               
             }
 
 
@@ -106,9 +125,16 @@ namespace CampusNabber.Controllers
             {
                 ViewBag.HASPHOTO = false;
             }
-           
 
-            ViewBag.EMAIL = UserManager.FindByName(postItem.username).Email;
+            var correspondingUser = UserManager.FindByName(postItem.username);
+            if (correspondingUser != null)
+            {
+                ViewBag.EMAIL = correspondingUser.Email;
+            }
+            else
+            {
+                ViewBag.EMAIL = "";
+            }
             return View(postItem);
         }
 
