@@ -40,7 +40,6 @@ namespace CampusNabber.Controllers
                 _userManager = value;
             }
         }
-        private CampusNabberEntities db = new CampusNabberEntities();
 
         public PostItemsController(ApplicationUserManager _userManager)
         {
@@ -50,7 +49,10 @@ namespace CampusNabber.Controllers
         // GET: PostItems
         public ActionResult Index()
         {
-           return View(db.PostItems.ToList());
+            using (var context = new CampusNabberEntities())
+            {
+                return View(context.PostItems.ToList());
+            }
         }
 
         public PostItemsController()
@@ -62,133 +64,146 @@ namespace CampusNabber.Controllers
         // GET: PostItems/Details
         public ActionResult Details(Guid? id)
         {
-            if (id == null)
+            using (var context = new CampusNabberEntities())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PostItem postItemTemp = db.PostItems.Find(id);
-            PostItemModel postItem = null;
-            if (postItemTemp == null)
-            {
-                AdPostItem adPostItemTemp = db.AdPostItems.Find(id);
-                postItem = AdPostItemViewModel.bindToPostItemModel(adPostItemTemp);
-                if (postItem == null)
                 {
-                    return HttpNotFound();
-                }
-            }
-            else
-            {
-                postItem = PostItemModel.bindToModel(postItemTemp);
-            }
-            
-            if (postItem == null)
-            {
-                AdPostItem adPostItemTemp = db.AdPostItems.Find(id);
-                postItem = AdPostItemViewModel.bindToPostItemModel(adPostItemTemp);
-                if(postItem == null)
-                {
-                    return HttpNotFound();
-                }               
-            }
-
-
-            //Builds the school class for create page.
-            School school = db.Schools.Where(d => d.school_name == postItem.school_name).First();
-            ViewBag.main_color = school.main_hex_color;
-            ViewBag.secondary_color = school.secondary_hex_color;
-            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-            if(postItem.photo_path_id.HasValue)
-            {
-                //Check to see whether the PostItemPhotos are stored in the database. This shouldn't happen in the future, but
-                //there are a couple of currently broken posts.
-                List<PostItemPhotos> queryResult = db.PostItemPhotos.Where(d => d.object_id == postItem.photo_path_id).ToList();
-                if (queryResult.Count > 0)
-                {
-                    PostItemPhotos postItemPhotos = queryResult.First();
-                    //*******AWS Portion *********************
-                    List<string> photoList = PostItemService.GetS3Photos(postItem);
-                    if (photoList != null && photoList.Count > 0)
+                    if (id == null)
                     {
-                        ViewBag.RESULTS = photoList;
-                        ViewBag.FIRSTPHOTO = photoList[0];
-                        ViewBag.HASPHOTO = true;
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                     }
-                    //******************************************
+                    PostItem postItemTemp = db.PostItems.Find(id);
+                    PostItemModel postItem = null;
+                    if (postItemTemp == null)
+                    {
+                        AdPostItem adPostItemTemp = db.AdPostItems.Find(id);
+                        postItem = AdPostItemViewModel.bindToPostItemModel(adPostItemTemp);
+                        if (postItem == null)
+                        {
+                            return HttpNotFound();
+                        }
+                    }
+                    else
+                    {
+                        postItem = PostItemModel.bindToModel(postItemTemp);
+                    }
+
+                    if (postItem == null)
+                    {
+                        AdPostItem adPostItemTemp = db.AdPostItems.Find(id);
+                        postItem = AdPostItemViewModel.bindToPostItemModel(adPostItemTemp);
+                        if (postItem == null)
+                        {
+                            return HttpNotFound();
+                        }
+                    }
+
+                    //Builds the school class for create page.
+                    School school = context.Schools.Where(d => d.school_name == postItem.school_name).First();
+                    ViewBag.main_color = school.main_hex_color;
+                    ViewBag.secondary_color = school.secondary_hex_color;
+                    ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+                    if (postItem.photo_path_id.HasValue)
+                    {
+                        //Check to see whether the PostItemPhotos are stored in the database. This shouldn't happen in the future, but
+                        //there are a couple of currently broken posts.
+                        List<PostItemPhotos> queryResult = context.PostItemPhotos.Where(d => d.object_id == postItem.photo_path_id).ToList();
+                        if (queryResult.Count > 0)
+                        {
+                            PostItemPhotos postItemPhotos = queryResult.First();
+                            //*******AWS Portion *********************
+                            List<string> photoList = PostItemService.GetS3Photos(postItem);
+                            if (photoList != null && photoList.Count > 0)
+                            {
+                                ViewBag.RESULTS = photoList;
+                                ViewBag.FIRSTPHOTO = photoList[0];
+                                ViewBag.HASPHOTO = true;
+                            }
+                            //******************************************
+                        }
+                        else
+                        {
+                            ViewBag.HASPHOTO = false;
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.HASPHOTO = false;
+                    }
+
+
+
+                    var correspondingUser = UserManager.FindByName(postItem.username);
+                    if (correspondingUser != null)
+                    {
+                        ViewBag.EMAIL = correspondingUser.Email;
+                    }
+                    else
+                    {
+                        ViewBag.EMAIL = "";
+                    }
+                    return View(postItem);
                 }
-                else
-                {
-                    ViewBag.HASPHOTO = false;
-                }
-            }
-            else
-            {
-                ViewBag.HASPHOTO = false;
             }
 
-            var correspondingUser = UserManager.FindByName(postItem.username);
-            if (correspondingUser != null)
-            {
-                ViewBag.EMAIL = correspondingUser.Email;
-            }
-            else
-            {
-                ViewBag.EMAIL = "";
-            }
-            return View(postItem);
         }
 
         public JsonResult GetSubCategory(string category)
         {
-            String[] categories = db.Categories.Select(d => d.category_name).Distinct().ToArray();
-            SelectList categoriesDropdown = null;
-            switch (category)
+            using (var context = new CampusNabberEntities())
             {
-                case "Eats and Drinks":
-                    categoriesDropdown = PostItemService.generateSubCategoryList("Eats and Drinks");
-                    break;
-                case "For Sale":
-                    categoriesDropdown = PostItemService.generateSubCategoryList("For Sale");
-                    break;
-                case "Housing":
-                    categoriesDropdown = PostItemService.generateSubCategoryList("Housing");
-                    break;
-                case "Jobs":
-                    categoriesDropdown = PostItemService.generateSubCategoryList("Jobs");
-                    break;
-                case "On Campus":
-                    categoriesDropdown = PostItemService.generateSubCategoryList("On Campus");
-                    break;
-            }
+                String[] categories = context.Categories.Select(d => d.category_name).Distinct().ToArray();
+                SelectList categoriesDropdown = null;
+                switch (category)
+                {
+                    case "Eats and Drinks":
+                        categoriesDropdown = PostItemService.generateSubCategoryList("Eats and Drinks");
+                        break;
+                    case "For Sale":
+                        categoriesDropdown = PostItemService.generateSubCategoryList("For Sale");
+                        break;
+                    case "Housing":
+                        categoriesDropdown = PostItemService.generateSubCategoryList("Housing");
+                        break;
+                    case "Jobs":
+                        categoriesDropdown = PostItemService.generateSubCategoryList("Jobs");
+                        break;
+                    case "On Campus":
+                        categoriesDropdown = PostItemService.generateSubCategoryList("On Campus");
+                        break;
+                }
 
-            return Json(new SelectList(categoriesDropdown, "Value", "Text"));
+                return Json(new SelectList(categoriesDropdown, "Value", "Text"));
+            }
         }
 
 
         // Get: /PostItems/Create
         public ActionResult Create(String userId)
         {
-            PostItemModel postItem = null;
-            if (userId == null)
-                postItem = new PostItemModel { username = User.Identity.GetUserName() };
-            else
-                postItem = new PostItemModel { username = userId };
+            using (var context = new CampusNabberEntities())
+            {
+                PostItemModel postItem = null;
+                if (userId == null)
+                    postItem = new PostItemModel { username = User.Identity.GetUserName() };
+                else
+                    postItem = new PostItemModel { username = userId };
 
-            ViewBag.username = userId;
+                ViewBag.username = userId;
 
-            SelectList selectCategory = PostItemService.generateCategoryList();
-            ViewBag.selectCategory = selectCategory;
+                SelectList selectCategory = PostItemService.generateCategoryList();
+                ViewBag.selectCategory = selectCategory;
 
-            //Builds the school class for create page.
-            ApplicationUser user = UserManager.FindByName(postItem.username);
-            School school = db.Schools.Where(d => d.object_id == user.school_id).First();
-            postItem.school_name = school.school_name;
-            ViewBag.main_color = school.main_hex_color;
-            ViewBag.secondary_color = school.secondary_hex_color;
-            String[] categories = db.Categories.Select(d => d.category_name).Distinct().ToArray();
-            ViewBag.categories = categories;
+                //Builds the school class for create page.
+                ApplicationUser user = UserManager.FindByName(postItem.username);
+                School school = context.Schools.Where(d => d.object_id == user.school_id).First();
+                postItem.school_name = school.school_name;
+                ViewBag.main_color = school.main_hex_color;
+                ViewBag.secondary_color = school.secondary_hex_color;
+                String[] categories = context.Categories.Select(d => d.category_name).Distinct().ToArray();
+                ViewBag.categories = categories;
 
-            return View(postItem);
+                return View(postItem);
+            }
         }
 
         //Post /PostItems/Create
@@ -197,83 +212,89 @@ namespace CampusNabber.Controllers
         "object_id,username,school_name,post_date,price,title,description,photo_path_id,category,subCategory,social_flag")]
         PostItemModel postItemModel, HttpPostedFileBase image1, HttpPostedFileBase image2, HttpPostedFileBase image3)
         {
-            PostItem postItem = null;
-            if (ModelState.IsValid)
+            using (var context = new CampusNabberEntities())
             {
-                School school = db.Schools.Where(d => d.school_name == postItemModel.school_name).First();
+                PostItem postItem = null;
+                if (ModelState.IsValid)
+                {
+                    School school = context.Schools.Where(d => d.school_name == postItemModel.school_name).First();
 
-                HttpPostedFileBase[] images = { image1, image2, image3 };
-                images = images.Where(d => d != null).ToArray();
-                  
-                //Sets the school_name here
-                ApplicationUser user = UserManager.FindByName(postItemModel.username);
-                postItemModel.school_name = school.school_name;
-                postItemModel.post_date = System.DateTime.Now;
-                postItemModel.object_id = Guid.NewGuid();
-                if (images.Count() > 0)
-                    postItemModel.photo_path_id = Guid.NewGuid();
-                else
-                    postItemModel.photo_path_id = Guid.Empty;
-                postItem = postItemModel.bindToPostItem();
+                    HttpPostedFileBase[] images = { image1, image2, image3 };
+                    images = images.Where(d => d != null).ToArray();
 
-                //****AWS Portion**************
-                if(images.Count() > 0)
-                    PostItemService.StoreS3Photos(images, postItem);
-                //******************************
+                    //Sets the school_name here
+                    ApplicationUser user = UserManager.FindByName(postItemModel.username);
+                    postItemModel.school_name = school.school_name;
+                    postItemModel.post_date = System.DateTime.Now;
+                    postItemModel.object_id = Guid.NewGuid();
+                    if (images.Count() > 0)
+                        postItemModel.photo_path_id = Guid.NewGuid();
+                    else
+                        postItemModel.photo_path_id = Guid.Empty;
+                    postItem = postItemModel.bindToPostItem();
 
-                db.PostItems.Add(postItem);
-                db.SaveChanges();
-                
-                return RedirectToAction("MainMarketView", "MarketPlace");
+                    //****AWS Portion**************
+                    if (images.Count() > 0)
+                        PostItemService.StoreS3Photos(images, postItem);
+                    //******************************
+
+                    context.PostItems.Add(postItem);
+                    context.SaveChanges();
+
+                    return RedirectToAction("MainMarketView", "MarketPlace");
+                }
+                return View(postItem);
             }
-            return View(postItem);
         }
 
 
         // GET: PostItems/Edit
         public ActionResult Edit(Guid? id)
         {
-            if (id == null)
+            using (var context = new CampusNabberEntities())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PostItem postItemTemp = db.PostItems.Find(id);
-            PostItemModel postItem = PostItemModel.bindToModel(postItemTemp);
-
-            if (postItem == null)
-            {
-                return HttpNotFound();
-            }
-            SelectList selectCategory = PostItemService.generateCategoryList();
-            ViewBag.selectCategory = selectCategory;
-
-            //Builds the school class for edit page.
-            School school = db.Schools.Where(d => d.school_name == postItem.school_name).First();
-            ViewBag.main_color = school.main_hex_color;
-            ViewBag.secondary_color = school.secondary_hex_color;
-
-            if(postItem.photo_path_id.HasValue)
-            {
-                //*******AWS Portion *********************
-                List<string> photoList = PostItemService.GetS3Photos(postItem);
-                if (photoList != null && photoList.Count > 0)
+                if (id == null)
                 {
-                    postItem.photoPaths = new List<string>();
-                    List<dynamic> photoPaths = new List<dynamic>();
-                    List<string> stringPhotoPaths = new List<string>();
-                    foreach (var photo in photoList)
-                    {
-                        photoPaths.Add(new { image = photo.ToString() });
-                        stringPhotoPaths.Add(photo.ToString());
-                    }
-                    var results = JsonConvert.SerializeObject(photoPaths);
-                    ViewBag.RESULTS = results;
-                    postItem.photoPaths = stringPhotoPaths;
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                //******************************************
-            }
+                PostItem postItemTemp = context.PostItems.Find(id);
+                PostItemModel postItem = PostItemModel.bindToModel(postItemTemp);
 
-            return View(postItem);
+                if (postItem == null)
+                {
+                    return HttpNotFound();
+                }
+                SelectList selectCategory = PostItemService.generateCategoryList();
+                ViewBag.selectCategory = selectCategory;
+
+                //Builds the school class for edit page.
+                School school = context.Schools.Where(d => d.school_name == postItem.school_name).First();
+                ViewBag.main_color = school.main_hex_color;
+                ViewBag.secondary_color = school.secondary_hex_color;
+
+                if (postItem.photo_path_id.HasValue)
+                {
+                    //*******AWS Portion *********************
+                    List<string> photoList = PostItemService.GetS3Photos(postItem);
+                    if (photoList != null && photoList.Count > 0)
+                    {
+                        postItem.photoPaths = new List<string>();
+                        List<dynamic> photoPaths = new List<dynamic>();
+                        List<string> stringPhotoPaths = new List<string>();
+                        foreach (var photo in photoList)
+                        {
+                            photoPaths.Add(new { image = photo.ToString() });
+                            stringPhotoPaths.Add(photo.ToString());
+                        }
+                        var results = JsonConvert.SerializeObject(photoPaths);
+                        ViewBag.RESULTS = results;
+                        postItem.photoPaths = stringPhotoPaths;
+                    }
+                    //******************************************
+                }
+
+                return View(postItem);
+            }
         }
 
         // POST: PostItems/Edit
@@ -281,57 +302,63 @@ namespace CampusNabber.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [ValidateAntiForgeryToken]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,tags,category")] PostItemModel postItemModel, HttpPostedFileBase image1, HttpPostedFileBase image2, HttpPostedFileBase image3)
+        public ActionResult Edit([Bind(Include = "object_id,username,school_name,post_date,price,title,description,photo_path_id,tags,category,subCategory")] PostItemModel postItemModel, HttpPostedFileBase image1, HttpPostedFileBase image2, HttpPostedFileBase image3)
         {
-            PostItem postItem = null;
-            if (ModelState.IsValid)
+            using (var context = new CampusNabberEntities())
             {
-                //New images
-                HttpPostedFileBase[] images = { image1, image2, image3 };
-                images = images.Where(d => d != null).ToArray();
-
-                //-------------------------------
-
-                //Store new images---------------
-                if (images.Count() > 0)
+                PostItem postItem = null;
+                if (ModelState.IsValid)
                 {
-                    //Remove old images/photo path reference
-                    PostItemService.DeleteS3Photos(postItemModel);
-                    PostItemPhotos postItemPhoto = db.PostItemPhotos.Where(d => d.object_id.Equals(postItemModel.photo_path_id)).First();
-                    db.PostItemPhotos.Remove(postItemPhoto);
-                    postItemModel.photo_path_id = Guid.NewGuid();
+                    //New images
+                    HttpPostedFileBase[] images = { image1, image2, image3 };
+                    images = images.Where(d => d != null).ToArray();
+
+                    //-------------------------------
+
+                    //Store new images---------------
+                    if (images.Count() > 0)
+                    {
+                        //Remove old images/photo path reference
+                        PostItemService.DeleteS3Photos(postItemModel);
+                        PostItemPhotos postItemPhoto = context.PostItemPhotos.Where(d => d.object_id.Equals(postItemModel.photo_path_id)).First();
+                        context.PostItemPhotos.Remove(postItemPhoto);
+                        postItemModel.photo_path_id = Guid.NewGuid();
+                    }
+                    postItem = postItemModel.bindToPostItem();
+
+
+                    //****AWS Portion**************
+                    if (images.Count() > 0)
+                        PostItemService.StoreS3Photos(images, postItem);
+                    //******************************
+
+                    context.Set<PostItem>().Attach(postItem);
+                    context.Entry(postItem).State = EntityState.Modified;
+                    context.SaveChanges();
+
+                    //Instead of taking you back to the index page, the user is now taken back to the Details page of that particular post. - ahenry
+                    return RedirectToAction("ProfileView", "Profile", new { failedPost = "false" });
                 }
-                postItem = postItemModel.bindToPostItem();
-                
-
-                //****AWS Portion**************
-                if (images.Count() > 0)
-                    PostItemService.StoreS3Photos(images, postItem);
-                //******************************
-
-                db.Set<PostItem>().Attach(postItem);
-                db.Entry(postItem).State = EntityState.Modified;
-                db.SaveChanges();
-
-                //Instead of taking you back to the index page, the user is now taken back to the Details page of that particular post. - ahenry
-                return RedirectToAction("Details", new { id = postItem.object_id });
+                return View(postItem);
             }
-            return View(postItem);
         }
 
         // GET: PostItems/Delete/5
         public ActionResult Delete(Guid? id)
         {
-            if (id == null)
+            using (var context = new CampusNabberEntities())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                PostItem postItem = context.PostItems.Find(id);
+                if (postItem == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(PostItemModel.bindToModel(postItem));
             }
-            PostItem postItem = db.PostItems.Find(id);
-            if (postItem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(PostItemModel.bindToModel(postItem));
         }
 
         // POST: PostItems/Delete
@@ -339,25 +366,30 @@ namespace CampusNabber.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            PostItem postItemTemp = db.PostItems.Find(id);
-            PostItemModel postItem = PostItemModel.bindToModel(postItemTemp);
-            PostItemPhotos postItemPhotos = db.PostItemPhotos.Find(postItem.photo_path_id);
+            using (var context = new CampusNabberEntities())
+            {
+                PostItem postItemTemp = context.PostItems.Find(id);
+                PostItemModel postItem = PostItemModel.bindToModel(postItemTemp);
+                PostItemPhotos postItemPhotos = context.PostItemPhotos.Find(postItem.photo_path_id);
 
-            //Remove associated flags from the database
-            var flags = db.FlagPosts.Where(flag => flag.flagged_postitem_id == id).ToList();
-            db.FlagPosts.RemoveRange(flags);
+                //Remove associated flags from the database
+                var flags = context.FlagPosts.Where(flag => flag.flagged_postitem_id == id).ToList();
+                context.FlagPosts.RemoveRange(flags);
 
-            db.PostItems.Remove(postItemTemp);
-            PostItemPhotos postItemPhoto = db.PostItemPhotos.Find(postItem.photo_path_id);
-            db.PostItemPhotos.Remove(postItemPhoto);
+                context.PostItems.Remove(postItemTemp);
+                PostItemPhotos postItemPhoto = context.PostItemPhotos.Find(postItem.photo_path_id);
+                if (postItemPhoto != null)
+                {
+                    context.PostItemPhotos.Remove(postItemPhoto);
 
-            //Delete AWS Photos    
-            PostItemService.DeleteS3Photos(postItem);
-            db.PostItemPhotos.Remove(postItemPhotos);
+                    //Delete AWS Photos    
+                    PostItemService.DeleteS3Photos(postItem);
+                    context.PostItemPhotos.Remove(postItemPhotos);
+                }
+                context.SaveChanges();
 
-            db.SaveChanges();
-
-            return RedirectToAction("MainMarketView", "MarketPlace");
+                return RedirectToAction("ProfileView", "Profile");
+            }
         }
 
         [Authorize(Roles ="Admin")]
@@ -399,27 +431,33 @@ namespace CampusNabber.Controllers
         [Authorize(Roles ="Admin")]
         public ActionResult PostFlagDetailsGuid(Guid post_id)
         {
-            PostItem tempPost = db.PostItems.Where(post => post.object_id == post_id).First();
-            PostXFlagViewModel model = new PostXFlagViewModel(tempPost.object_id, tempPost.title, tempPost.post_date);
-            model.Flags = QueryFlags(tempPost.object_id);
-            return View("~/Views/PostXFlagViewModel/Details.cshtml", model);
+            using (var context = new CampusNabberEntities())
+            {
+                PostItem tempPost = context.PostItems.Where(post => post.object_id == post_id).First();
+                PostXFlagViewModel model = new PostXFlagViewModel(tempPost.object_id, tempPost.title, tempPost.post_date);
+                model.Flags = QueryFlags(tempPost.object_id);
+                return View("~/Views/PostXFlagViewModel/Details.cshtml", model);
+            }
         }
 
         [Authorize(Roles = "Admin")]
         public ActionResult RemoveFlags(Guid[] flag_ids)
         {
-            if (flag_ids != null && flag_ids.Count() > 0)
+            using (var context = new CampusNabberEntities())
             {
-                Guid firstFlagId = flag_ids[0];
-                Guid postId = db.FlagPosts.Where(flag => flag.object_id == firstFlagId).Select(flag => flag.flagged_postitem_id).AsEnumerable().First();
-                foreach (Guid id in flag_ids)
+                if (flag_ids != null && flag_ids.Count() > 0)
                 {
-                    db.FlagPosts.RemoveRange(db.FlagPosts.Where(flag => flag.object_id == id));
+                    Guid firstFlagId = flag_ids[0];
+                    Guid postId = context.FlagPosts.Where(flag => flag.object_id == firstFlagId).Select(flag => flag.flagged_postitem_id).AsEnumerable().First();
+                    foreach (Guid id in flag_ids)
+                    {
+                        context.FlagPosts.RemoveRange(context.FlagPosts.Where(flag => flag.object_id == id));
+                    }
+                    context.SaveChanges();
+                    return (PostFlagDetailsGuid(postId));
                 }
-                db.SaveChanges();
-                return (PostFlagDetailsGuid(postId));
+                return View("~/Views/PostXFlagViewModel/Index.cshtml");
             }
-            return View("~/Views/PostXFlagViewModel/Index.cshtml");
         }
 
         protected IEnumerable<FlagPost> QueryFlags(Guid queryGuid)
@@ -430,11 +468,14 @@ namespace CampusNabber.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            using (var context = new CampusNabberEntities())
             {
-                db.Dispose();
+                if (disposing)
+                {
+                    context.Dispose();
+                }
+                base.Dispose(disposing);
             }
-            base.Dispose(disposing);
         }
     }
 }

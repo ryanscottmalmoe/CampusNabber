@@ -580,7 +580,6 @@ C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\bin\Microsoft
 C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\obj\Debug\CampusNabber.dll
 C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\obj\Debug\CampusNabber.pdb
-C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csprojResolveAssemblyReference.cache
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csprojResolveAssemblyReference.cache
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\ApplicationInsights.config
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\roslyn\csc.exe
@@ -613,12 +612,10 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\roslyn\VBCSCompiler.exe.c
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\CampusNabber.dll.config
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\CampusNabber.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\CampusNabber.pdb
-C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Antlr3.Runtime.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\AWS.SessionProvider.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\AWSSDK.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\EntityFramework.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\EntityFramework.SqlServer.dll
-C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AI.Agent.Intercept.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AI.DependencyCollector.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AI.PerfCounterCollector.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AI.ServerTelemetryChannel.dll
@@ -628,7 +625,6 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.ApplicationInsi
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AspNet.Identity.Core.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AspNet.Identity.Owin.dll
-C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Host.SystemWeb.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.Cookies.dll
@@ -639,7 +635,6 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.M
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.OAuth.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.Twitter.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Web.Infrastructure.dll
-C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Newtonsoft.Json.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Owin.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\System.Linq.Dynamic.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\System.Web.Helpers.dll
@@ -649,7 +644,6 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\System.Web.Razor.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\System.Web.WebPages.Deployment.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\System.Web.WebPages.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\System.Web.WebPages.Razor.dll
-C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\WebGrease.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Antlr3.Runtime.pdb
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\AWSSDK.pdb
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AI.DependencyCollector.xml
@@ -682,3 +676,9 @@ C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.T
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.dll
 C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\obj\Debug\CampusNabber.pdb
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Antlr3.Runtime.dll
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\Newtonsoft.Json.dll
+C:\Users\rmalmoe\Desktop\CampusNabber\CampusNabber\bin\WebGrease.dll
+C:\Users\Christian\Desktop\Campus Nabber\CampusNabber\CampusNabber\obj\Debug\CampusNabber.csprojResolveAssemblyReference.cache

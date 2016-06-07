@@ -19,7 +19,6 @@ namespace CampusNabber.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private static CampusNabberEntities db = new CampusNabberEntities();
 
         public AccountController()
         {
@@ -168,53 +167,55 @@ namespace CampusNabber.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-
-            if (ModelState.IsValid)
+            using(var context = new CampusNabberEntities())
             {
-                Guid schoolID = (from d in db.Schools
-                                 where d.school_name.Equals(model.school_name)
-                                 select d.object_id).First();
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, school_id = schoolID };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    //The following code signs in the new user automatically. I'm commenting it out because
-                    //we want them to confirm their email address first. 
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    string code = "";
-                    try
+                    Guid schoolID = (from d in context.Schools
+                                     where d.school_name.Equals(model.school_name)
+                                     select d.object_id).First();
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, school_id = schoolID };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
                     {
-                        code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        //The following code signs in the new user automatically. I'm commenting it out because
+                        //we want them to confirm their email address first. 
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        string code = "";
+                        try
+                        {
+                            code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+
+                        }
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        await UserManager.SendEmailAsync(user.Id, "Confirm your account", "<h2>Thank you for signing up with Campus Nabber!</h2>Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        ViewBag.Message = "An email with your validation link has been sent to the address you provided. You must confirm you email address before logging in.";
+                        //return RedirectToAction("Index", "Home");
+                        return View("ValidationInstructions");
+
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                       // return RedirectToAction("MainMarketView", "MarketPlace");
                     }
-                    catch(Exception e)
+                    else //user account already created
                     {
-                        Console.WriteLine(e.Message);
-
+                        model = new RegisterViewModel();
+                        model.generateSchoolsList();
+                        return View(model);
                     }
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "<h2>Thank you for signing up with Campus Nabber!</h2>Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    ViewBag.Message = "An email with your validation link has been sent to the address you provided. You must confirm you email address before logging in.";
-                    //return RedirectToAction("Index", "Home");
-                    return View("ValidationInstructions");
-
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                   // return RedirectToAction("MainMarketView", "MarketPlace");
                 }
-                else //user account already created
-                {
-                    model = new RegisterViewModel();
-                    model.generateSchoolsList();
-                    return View(model);
-                }
+                return View(model);
             }
-            return View(model);
         }
 
         [Authorize(Roles ="Admin")]
@@ -230,53 +231,55 @@ namespace CampusNabber.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterAdmin(RegisterAdminViewModel model)
         {
-
-            if (ModelState.IsValid)
+            using (var context = new CampusNabberEntities())
             {
-                Guid schoolID = (from d in db.Schools
-                                 where d.school_name.Equals(model.school_name)
-                                 select d.object_id).First();
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, school_id = schoolID };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    //The following code signs in the new user automatically. I'm commenting it out because
-                    //we want them to confirm their email address first. 
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    UserManager.AddToRole(user.Id, "Admin");
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    string code = "";
-                    try
+                    Guid schoolID = (from d in context.Schools
+                                     where d.school_name.Equals(model.school_name)
+                                     select d.object_id).First();
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, school_id = schoolID };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
                     {
-                        code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        //The following code signs in the new user automatically. I'm commenting it out because
+                        //we want them to confirm their email address first. 
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                        UserManager.AddToRole(user.Id, "Admin");
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        string code = "";
+                        try
+                        {
+                            code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+
+                        }
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        ViewBag.Message = "An email with the validation link has been sent to the address you provided. The user must confirm their email address before logging in.";
+
+                        return View("ValidationInstructions");
+
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        // return RedirectToAction("MainMarketView", "MarketPlace");
                     }
-                    catch (Exception e)
+                    else //user account already created
                     {
-                        Console.WriteLine(e.Message);
-
+                        model = new RegisterAdminViewModel();
+                        model.generateSchoolsList();
+                        return View(model);
                     }
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    ViewBag.Message = "An email with the validation link has been sent to the address you provided. The user must confirm their email address before logging in.";
-                    
-                    return View("ValidationInstructions");
-
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    // return RedirectToAction("MainMarketView", "MarketPlace");
                 }
-                else //user account already created
-                {
-                    model = new RegisterAdminViewModel();
-                    model.generateSchoolsList();
-                    return View(model);
-                }
+                return View(model);
             }
-            return View(model);
         }
 
         //
@@ -546,28 +549,31 @@ namespace CampusNabber.Controllers
         [Authorize(Roles ="Admin")]
         public ActionResult UserResult(string userEmail)
         {
-            ApplicationUser result = UserManager.FindByEmail(userEmail);
-            if (result != null)
+            using (var context = new CampusNabberEntities())
             {
-                ProfileModel user = new ProfileModel();
-                user.getProfilePosts(result);
-                user.user = result;
-                School school = db.Schools.Where(d => d.object_id == result.school_id).First();
-                user.school_name = school.school_name;
-
-                if (UserManager.IsInRole(result.Id, "Admin"))
+                ApplicationUser result = UserManager.FindByEmail(userEmail);
+                if (result != null)
                 {
-                    ViewBag.Admin = "true";
+                    ProfileModel user = new ProfileModel();
+                    user.getProfilePosts(result);
+                    user.user = result;
+                    School school = context.Schools.Where(d => d.object_id == result.school_id).First();
+                    user.school_name = school.school_name;
+
+                    if (UserManager.IsInRole(result.Id, "Admin"))
+                    {
+                        ViewBag.Admin = "true";
+                    }
+                    else
+                    {
+                        ViewBag.Admin = "false";
+                    }
+                    return View(user);
                 }
                 else
                 {
-                    ViewBag.Admin = "false";
+                    return View("~/Views/Admin/UserNotFound.cshtml");
                 }
-                return View(user);
-            }
-            else
-            {
-                return View("~/Views/Admin/UserNotFound.cshtml");
             }
         }
 

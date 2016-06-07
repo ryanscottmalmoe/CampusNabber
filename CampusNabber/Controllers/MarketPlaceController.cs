@@ -20,7 +20,6 @@ namespace CampusNabber.Controllers
     public class MarketPlaceController : Controller
     {
         private ApplicationUserManager _userManager;
-        private static CampusNabberEntities db = new CampusNabberEntities();
 
         // GET: MarketPlace
         public ActionResult Index()
@@ -58,18 +57,21 @@ namespace CampusNabber.Controllers
 
         public ActionResult MainMarketView()
         {
-            var market = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
+            using (var context = new CampusNabberEntities())
+            {
+                var market = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
 
-            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-            School school = db.Schools.Where(d => d.object_id == user.school_id).First();
-            market.SchoolToken = school.school_tag;
-            market.mainSchoolColor = school.main_hex_color;
-            //market.school_names.Add(school.school_name);
-            if(Session["Color"] == null)
-                Session["Color"] = school.main_hex_color;
-            market.setList();
-            Session["addSchoolView"] = "MainMarket";
-            return View(market);
+                ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+                School school = context.Schools.Where(d => d.object_id == user.school_id).First();
+                market.SchoolToken = school.school_tag;
+                market.mainSchoolColor = school.main_hex_color;
+                //market.school_names.Add(school.school_name);
+                if (Session["Color"] == null)
+                    Session["Color"] = school.main_hex_color;
+                market.setList();
+                Session["addSchoolView"] = "MainMarket";
+                return View(market);
+            }
         }
 
         [HttpPost]
@@ -137,44 +139,50 @@ namespace CampusNabber.Controllers
         [HttpPost]
         public ActionResult CategoryView(string Search)
         {
-            MarketPlace market = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
-            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-            market.setCategoryNames();
-            market.chosenCategory = "All Categories";
-            School school = db.Schools.Where(d => d.object_id == user.school_id).First();
-            market.mainSchoolColor = school.main_hex_color;
-            market.searchString = Search;
-            Session["addSchoolView"] = "Category";
-            Session["searchString"] = Search;
-            return View(market);
+            using (var context = new CampusNabberEntities())
+            {
+                MarketPlace market = new MarketPlace(UserManager.FindById(User.Identity.GetUserId()));
+                ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+                market.setCategoryNames();
+                market.chosenCategory = "All Categories";
+                School school = context.Schools.Where(d => d.object_id == user.school_id).First();
+                market.mainSchoolColor = school.main_hex_color;
+                market.searchString = Search;
+                Session["addSchoolView"] = "Category";
+                Session["searchString"] = Search;
+                return View(market);
+            }
         }
 
         public ActionResult CategoryView(MarketPlace market)
         {
-            String[] schools = market.schools.Split(',');
-            market.school_names = schools.ToList();
-            market.setOtherSchools();
-            market.setCategoryNames();
-            String str = market.otherSchools.ElementAt(0);
-            if (market.subCategoryToDisplay == null)
+            using (var context = new CampusNabberEntities())
             {
-                market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
-            }
-            else
-            {
-                market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
-                market.chosenSubCategory = market.SubCategoryNames[(int)market.categoryToDisplay].ElementAt((int)market.subCategoryToDisplay);
-            }
-            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-            Session["addSchoolView"] = "Category";
+                String[] schools = market.schools.Split(',');
+                market.school_names = schools.ToList();
+                market.setOtherSchools();
+                market.setCategoryNames();
+                String str = market.otherSchools.ElementAt(0);
+                if (market.subCategoryToDisplay == null)
+                {
+                    market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
+                }
+                else
+                {
+                    market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
+                    market.chosenSubCategory = market.SubCategoryNames[(int)market.categoryToDisplay].ElementAt((int)market.subCategoryToDisplay);
+                }
+                ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+                Session["addSchoolView"] = "Category";
 
-           // market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
-            School school = db.Schools.Where(d => d.object_id == user.school_id).First();
-            if (Session["Color"] == null)
-                Session["Color"] = school.main_hex_color;
-            market.mainSchoolColor = school.main_hex_color;
-            market.searchString = "";
-            return View(market);
+                // market.chosenCategory = market.CategoryNames[(int)market.categoryToDisplay];
+                School school = context.Schools.Where(d => d.object_id == user.school_id).First();
+                if (Session["Color"] == null)
+                    Session["Color"] = school.main_hex_color;
+                market.mainSchoolColor = school.main_hex_color;
+                market.searchString = "";
+                return View(market);
+            }
         }
 
 
@@ -199,7 +207,7 @@ namespace CampusNabber.Controllers
                                            {
                          schoolName = schoolName.Substring(1);
                                             }
-                    IQueryable < School > schoo = db.Schools.Where(d => d.school_name == schoolName);
+                    IQueryable<School> schoo = context.Schools.Where(d => d.school_name == schoolName);
                     school = schoo.First();
                     schoolIDS[i] = school.object_id;
                     schoolTokens[i] = school.school_tag;
@@ -270,8 +278,10 @@ namespace CampusNabber.Controllers
                                                 s.title.Contains(Search) ||
                                                 s.description.Contains(Search)
                             );
-                        Session["searchString"] = Search;
+                        
                     }
+                    if(Search.Equals(""))
+                        Session["searchString"] = Search;
                     List<PostItemModel> models = new List<PostItemModel>();
                     foreach (PostItem post in postItems)
                     {
@@ -306,6 +316,14 @@ namespace CampusNabber.Controllers
                     var count = postItems.Count();
                     iDisplayRecords += count;
                     totalRecords += count;
+
+                    // Skip and take
+                    if (param.iDisplayLength != null && param.iDisplayStart != null)
+                    {
+                        postItems = postItems
+                                    .Skip(param.iDisplayStart)
+                                    .Take(param.iDisplayLength);
+                    }
 
                     // Order
                     var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
