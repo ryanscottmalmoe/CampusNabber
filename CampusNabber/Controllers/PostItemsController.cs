@@ -71,11 +71,11 @@ namespace CampusNabber.Controllers
                     {
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                     }
-                    PostItem postItemTemp = db.PostItems.Find(id);
+                    PostItem postItemTemp = context.PostItems.Find(id);
                     PostItemModel postItem = null;
                     if (postItemTemp == null)
                     {
-                        AdPostItem adPostItemTemp = db.AdPostItems.Find(id);
+                        AdPostItem adPostItemTemp = context.AdPostItems.Find(id);
                         postItem = AdPostItemViewModel.bindToPostItemModel(adPostItemTemp);
                         if (postItem == null)
                         {
@@ -89,7 +89,7 @@ namespace CampusNabber.Controllers
 
                     if (postItem == null)
                     {
-                        AdPostItem adPostItemTemp = db.AdPostItems.Find(id);
+                        AdPostItem adPostItemTemp = context.AdPostItems.Find(id);
                         postItem = AdPostItemViewModel.bindToPostItemModel(adPostItemTemp);
                         if (postItem == null)
                         {
