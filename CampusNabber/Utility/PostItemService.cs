@@ -104,6 +104,8 @@ namespace CampusNabber.Utility
             getAWSCreds();
             PostItemPhotos photos = db.PostItemPhotos.Find(postItem.photo_path_id);
             List<string> photosList = new List<string>();
+            if (photos == null)
+                return null;
             if (photos.num_photos == 0)
                 return null;
             for (int i = 0, counter = 1; i < photos.num_photos; i++, counter++)

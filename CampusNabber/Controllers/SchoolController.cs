@@ -9,7 +9,6 @@ namespace CampusNabber.Controllers
 {
     public class SchoolController : Controller
     {
-        private static CampusNabberEntities db = new CampusNabberEntities();
         // GET: School
         public ActionResult AddSchool()
         {

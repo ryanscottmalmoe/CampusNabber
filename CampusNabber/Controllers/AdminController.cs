@@ -29,7 +29,6 @@ namespace CampusNabber.Controllers
                 _userManager = value;
             }
         }
-        private CampusNabberEntities db = new CampusNabberEntities();
         //
         // GET: /Admin/
         public ActionResult AdminTools()
@@ -44,19 +43,22 @@ namespace CampusNabber.Controllers
         [HttpPost]
         public ActionResult FindUserToBlock(string userEmail)
         {
-            ApplicationUser result = UserManager.FindByEmail(userEmail);
-            if(result != null)
+            using (var context = new CampusNabberEntities())
             {
-                ProfileModel user = new ProfileModel();
-                user.getProfilePosts(result);
-                user.user = result;
-                School school = db.Schools.Where(d => d.object_id == result.school_id).First();
-                user.school_name = school.school_name;
-                return View(user);
-            }
-            else
-            {
-                return View("UserNotFound");
+                ApplicationUser result = UserManager.FindByEmail(userEmail);
+                if (result != null)
+                {
+                    ProfileModel user = new ProfileModel();
+                    user.getProfilePosts(result);
+                    user.user = result;
+                    School school = context.Schools.Where(d => d.object_id == result.school_id).First();
+                    user.school_name = school.school_name;
+                    return View(user);
+                }
+                else
+                {
+                    return View("UserNotFound");
+                }
             }
         }
 
@@ -84,43 +86,49 @@ namespace CampusNabber.Controllers
 
         public ActionResult ManageAdPosts()
         {
-            AdPostItemViewModel adPostItemViewModel = new AdPostItemViewModel();
-            SelectList selectCategory = PostItemService.generateCategoryList();
-            ViewBag.selectCategory = selectCategory;
-            String[] categories = db.Categories.Select(d => d.category_name).Distinct().ToArray();
-            ViewBag.categories = categories;
-            adPostItemViewModel.generateSchoolsList();
+            using (var context = new CampusNabberEntities())
+            {
+                AdPostItemViewModel adPostItemViewModel = new AdPostItemViewModel();
+                SelectList selectCategory = PostItemService.generateCategoryList();
+                ViewBag.selectCategory = selectCategory;
+                String[] categories = context.Categories.Select(d => d.category_name).Distinct().ToArray();
+                ViewBag.categories = categories;
+                adPostItemViewModel.generateSchoolsList();
 
-            return View(adPostItemViewModel);
+                return View(adPostItemViewModel);
+            }
         }
 
         [HttpPost]
         public ActionResult SaveAdPosts(AdPostItemViewModel adPostModel)
         {
-            AdPostItem adPostItem = adPostModel.bindToAdPostItem();
-            adPostItem.object_id = Guid.NewGuid();
-            adPostItem.post_date = DateTime.Now;
-            var adPostItemCheck = db.AdPostItems.Where(d =>
-                                                              d.school_id == adPostItem.school_id &&
-                                                              d.category == adPostItem.category &&
-                                                              d.sub_category == adPostItem.sub_category
-                                                              );
-            if (adPostItemCheck.Count() > 0)
-                db.AdPostItems.Remove(adPostItemCheck.First());                                                
-            db.AdPostItems.Add(adPostItem);
-            db.SaveChanges();
-
-            return Json(new
+            using (var context = new CampusNabberEntities())
             {
-                Success = true
-            }, JsonRequestBehavior.AllowGet);
+                AdPostItem adPostItem = adPostModel.bindToAdPostItem();
+                adPostItem.object_id = Guid.NewGuid();
+                adPostItem.post_date = DateTime.Now;
+                var adPostItemCheck = context.AdPostItems.Where(d =>
+                                                                  d.school_id == adPostItem.school_id &&
+                                                                  d.category == adPostItem.category &&
+                                                                  d.sub_category == adPostItem.sub_category
+                                                                  );
+                if (adPostItemCheck.Count() > 0)
+                    context.AdPostItems.Remove(adPostItemCheck.First());
+                context.AdPostItems.Add(adPostItem);
+                context.SaveChanges();
+
+                return Json(new
+                {
+                    Success = true
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public JsonResult GetAdPosts(jQueryDataTableParamModel param)
         {
             using (var context = new CampusNabberEntities())
             {
-                IQueryable<AdPostItem> adPostItems = db.AdPostItems;
+                IQueryable<AdPostItem> adPostItems = context.AdPostItems;
 
                 var totalRecords = 0;
                 var result = new List<AdPostItemViewModel>();
@@ -157,11 +165,12 @@ namespace CampusNabber.Controllers
                                     .ToList()
                                     .Select(d => new AdPostItemViewModel
                                     {
+                                        object_id = d.object_id,
                                         company_name = d.company_name,
                                         category = d.category,
                                         sub_category = d.sub_category,
                                         title = d.title,
-                                        school_name = db.Schools.Where(s => s.object_id == d.school_id).First().school_name,
+                                        school_name = context.Schools.Where(s => s.object_id == d.school_id).First().school_name,
                                         })
                                         .ToList()
                                     );
@@ -178,46 +187,52 @@ namespace CampusNabber.Controllers
 
         public JsonResult GetSubCategory(string category)
         {
-            String[] categories = db.Categories.Select(d => d.category_name).Distinct().ToArray();
-            SelectList categoriesDropdown = null;
-            switch (category)
+            using (var context = new CampusNabberEntities())
             {
-                case "Eats and Drinks":
-                    categoriesDropdown = PostItemService.generateSubCategoryList("Eats and Drinks");
-                    break;
-                case "For Sale":
-                    categoriesDropdown = PostItemService.generateSubCategoryList("For Sale");
-                    break;
-                case "Housing":
-                    categoriesDropdown = PostItemService.generateSubCategoryList("Housing");
-                    break;
-                case "Jobs":
-                    categoriesDropdown = PostItemService.generateSubCategoryList("Jobs");
-                    break;
-                case "On Campus":
-                    categoriesDropdown = PostItemService.generateSubCategoryList("On Campus");
-                    break;
-            }
+                String[] categories = context.Categories.Select(d => d.category_name).Distinct().ToArray();
+                SelectList categoriesDropdown = null;
+                switch (category)
+                {
+                    case "Eats and Drinks":
+                        categoriesDropdown = PostItemService.generateSubCategoryList("Eats and Drinks");
+                        break;
+                    case "For Sale":
+                        categoriesDropdown = PostItemService.generateSubCategoryList("For Sale");
+                        break;
+                    case "Housing":
+                        categoriesDropdown = PostItemService.generateSubCategoryList("Housing");
+                        break;
+                    case "Jobs":
+                        categoriesDropdown = PostItemService.generateSubCategoryList("Jobs");
+                        break;
+                    case "On Campus":
+                        categoriesDropdown = PostItemService.generateSubCategoryList("On Campus");
+                        break;
+                }
 
-            return Json(new SelectList(categoriesDropdown, "Value", "Text"));
+                return Json(new SelectList(categoriesDropdown, "Value", "Text"));
+            }
         }
 
         [Authorize(Roles="Admin")]
         public ActionResult FindUserToUnblock(string userEmail)
         {
-            ApplicationUser result = UserManager.FindByEmail(userEmail);
-            if (result != null)
+            using (var context = new CampusNabberEntities())
             {
-                ProfileModel user = new ProfileModel();
-                user.getProfilePosts(result);
-                user.user = result;
-                School school = db.Schools.Where(d => d.object_id == result.school_id).First();
-                user.school_name = school.school_name;
-                return View(user);
-            }
-            else
-            {
-                return View("UserNotFound");
+                ApplicationUser result = UserManager.FindByEmail(userEmail);
+                if (result != null)
+                {
+                    ProfileModel user = new ProfileModel();
+                    user.getProfilePosts(result);
+                    user.user = result;
+                    School school = context.Schools.Where(d => d.object_id == result.school_id).First();
+                    user.school_name = school.school_name;
+                    return View(user);
+                }
+                else
+                {
+                    return View("UserNotFound");
+                }
             }
         }
 
@@ -242,13 +257,16 @@ namespace CampusNabber.Controllers
 
         public ActionResult ManageSchools()
         {
-            var schools = db.Schools.AsEnumerable();
-            List<SchoolModel> schoolModels = new List<SchoolModel>();
-            foreach(School s in schools)
+            using (var context = new CampusNabberEntities())
             {
-                schoolModels.Add(SchoolModel.bindToSchoolModel(s));
+                var schools = context.Schools.AsEnumerable();
+                List<SchoolModel> schoolModels = new List<SchoolModel>();
+                foreach (School s in schools)
+                {
+                    schoolModels.Add(SchoolModel.bindToSchoolModel(s));
+                }
+                return View(schoolModels.AsEnumerable());
             }
-            return View(schoolModels.AsEnumerable());
         }
 
         public ActionResult AddSchool()
@@ -259,28 +277,31 @@ namespace CampusNabber.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CreateSchool([Bind(Include = "object_id,school_name,address,school_tag,main_hex_color,secondary_hex_color")] SchoolModel schoolModel)
         {
-            if (ModelState.IsValid)
+            using (var context = new CampusNabberEntities())
             {
-                IEnumerable<School> existingSchools = db.Schools.Where(school => school.school_name == schoolModel.school_name).AsEnumerable();
-                if(existingSchools.Count() > 0)
+                if (ModelState.IsValid)
                 {
-                    ViewBag.school_name = schoolModel.school_name;
-                    return View("SchoolExists");
+                    IEnumerable<School> existingSchools = context.Schools.Where(school => school.school_name == schoolModel.school_name).AsEnumerable();
+                    if (existingSchools.Count() > 0)
+                    {
+                        ViewBag.school_name = schoolModel.school_name;
+                        return View("SchoolExists");
+                    }
+                    School newSchool = new School();
+                    newSchool.address = "TempAddress";
+                    newSchool.school_name = schoolModel.school_name;
+                    newSchool.school_tag = schoolModel.school_tag;
+                    newSchool.main_hex_color = schoolModel.main_hex_color;
+                    newSchool.secondary_hex_color = schoolModel.secondary_hex_color;
+                    newSchool.object_id = Guid.NewGuid();
+                    context.Schools.Add(newSchool);
+                    context.SaveChanges();
+                    return View();
                 }
-                School newSchool = new School();
-                newSchool.address = "TempAddress";
-                newSchool.school_name = schoolModel.school_name;
-                newSchool.school_tag = schoolModel.school_tag;
-                newSchool.main_hex_color = schoolModel.main_hex_color;
-                newSchool.secondary_hex_color = schoolModel.secondary_hex_color;
-                newSchool.object_id = Guid.NewGuid();
-                db.Schools.Add(newSchool);
-                db.SaveChanges();
-                return View();
-            }
-            else
-            {
-                return View("AdminTools");
+                else
+                {
+                    return View("AdminTools");
+                }
             }
         }
 
